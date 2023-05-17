@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bytebazaarUI.AddFAQController">
+   <children>
+      <StackPane alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="41.0" prefWidth="606.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="42.0" stroke="TRANSPARENT" strokeType="INSIDE" width="606.0">
+               <fill>
+                  <LinearGradient endX="0.12796208530805686" endY="1.0" startX="1.0" startY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.3326023519039154" green="0.6366350054740906" blue="0.9210526347160339" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.006711409395973154">
+                           <color>
+                              <Color red="0.3326023519039154" green="0.6366350054740906" blue="0.9210526347160339" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.1912751677852349">
+                           <color>
+                              <Color red="0.6064814925193787" green="0.8163580298423767" blue="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.4697986577181208">
+                           <color>
+                              <Color red="0.8101851940155029" green="0.9493827223777771" blue="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.6409395973154363">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.8154362416107382">
+                           <color>
+                              <Color red="0.4399999976158142" green="0.7200000286102295" blue="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.5277777910232544" green="0.7717592716217041" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </fill>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Rectangle>
+            <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="606.0">
+               <children>
+                  <Button fx:id="backBtn" ellipsisString="" minHeight="-Infinity" mnemonicParsing="false" onAction="#goBack" prefHeight="20.0" prefWidth="19.0" style="-fx-background-image: url(&quot;https://icon-library.com/images/android-back-icon/android-back-icon-15.jpg&quot;); -fx-background-size: cover; -fx-background-color: null;" />
+                  <ImageView fitHeight="41.0" fitWidth="138.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@topbanner.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="170.0" right="130.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <Button fx:id="profileBtn" ellipsisString="" mnemonicParsing="false" prefHeight="26.0" prefWidth="26.0" style="-fx-background-size: cover; -fx-background-image: url(&quot;https://icon-library.com/images/profile-icon-white/profile-icon-white-3.jpg&quot;); -fx-background-color: null;">
+                     <HBox.margin>
+                        <Insets right="7.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="wishlistBtn" ellipsisString="" mnemonicParsing="false" prefHeight="26.0" prefWidth="26.0" style="-fx-background-size: cover; -fx-background-color: null;" />
+                  <Button fx:id="cartBtn1" ellipsisString="" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#openCart" prefHeight="32.0" prefWidth="34.0" style="-fx-background-image: src=&quot;carticon.png&quot;; -fx-background-size: cover; -fx-background-color: null;">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </StackPane>
+      <Label alignment="BOTTOM_CENTER" prefHeight="46.0" prefWidth="605.0" text="Create new FAQ">
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0" startX="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.49597951769828796" green="0.7431286573410034" blue="0.9078947305679321" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.2949132427565886">
+                     <color>
+                        <Color red="0.49597951769828796" green="0.7431286573410034" blue="0.9078947305679321" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.889261744966443">
+                     <color>
+                        <Color red="0.017056530341506004" green="0.27574723958969116" blue="0.46052631735801697" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+      </Label>
+      <VBox alignment="CENTER" prefHeight="304.0" prefWidth="600.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="30.0" prefWidth="238.0" text="Enter a question that people are likely to ask." />
+            <TextArea fx:id="quesfield" prefHeight="70.0" prefWidth="600.0" promptText="Type here.">
+               <VBox.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </VBox.margin>
+               <effect>
+                  <InnerShadow>
+                     <color>
+                        <Color red="0.7754386067390442" green="0.8066082000732422" blue="0.821052610874176" />
+                     </color>
+                  </InnerShadow>
+               </effect>
+            </TextArea>
+            <Label text="Enter an answer." />
+            <TextArea fx:id="answerfield" prefHeight="106.0" prefWidth="570.0" promptText="Type your answer here.">
+               <VBox.margin>
+                  <Insets left="15.0" right="15.0" />
+               </VBox.margin>
+            </TextArea>
+            <Button fx:id="uploadbtn" mnemonicParsing="false" onAction="#goupload" prefHeight="25.0" prefWidth="92.0" style="-fx-background-color: white; -fx-background-radius: 50;" text="Upload">
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" height="44.45" radius="20.9925" width="41.52">
+                     <color>
+                        <Color red="0.36574074625968933" green="0.5348765254020691" blue="1.0" />
+                     </color>
+                  </DropShadow>
+               </effect>
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+   </children>
+</VBox>

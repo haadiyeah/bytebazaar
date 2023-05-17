@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" prefHeight="430.0" prefWidth="600.0" style="-fx-background-image: url(&quot;https://t4.ftcdn.net/jpg/01/84/15/05/360_F_184150518_n7nMgXVC3hwqj15DCT2cc6cx94oT9K4n.jpg&quot;); -fx-background-size: cover;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bytebazaarUI.SignupController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="600.0" style="-fx-background-color: #2E9AC3;">
+         <children>
+            <Button fx:id="backBtn" ellipsisString="" mnemonicParsing="false" onAction="#goBack" prefHeight="35.0" prefWidth="35.0" style="-fx-background-image: url(&quot;https://files.softicons.com/download/system-icons/ikons-icons-by-studiotwentyeight/png/256/Back.png&quot;); -fx-background-size: cover; -fx-background-color: #2E9AC3;" translateX="-190.0">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Button>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="89.0" prefWidth="138.0" text="Sign Up" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="32.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0" startX="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.3422818791946309">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.625" green="0.9125000238418579" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Label>
+         </children>
+         <effect>
+            <DropShadow blurType="GAUSSIAN" height="58.62" radius="14.155" width="0.0" />
+         </effect>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="75.0" prefWidth="598.0">
+         <children>
+            <Label cache="true" prefHeight="34.0" prefWidth="229.0" text="Please enter your email:">
+               <padding>
+                  <Insets bottom="10.0" left="15.0" right="25.0" top="25.0" />
+               </padding>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <TextField fx:id="emailTextBox" prefHeight="34.0" prefWidth="298.0" promptText="e.g. yourname@domain.com" style="-fx-background-color: white; -fx-background-radius: 50;">
+               <effect>
+                  <DropShadow>
+                     <color>
+                        <Color red="0.18039216101169586" green="0.6039215922355652" blue="0.7647058963775635" />
+                     </color>
+                  </DropShadow>
+               </effect>
+               <padding>
+                  <Insets left="15.0" />
+               </padding>
+            </TextField>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="75.0" prefWidth="598.0">
+         <children>
+            <Label cache="true" prefHeight="34.0" prefWidth="229.0" text="Please enter your phone:">
+               <padding>
+                  <Insets bottom="10.0" left="15.0" right="25.0" top="10.0" />
+               </padding>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <TextField fx:id="phoneTextBox" prefHeight="34.0" prefWidth="298.0" promptText="e.g. 03211234567" style="-fx-background-color: white; -fx-background-radius: 50;">
+               <effect>
+                  <DropShadow>
+                     <color>
+                        <Color red="0.18039216101169586" green="0.6039215922355652" blue="0.7647058963775635" />
+                     </color>
+                  </DropShadow>
+               </effect>
+               <padding>
+                  <Insets left="15.0" />
+               </padding>
+            </TextField>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="57.0" prefWidth="600.0">
+         <children>
+            <Label centerShape="false" contentDisplay="CENTER" prefHeight="75.0" prefWidth="225.0" scaleShape="false" text="Please enter a password:">
+               <padding>
+                  <Insets bottom="10.0" left="15.0" right="25.0" top="10.0" />
+               </padding>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <PasswordField fx:id="passTextBox" prefHeight="34.0" prefWidth="298.0" style="-fx-background-color: white; -fx-background-radius: 50;">
+               <effect>
+                  <DropShadow>
+                     <color>
+                        <Color red="0.18039216101169586" green="0.6039215922355652" blue="0.7647058963775635" />
+                     </color>
+                  </DropShadow>
+               </effect>
+               <padding>
+                  <Insets left="15.0" />
+               </padding>
+            </PasswordField>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="75.0" prefWidth="600.0">
+         <children>
+            <Label prefHeight="75.0" prefWidth="229.0" text="Confirm your password:">
+               <padding>
+                  <Insets bottom="10.0" left="15.0" right="25.0" top="10.0" />
+               </padding>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <PasswordField fx:id="confirmPassTextBox" prefHeight="34.0" prefWidth="299.0" style="-fx-background-color: white; -fx-background-radius: 50;">
+               <effect>
+                  <DropShadow>
+                     <color>
+                        <Color red="0.18039216101169586" green="0.6039215922355652" blue="0.7647058963775635" />
+                     </color>
+                  </DropShadow>
+               </effect>
+               <padding>
+                  <Insets left="15.0" />
+               </padding>
+            </PasswordField>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <CheckBox fx:id="termsConditionsCheckBox" mnemonicParsing="false" onAction="#termsConditionsRead" pickOnBounds="false" prefHeight="73.0" prefWidth="288.0" style="-fx-padding: 15; -fx-alignment: center;" text="I agree to the Terms &amp; Conditions." underline="true">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </CheckBox>
+            <Button fx:id="signUpButton" mnemonicParsing="false" onAction="#performChecks" prefHeight="33.0" prefWidth="227.0" style="-fx-background-color: #2E9AC3; -fx-background-radius: 100;" text="Sign me up!" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" height="28.34" offsetX="2.0" offsetY="2.0" radius="11.8375" spread="0.25" width="21.01">
+                     <color>
+                        <Color red="0.042763158679008484" green="0.13980263471603394" blue="0.2368421107530594" opacity="0.7900000214576721" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</VBox>
