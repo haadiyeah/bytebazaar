@@ -53,5 +53,7 @@ public abstract class User {
     public void setID(int iD) {
         ID = iD;
     }
+    public void setDetails() {
+    }
 
 }

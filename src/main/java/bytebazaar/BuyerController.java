@@ -1,14 +1,14 @@
 package bytebazaar;
 
 public class BuyerController {
-    BuyerLedger buyerledger;
+    UserLedger userLedger;
 
     BuyerController() {
-        buyerledger=new BuyerLedger();
+        userLedger=new UserLedger();
     }
 
     //Initially the default account will be buyer
     public int signup(String name, String phone, String email, String password) {
-        return buyerledger.createUser(name, email, phone, password);
+        return userLedger.createUser(name, email, phone, password);
     }
 }

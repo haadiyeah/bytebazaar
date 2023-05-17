@@ -30,6 +30,8 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
+        System.out.println("JavaFX Version: " + System.getProperty("javafx.version"));
+        System.out.println("JavaFX Runtime Version: " + System.getProperty("javafx.runtime.version"));
         launch();
     }
 }

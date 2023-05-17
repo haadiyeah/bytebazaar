@@ -1,18 +1,16 @@
 package bytebazaar;
 
+//business controller for login
 public class LoginBController {
-    BuyerLedger buyerledger ;
-    //SellerLedger buyerledger = new SellerLedger();
+    UserLedger userLedger;
+
+    // SellerLedger buyerledger = new SellerLedger();
 
     public LoginBController() {
-        buyerledger=new BuyerLedger();
+        userLedger = new UserLedger();
     }
 
     public boolean login(String email, String password, String userType) {
-        if(userType=="Buyer")
-            return buyerledger.loginRequest(email, password, userType);
-        //TODO add seller option
-        else 
-        return false;
+        return userLedger.loginRequest(email, password, userType);
     }
 }

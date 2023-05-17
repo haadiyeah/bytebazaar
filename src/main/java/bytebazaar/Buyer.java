@@ -23,6 +23,7 @@ public class Buyer extends User {
         
     }
 
+    @Override
     public void setDetails() {
         orderHistory = DBHandler.getInstance().getOrderHistory(getID());
         this.cart=new Cart();

@@ -9,6 +9,10 @@ public class Product {
     private String description;
     private int categoryID;
     
+    //IMPORTANT TO NOTE:
+    //If category id is null, it will be zero.
+    //There are other nullable fields e.g. ImageURL, etc.
+    //Any fields nullable in DB schema, are nullable here too.
     public Product(int productID, float price, String name, int sellerID, String imageURL, String description,
             int categoryID) {
         this.productID = productID;
