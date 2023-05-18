@@ -1,4 +1,5 @@
 package bytebazaar;
+
 import bytebazaarUI.*;
 
 import java.io.IOException;
@@ -10,11 +11,11 @@ import javafx.stage.Stage;
 
 public class App extends Application {
     private static Scene scene;
-    //jcnwjncjan
+    // jcnwjncjan
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("welcomepg"), 600, 430);
+        scene = new Scene(loadFXML("checkoutpage"), 600, 430);
         stage.setScene(scene);
         stage.setTitle("ByteBazaar - the hardware solution");
         stage.show();
@@ -23,7 +24,6 @@ public class App extends Application {
     public static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
-
 
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
