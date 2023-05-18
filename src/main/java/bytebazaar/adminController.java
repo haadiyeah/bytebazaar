@@ -9,11 +9,11 @@ public class adminController {
         faqledger=new FAQLedger();
     }
 
-    public void addFAQ(String ques, String ans){
+    public boolean addFAQ(String ques, String ans){
         try {
-            faqledger.addFAQ(ques, ans);
+            return faqledger.addFAQ(ques, ans);
         } catch (SQLException sqle) {
-            //TO-DO: RETURN AN ERROR
+           return false;
         }
     }
     

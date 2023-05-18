@@ -9,14 +9,18 @@ public class FAQLedger {
         faqs=new LinkedList<FAQ>();
     }
 
-    public void addFAQ(String ques, String ans) throws SQLException {
-        //TODO: Check if db already has the faq
-        FAQ newFaq= new FAQ(ques, ans);
+    public boolean addFAQ(String ques, String ans) throws SQLException {
+        if ( DBHandler.getInstance().fetchAns(ques) == null ) {
+            FAQ newFaq= new FAQ(ques, ans);
 
-        DBHandler.getInstance().save_faq(newFaq);
-        
-        faqs.add(newFaq);
-
+            DBHandler.getInstance().save_faq(newFaq);
+            
+            faqs.add(newFaq);
+            return true;
+        } else  {
+            return false;
+            //SHOW DUPLICATE FAQ MESSAGE
+        }
 
     }
     

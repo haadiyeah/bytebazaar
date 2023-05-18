@@ -56,12 +56,20 @@ public class AddFAQController {
             err.setContentText("Please make sure all fields are filled!");
             err.showAndWait();
         } else {
-            BusinessControllerFactory.getAdminControllerInst().addFAQ(quesfield.getText(), answerfield.getText());
-
-            Alert err = new Alert(AlertType.INFORMATION);
-            err.setTitle("Uploaded!");
-            err.setHeaderText("The new FAQ was uploaded!");
-            err.showAndWait();
+            if (
+            BusinessControllerFactory.getAdminControllerInst().addFAQ(quesfield.getText(), answerfield.getText())
+            ) {
+                Alert err = new Alert(AlertType.INFORMATION);
+                err.setTitle("Uploaded!");
+                err.setHeaderText("The new FAQ was uploaded!");
+                err.showAndWait();
+            } else {
+                Alert err = new Alert(AlertType.WARNING);
+                err.setTitle("Error!");
+                err.setHeaderText("FAQ not uploaded");
+                err.setContentText("Please make sure it's not a duplicate FAQ");
+                err.showAndWait();
+            }
         }
     }
 
