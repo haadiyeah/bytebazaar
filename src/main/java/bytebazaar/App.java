@@ -14,7 +14,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("welcomepg"), 600, 430);
+        
+        scene = new Scene(loadFXML("homepage"), 600, 430);
         stage.setScene(scene);
         stage.setTitle("ByteBazaar - the hardware solution");
         stage.show();
@@ -24,11 +25,11 @@ public class App extends Application {
         scene.setRoot(loadFXML(fxml));
     }
 
-
-    private static Parent loadFXML(String fxml) throws IOException {
+    public static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
     }
+
 
     public static void main(String[] args) {
         System.out.println("JavaFX Version: " + System.getProperty("javafx.version"));

@@ -13,16 +13,26 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 
+
 public class DBHandler {
 
     private static DBHandler instance;
     String connectionURL;
+
+    Connection myconn = null;
+        Statement mystmt = null;
+        String sql = null;
+        ResultSet myRs = null;
+        String user = "root";
+        String pass = "had15mysqL";
 
     private DBHandler() {
         connectionURL = "jdbc:sqlserver://DESKTOP-61OOJ8F\\SQLEXPRESS;" +
                 "databaseName=bytebazaar;" +
                 "IntegratedSecurity=true;" + "encrypt=true;trustServerCertificate=true;" +
                 "MultipleActiveResultSets=True";
+        //connectionURL="jdbc:mysql://localhost:3306/mysqljdbc";
+        
 
     }
 
@@ -35,10 +45,11 @@ public class DBHandler {
 
     public void save_faq(FAQ faq) {
         try (
-                Connection con = DriverManager.getConnection(connectionURL);
-                Statement stmt = con.createStatement())
+            Connection con = DriverManager.getConnection(connectionURL);
+            Statement stmt = con.createStatement())
 
-        {
+    {
+           
             String query = "INSERT INTO FAQS (faqQuestion, faqAnswer) VALUES ('" + faq.getQuestion() + "', '"
                     + faq.getAnswer() + "');";
             // System.out.println("========================\n\n\n\n" + query + "\n\n\n\n");
@@ -56,6 +67,7 @@ public class DBHandler {
             Statement stmt = con.createStatement())
 
     {
+       
         ResultSet resultSet = stmt.executeQuery("SELECT Faqs.faqAnswer FROM Faqs WHERE faqQuestion='" + question + "';");
 
         if (!resultSet.next()) {
@@ -352,6 +364,39 @@ public class DBHandler {
                 // Getting all the products
                 do {
                     System.out.println("Adding product " + resultSet.getString(2));
+                    returnList.add(new Product(resultSet.getInt(1), resultSet.getFloat(3), resultSet.getString(2),
+                            resultSet.getInt(7), resultSet.getString(4), resultSet.getString(5), resultSet.getInt(6)));
+                } while (resultSet.next());
+
+                return returnList;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    //Get a list of top selling products
+    public LinkedList<Product> getTopSellingProducts() {
+        try (
+                Connection con = DriverManager.getConnection(connectionURL);
+                Statement stmt = con.createStatement())
+
+        {
+            System.out.println("getting order log");
+            ResultSet resultSet = stmt
+                    .executeQuery("SELECT products.*, COUNT(orders.orderID) AS totalOrders FROM products LEFT JOIN orderHasProduct ON (products.productID = orderHasProduct.productID) LEFT JOIN orders ON (orderHasProduct.orderID = orders.orderID) GROUP BY products.productID, products.productName, products.productPrice, products.productImageURL, products.productDescription, products.productCategory, products.productSeller, products.productQuantity ORDER BY COUNT(orders.orderID) DESC;");
+
+            if (resultSet.next() == false) {
+                System.out.println("returning empty product list");
+                return new LinkedList<Product>();// Sending back an empty list as no products exist in db
+            } else {
+                
+                LinkedList<Product> returnList = new LinkedList<Product>();
+                // Getting all the products
+                do {
+                    System.out.println("Compiling products list, adding prod "+resultSet.getString(2));
                     returnList.add(new Product(resultSet.getInt(1), resultSet.getFloat(3), resultSet.getString(2),
                             resultSet.getInt(7), resultSet.getString(4), resultSet.getString(5), resultSet.getInt(6)));
                 } while (resultSet.next());
