@@ -240,15 +240,19 @@ public class DBHandler {
 
                     returnList.add(new Order(resultSet.getInt(1), resultSet.getDate(2), resultSet.getTime(3),
                             resultSet.getInt(4)));
-                    // For each order, add the list of sale items
+
+                } while (resultSet.next());
+
+                // For each order, add the list of sale items
+                for (int i = 0; i < returnList.size(); i++) {
                     ResultSet resultSet2 = stmt.executeQuery(
                             "SELECT orderHasProduct.productID, productName, productPrice, quantity FROM orderHasProduct JOIN products ON (products.productID=orderHasProduct.productID) WHERE orderID="
-                                    + resultSet.getInt(1) + ";");
+                                    + returnList.get(i).getOrderID() + ";");
                     while (resultSet2.next()) {
                         returnList.getLast().addSaleItemToOrder(new SalesLineItem(resultSet2.getInt(1),
                                 resultSet2.getString(2), resultSet2.getFloat(3), resultSet2.getInt(4)));
                     }
-                } while (resultSet.next());
+                }
 
                 return returnList;
             }
@@ -280,19 +284,26 @@ public class DBHandler {
                 LinkedList<Order> returnList = new LinkedList<Order>();
                 // Getting all the orders
                 do {
-                    System.out.println("order: " +resultSet.getInt(1) );
+                    System.out.println("order: " + resultSet.getInt(1));
                     returnList.add(new Order(resultSet.getInt(1), resultSet.getDate(2), resultSet.getTime(3),
                             resultSet.getInt(4)));
                     // For each order, add the list of sale items
-                    ResultSet resultSet2 = stmt.executeQuery(
-                            "SELECT orderHasProduct.productID, productName, productPrice, quantity FROM orderHasProduct JOIN products ON (products.productID=orderHasProduct.productID AND productSeller=1) WHERE orderID="
-                                    + resultSet.getInt(1) + ";");
-                    while (resultSet2.next()) {
-                        returnList.getLast().addSaleItemToOrder(new SalesLineItem(resultSet2.getInt(1),
-                                resultSet2.getString(2), resultSet2.getFloat(3), resultSet2.getInt(4)));
-                    }
                 } while (resultSet.next());
 
+                for (int i = 0; i < returnList.size(); i++) {
+                    ResultSet resultSet2 = stmt.executeQuery(
+                            "SELECT orderHasProduct.productID, productName, productPrice, quantity FROM orderHasProduct JOIN products ON (products.productID=orderHasProduct.productID AND productSeller="
+                                    + userID + ") WHERE orderID="
+                                    + returnList.get(i).getOrderID() + ";");
+
+                    System.out.println("Order: " + returnList.get(i).getOrderID() + " Has items: ");
+                    while (resultSet2.next()) {
+                        System.out.println(resultSet2.getString(2));
+                        returnList.get(i).addSaleItemToOrder(new SalesLineItem(resultSet2.getInt(1),
+                                resultSet2.getString(2), resultSet2.getFloat(3), resultSet2.getInt(4)));
+                    }
+
+                }
                 return returnList;
             }
 
@@ -321,7 +332,7 @@ public class DBHandler {
                 LinkedList<Product> returnList = new LinkedList<Product>();
                 // Getting all the products
                 do {
-                    System.out.println("Adding product "+resultSet.getString(2));
+                    System.out.println("Adding product " + resultSet.getString(2));
                     returnList.add(new Product(resultSet.getInt(1), resultSet.getFloat(3), resultSet.getString(2),
                             resultSet.getInt(7), resultSet.getString(4), resultSet.getString(5), resultSet.getInt(6)));
                 } while (resultSet.next());
