@@ -50,6 +50,25 @@ public class DBHandler {
 
     }
 
+    public String fetchAns(String question) {
+        try (
+            Connection con = DriverManager.getConnection(connectionURL);
+            Statement stmt = con.createStatement())
+
+    {
+        ResultSet resultSet = stmt.executeQuery("SELECT Faqs.faqAnswer FROM Faqs WHERE faqQuestion='" + question + "';");
+
+        if (!resultSet.next()) {
+            return null;
+        } else {
+           return resultSet.getString(1);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return null;
+    }
+}
+
     public void runSelectQuery(String query) {
         try (
                 Connection con = DriverManager.getConnection(connectionURL);
@@ -249,7 +268,7 @@ public class DBHandler {
                             "SELECT orderHasProduct.productID, productName, productPrice, quantity FROM orderHasProduct JOIN products ON (products.productID=orderHasProduct.productID) WHERE orderID="
                                     + returnList.get(i).getOrderID() + ";");
                     while (resultSet2.next()) {
-                        returnList.getLast().addSaleItemToOrder(new SalesLineItem(resultSet2.getInt(1),
+                        returnList.get(i).addSaleItemToOrder(new SalesLineItem(resultSet2.getInt(1),
                                 resultSet2.getString(2), resultSet2.getFloat(3), resultSet2.getInt(4)));
                     }
                 }
