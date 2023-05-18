@@ -39,7 +39,7 @@ public class DBHandler {
                 Statement stmt = con.createStatement())
 
         {
-            String query = "INSERT INTO FAQS (faq_question, faq_answer) VALUES ('" + faq.getQuestion() + "', '"
+            String query = "INSERT INTO FAQS (faqQuestion, faqAnswer) VALUES ('" + faq.getQuestion() + "', '"
                     + faq.getAnswer() + "');";
             // System.out.println("========================\n\n\n\n" + query + "\n\n\n\n");
             stmt.executeUpdate(query);

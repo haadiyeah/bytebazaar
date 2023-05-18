@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS buyers;
 DROP TABLE IF EXISTS sellers;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS Faqs;
 
 CREATE TABLE users (
 	userID INT PRIMARY KEY IDENTITY(100,1),
@@ -48,10 +49,15 @@ CREATE TABLE products (
 )
 
 CREATE TABLE orderHasProduct(
-	orderID INT NOT NULL,
-	productID INT NOT NULL,
+	orderID INT NOT NULL FOREIGN KEY REFERENCES orders(orderID),
+	productID INT NOT NULL FOREIGN KEY REFERENCES products(productID),
 	quantity INT NOT NULL,
 	PRIMARY KEY(orderID, productID)
+)
+
+CREATE TABLE Faqs (
+	faqQuestion VARCHAR(300) PRIMARY KEY,
+	faqAnswer VARCHAR(500)
 )
 
 
@@ -89,11 +95,18 @@ GO
 
 EXEC addBuyer 'Haadi','haaadi@pk.com', '0336-5285764', 'iamdumb';
 EXEC addSeller 'Mama','mamasajid@pk.com', '0336-19191991', 'iamsmart';
+EXEC addSeller 'Najam Uncle','najam@pk.com', '0300-1122334', 'iamfunny';
 INSERT INTO products(productName, productPrice, productQuantity, productSeller, productDescription) VALUES
 					('HP laptop', 399.99, 20,101, 'An amazing laptop' ),
-					('HP mouse', 100.99, 2,101, 'Lovely mouse chirrr chirrr' );
+					('HP mouse', 100.99, 2,101, 'Lovely mouse chirrr chirrr' ),
+					('LCD monitor', 190.99, 12,102, 'I said ooo im blinded by the lights' ),
+					('LaserJet Printer', 1090.99, 32,102, 'The best printer' );
 INSERT INTO orders (orderDate, orderTime, buyerID) VALUES ('2002-02-02', '11:59:59', 100);
+INSERT INTO orders (orderDate, orderTime, buyerID) VALUES ('2003-01-02', '05:30:12', 100);
 INSERT INTO orderHasProduct(orderID, productID, quantity) VALUES (1,1,1); 
+INSERT INTO orderHasProduct(orderID, productID, quantity) VALUES (1,2,1); 
+INSERT INTO orderHasProduct(orderID, productID, quantity) VALUES (2,2,1); 
+INSERT INTO orderHasProduct(orderID, productID, quantity) VALUES (2,4,1); 
 
 SELECT dbo.getPersonID('haaadi@pk.com');
 
@@ -103,10 +116,13 @@ SELECT* FROM sellers;
 SELECT* FROM orders;
 SELECT* FROM orderHasProduct;
 SELECT* FROM products;
+SELECT* FROM Faqs;
 
 --QUERY to get order history from userID
 
 SELECT* FROM orders WHERE orders.buyerID =101;
+
+INSERT INTO Faqs(faqQuestion, faqAnswer) VALUES ('Question asked', 'Answer given');
 
 --populate list of products in order
 --for each orderID in
@@ -117,6 +133,8 @@ SELECT orderHasProduct.productID, productName, productPrice, quantity FROM order
 SELECT * FROM orders WHERE orderID IN (SELECT orderHasProduct.orderID FROM orderHasProduct WHERE orderHasProduct.productID IN (SELECT products.productID FROM products WHERE productSeller=101));
 
 SELECT* FROM products WHERE products.productSeller=101;
+
+SELECT Faqs.faqAnswer FROM Faqs WHERE faqQuestion='Question asked';
 
 --Selecting products in a specific order, of a specific seller (To make sales line item)
 SELECT orderHasProduct.productID, productName, productPrice, quantity FROM orderHasProduct JOIN products ON (products.productID=orderHasProduct.productID AND productSeller=1) WHERE orderID=101;
