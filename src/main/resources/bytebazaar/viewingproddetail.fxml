@@ -188,7 +188,7 @@
                                           </DropShadow>
                                        </effect>
                                     </Label>
-                                    <Button fx:id="cartBtn" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0" style="-fx-background-color: null; -fx-background-image: url(&quot;https://icon-library.com/images/my-cart-icon/my-cart-icon-5.jpg&quot;); -fx-background-size: cover;">
+                                    <Button fx:id="cartBtn" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addToCart" prefHeight="32.0" prefWidth="32.0" style="-fx-background-color: null; -fx-background-image: url(&quot;https://icon-library.com/images/my-cart-icon/my-cart-icon-5.jpg&quot;); -fx-background-size: cover;">
                                        <HBox.margin>
                                           <Insets left="-18.0" />
                                        </HBox.margin>

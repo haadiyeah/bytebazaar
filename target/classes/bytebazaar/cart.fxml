@@ -170,6 +170,47 @@
                                     </DropShadow>
                                  </effect>
                               </HBox>
+                              <HBox fx:id="cartitemHbox" alignment="CENTER" prefHeight="34.0" prefWidth="566.0">
+                                 <children>
+                                    <Label fx:id="cartItemName" contentDisplay="RIGHT" prefHeight="34.0" prefWidth="290.0" text="Product">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets left="20.0" />
+                                       </padding>
+                                    </Label>
+                                    <Label fx:id="cartItemPrice" contentDisplay="RIGHT" prefHeight="34.0" prefWidth="98.0" text="Price">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets left="10.0" />
+                                       </padding>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </Label>
+                                    <Button fx:id="increaseQtyButton" mnemonicParsing="false" onAction="#increaseQty" prefHeight="25.0" prefWidth="27.0" text="+" />
+                                    <Label fx:id="cartItemQuantity" contentDisplay="RIGHT" prefHeight="34.0" prefWidth="39.0" text="10">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets left="10.0" />
+                                       </padding>
+                                    </Label>
+                                    <Button fx:id="decreaseQtyButton" mnemonicParsing="false" onAction="#decreaseQty" prefHeight="25.0" prefWidth="26.0" text="-" />
+                                    <Label fx:id="cartItemAmount" contentDisplay="RIGHT" prefHeight="34.0" prefWidth="98.0" text="Amount">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets left="20.0" />
+                                       </padding>
+                                    </Label>
+                                 </children>
+                              </HBox>
                            </children>
                         </VBox>
                      </content>

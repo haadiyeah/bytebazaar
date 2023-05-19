@@ -31,6 +31,16 @@ public class Cart {
     }
 
     public void add(SalesLineItem p) {
+        boolean flag;
+        for(int i=0;i<itemsList.size();i++) {
+            //If exists in the list, just update its quantity
+            if (itemsList.get(i).getProductID() == p.getProductID()) {
+                itemsList.get(i).setQuantity(itemsList.get(i).getQuantity() +1);
+                return;
+            }
+        }
+       
+        //Doesnt exist in the list==add it
         itemsList.add(p);
     }
 
