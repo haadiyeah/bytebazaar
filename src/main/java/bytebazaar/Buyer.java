@@ -6,27 +6,26 @@ public class Buyer extends User {
 
     private LinkedList<Order> orderHistory;
     private Cart cart;
-    //private String deliveryDetails;
+    private String deliveryDetails;
 
-    //Constructor used to create new buyer when id not generated yet 
+    // Constructor used to create new buyer when id not generated yet
     public Buyer(String email, String password, String phoneNum, String name) {
         super(email, password, phoneNum, name);
-        orderHistory=new LinkedList<Order>();
-        
-        
+        orderHistory = new LinkedList<Order>();
+
     }
-    
-     //Constructor used to create new buyer when id known (e.g.. fetching from db)
+
+    // Constructor used to create new buyer when id known (e.g.. fetching from db)
     public Buyer(int id, String email, String password, String phoneNum, String name) {
         super(id, email, password, phoneNum, name);
-        orderHistory=new LinkedList<Order>();
-        
+        orderHistory = new LinkedList<Order>();
+
     }
 
     @Override
     public void setDetails() {
         orderHistory = DBHandler.getInstance().getOrderHistory(getID());
-        this.cart=new Cart();
+        this.cart = new Cart();
     }
 
     public LinkedList<Order> getOrderHistory() {
@@ -36,7 +35,7 @@ public class Buyer extends User {
     public void setOrderHistory(LinkedList<Order> orderHistory) {
         this.orderHistory = orderHistory;
     }
-    
+
     public Cart getCart() {
         return cart;
     }
@@ -45,13 +44,14 @@ public class Buyer extends User {
         this.cart = cart;
     }
 
-    //Assumed qty:1
+    // Assumed qty:1
     @Override
     public void addToCart(Product prod) {
         cart.add(new SalesLineItem(prod));
     }
+
     @Override
-    //Add with given qty
+    // Add with given qty
     public void addToCart(Product prod, int qty) {
         cart.add(new SalesLineItem(prod, qty));
     }
@@ -60,15 +60,15 @@ public class Buyer extends User {
     public LinkedList<SalesLineItem> getCartList() {
         return cart.itemsList;
     }
-    
 
-    // public String getDeliveryDetails() {
-    //     return deliveryDetails;
-    // }
+    @Override
+    public String getDeliveryDetails() {
+        return deliveryDetails;
+    }
 
-    // public void setDeliveryDetails(String deliveryDetails) {
-    //     this.deliveryDetails = deliveryDetails;
-    // }
+    @Override
+    public void setDeliveryDetails(String s) {
+        deliveryDetails = s;
+    }
 
-   
 }

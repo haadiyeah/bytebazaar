@@ -152,12 +152,17 @@ public class CartController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+        this.cartVbox.getChildren().remove(this.cartitemHbox);//removing the dummy data
+
+        //Initializing necessary lists;
         cartList = new LinkedList<SalesLineItem>();
         cartList = BusinessControllerFactory.getBuyerControllerInst().getCartList();
         boxes=new LinkedList<HBox>();
         quantities = new LinkedList<Label>();
         amounts = new LinkedList<Label>();
+
         float total=0;
+        //Setting up the cart and calculating the total alongside.
         if (cartList != null) {
             for(int i=0;i<cartList.size();i++) {
                 // Create HBox

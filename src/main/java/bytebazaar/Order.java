@@ -51,5 +51,14 @@ public class Order {
     public void setBuyerID(int buyerID) {
         this.buyerID = buyerID;
     }
-    
+    public int getTotalItems(){
+        return productsList.size();
+    }
+    public float getTotalBill(){
+        float ret=0;
+        for(int i=0;i<productsList.size();i++) {
+            ret+= productsList.get(i).getPrice() * productsList.get(i).getQuantity();
+        }
+        return ret;
+    }
 }

@@ -23,7 +23,7 @@ public class UserLedger {
 
             int returnID = DBHandler.getInstance().save(b);
             if (returnID > 0) { // no error occurred;
-                b.setID(returnID);
+                b.setID(returnID); //Setting the return ID
                 this.userLedger.add(b); // save to the ledger ,for quick reference, as most will login after signup.
             }
             return returnID;
