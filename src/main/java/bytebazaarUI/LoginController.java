@@ -69,6 +69,7 @@ public class LoginController {
             Alert warn = new Alert(AlertType.WARNING);
             warn.setTitle("Error");
             warn.setHeaderText("Login unsuccessful");
+            warn.setContentText("Please check your credentials and ensure they are correct");
             warn.showAndWait();
         }
     }

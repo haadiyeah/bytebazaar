@@ -142,7 +142,7 @@
             <Font name="System Bold" size="26.0" />
          </font>
       </Label>
-      <GridPane fx:id="deleteAcc" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="239.0" prefWidth="600.0">
+      <GridPane alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="239.0" prefWidth="600.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -224,7 +224,7 @@
                         <Font size="17.0" />
                      </font>
                   </Label>
-                  <PasswordField fx:id="passwordText" prefHeight="25.0" prefWidth="180.0" style="-fx-background-color: white; -fx-background-radius: 50;" text="SamplePass">
+                  <PasswordField fx:id="passwordText" prefHeight="34.0" prefWidth="180.0" style="-fx-background-color: white; -fx-background-radius: 50;" text="SamplePass">
                      <effect>
                         <DropShadow>
                            <color>
@@ -258,14 +258,18 @@
             </HBox>
             <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="42.0" prefWidth="177.0" style="-fx-background-color: red; -fx-background-radius: 50;" text="Delete Account" textAlignment="CENTER" textFill="WHITE">
+                  <Button fx:id="deleteAccButton" mnemonicParsing="false" onAction="#deleteAccount" prefHeight="34.0" prefWidth="158.0" style="-fx-background-color: red; -fx-background-radius: 100;" text="Delete Account" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="17.0" />
+                        <Font name="System Bold" size="12.0" />
                      </font>
                      <effect>
-                        <DropShadow />
+                        <DropShadow blurType="GAUSSIAN" height="28.34" offsetX="2.0" offsetY="2.0" radius="11.8375" spread="0.25" width="21.01">
+                           <color>
+                              <Color red="0.042763158679008484" green="0.13980263471603394" blue="0.2368421107530594" opacity="0.7900000214576721" />
+                           </color>
+                        </DropShadow>
                      </effect>
-                  </Label>
+                  </Button>
                </children>
             </HBox>
          </children>
@@ -286,6 +290,21 @@
                      </color>
                   </DropShadow>
                </effect>
+            </Button>
+            <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#logOut" prefHeight="34.0" prefWidth="136.0" style="-fx-background-color: white; -fx-background-radius: 100;" text="Log out" textFill="#2e9ac3">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" height="28.34" offsetX="2.0" offsetY="2.0" radius="11.8375" spread="0.25" width="21.01">
+                     <color>
+                        <Color red="0.042763158679008484" green="0.13980263471603394" blue="0.2368421107530594" opacity="0.7900000214576721" />
+                     </color>
+                  </DropShadow>
+               </effect>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
             </Button>
          </children>
       </HBox>

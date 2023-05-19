@@ -17,4 +17,9 @@ public class LoginBController {
     public User getCurrentUser() {
         return userLedger.getCurrentUser();
     }
+
+    public void logout(){
+        userLedger.setCurrentUser(null);
+        BusinessControllerFactory.getBuyerControllerInst().logout();
+    }
 }

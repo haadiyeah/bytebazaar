@@ -6,10 +6,9 @@ public class UserLedger {
     private LinkedList<User> userLedger; // list of buyers,but not the complete list
     private User currentUser; // reference to current buyer will be stored when logged in
 
-   
     public UserLedger() {
         userLedger = new LinkedList<User>();
-       
+
     }
 
     // This fucntion creates NEW user as buyer(Default) and returns the newly
@@ -23,7 +22,7 @@ public class UserLedger {
 
             int returnID = DBHandler.getInstance().save(b);
             if (returnID > 0) { // no error occurred;
-                b.setID(returnID); //Setting the return ID
+                b.setID(returnID); // Setting the return ID
                 this.userLedger.add(b); // save to the ledger ,for quick reference, as most will login after signup.
             }
             return returnID;
@@ -38,8 +37,9 @@ public class UserLedger {
         if (userType.equals("Buyer")) {
             Buyer b = DBHandler.getInstance().authenticateBuyerLogin(email, password);
             if (b != null) {
-                currentUser = b; System.out.println("SETTING CURRENT USERRRRRR");
-                currentUser.setDetails();//will call the buyer's setdetails func, to create cart and orderlog
+                currentUser = b;
+                System.out.println("SETTING CURRENT USERRRRRR");
+                currentUser.setDetails();// will call the buyer's setdetails func, to create cart and orderlog
                 userLedger.add(b);
                 return true;
             } else {
@@ -50,7 +50,8 @@ public class UserLedger {
             Seller s = DBHandler.getInstance().authenticateSellerLogin(email, password);
             if (s != null) {
                 currentUser = s;
-                currentUser.setDetails();//will call the seller's setdetails func, to add order-recieved log and product catalog
+                currentUser.setDetails();// will call the seller's setdetails func, to add order-recieved log and
+                                         // product catalog
                 userLedger.add(s);
                 return true;
             } else {
@@ -72,6 +73,27 @@ public class UserLedger {
 
     public void addToCurrentUsersCart(Product p) {
         currentUser.addToCart(p);
+    }
+
+    public boolean updateCurrentUser(String name, String email, String password, String phone, String address) {
+        if (DBHandler.getInstance().updateUser(currentUser.getID(), name, email, password, phone, address)) {
+            currentUser.setName(name);
+            currentUser.setEmail(email);
+            currentUser.setPassword(password);
+            currentUser.setPhoneNum("" + phone);
+            currentUser.setDeliveryDetails(address);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean deleteBuyer(User u){
+        return DBHandler.getInstance().deleteUser(u, "Buyer");
+    }
+
+    public boolean deleteSeller(User u){
+        return DBHandler.getInstance().deleteUser(u, "Buyer");
     }
 
 }

@@ -399,7 +399,7 @@ public class DBHandler {
 
             // Making the query
             String query = "SELECT products.* FROM products LEFT JOIN orderHasProduct ON (products.productID = orderHasProduct.productID) LEFT JOIN orders ON (orderHasProduct.orderID = orders.orderID) ";
-            if (categories.size() < 7 && categories.size()>0) {
+            if (categories.size() < 7 && categories.size() > 0) {
                 query += "WHERE productCategory=";
                 for (int i = 0; i < categories.size(); i++) {
                     query += mapCategories.get(categories.get(i));
@@ -419,10 +419,10 @@ public class DBHandler {
                 query += "ORDER BY productPrice DESC;";
             else if (filter.equals("Price - Low to High"))
                 query += "ORDER BY productPrice ASC;";
-            else //default is top-selling
+            else // default is top-selling
                 query += "ORDER BY COUNT(orders.orderID) DESC;";
 
-                System.out.println(query);
+            System.out.println(query);
             ResultSet resultSet = stmt
                     .executeQuery(query);
 
@@ -448,29 +448,71 @@ public class DBHandler {
         }
     }
 
-    public String getProductSeller(int sellerID){
+    public String getProductSeller(int sellerID) {
         try (
-            Connection con = DriverManager.getConnection(connectionURL);
+                Connection con = DriverManager.getConnection(connectionURL);
+                Statement stmt = con.createStatement())
+
+        {
+            System.out.println("getting product seller");
+
+            // Making the query
+            String query = "SELECT users.userName FROM users WHERE userID = " + sellerID
+                    + " AND userID =SOME (SELECT sellers.sellerID FROM sellers);";
+            ResultSet resultSet = stmt
+                    .executeQuery(query);
+
+            if (resultSet.next() == false) {
+                System.out.println("no such seller found");
+                return "";
+            } else {
+                return resultSet.getString(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public boolean updateUser(int id, String name, String email, String password, String phone, String address) {
+        try (Connection con = DriverManager.getConnection(connectionURL);
             Statement stmt = con.createStatement())
+        {
+            // Making the query
+            String query1 = "UPDATE users SET userEmail='" + email + "', userPassword='" + password + "', userPhone='"
+                    + phone + "',userName='" + name + "' WHERE userID=" + id + ";";
+            String query2 = "UPDATE buyers SET deliveryDetails='" + address + "' WHERE buyerID=" + id + ";";
+            stmt.executeUpdate(query1);
+            stmt.executeUpdate(query2);
+            return true;
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean deleteUser(User u, String userType) {
+        try (Connection con = DriverManager.getConnection(connectionURL);
+        Statement stmt = con.createStatement())
     {
-        System.out.println("getting product seller");
-
         // Making the query
-        String query = "SELECT users.userName FROM users WHERE userID = "+sellerID+" AND userID =SOME (SELECT sellers.sellerID FROM sellers);";
-        ResultSet resultSet = stmt
-                .executeQuery(query);
-
-        if (resultSet.next() == false) {
-            System.out.println("no such seller found");
-            return "";
-          } else {
-            return resultSet.getString(1);
-          }
+        String query1 = "DELETE FROM users WHERE userID="+u.getID()+";";
+        String query2 = "";
+        if(userType.equals("Buyer"))
+            query2= "DELETE FROM buyers WHERE buyerID="+u.getID()+";";
+        else if(userType.equals("Seller"))
+            query2="DELETE FROM sellers WHERE sellerID="+u.getID()+";";
+        
+        stmt.executeUpdate(query1);
+        stmt.executeUpdate(query2);
+        
+        return true;
 
     } catch (SQLException e) {
         e.printStackTrace();
-        return null;
+        return false;
     }
     }
 

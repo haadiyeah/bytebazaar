@@ -45,4 +45,16 @@ public class BuyerController {
        // userLedger.getCurrentUser().addToCart(p);
        userLedger.addToCurrentUsersCart(p);
     }
+
+    public boolean updateCurrentUser(String name, String email, String password, String phone, String address) {
+        return userLedger.updateCurrentUser(name,email,password,phone,address);
+    }
+
+    public void logout() {
+        userLedger.setCurrentUser(null);
+    }
+
+    public boolean deleteBuyer(User u) {
+        return userLedger.deleteBuyer(u);
+    }
 }
