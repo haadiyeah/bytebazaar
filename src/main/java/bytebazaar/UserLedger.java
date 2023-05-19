@@ -6,8 +6,10 @@ public class UserLedger {
     private LinkedList<User> userLedger; // list of buyers,but not the complete list
     private User currentUser; // reference to current buyer will be stored when logged in
 
+   
     public UserLedger() {
         userLedger = new LinkedList<User>();
+       
     }
 
     // This fucntion creates NEW user as buyer(Default) and returns the newly
@@ -33,10 +35,10 @@ public class UserLedger {
 
     public boolean loginRequest(String email, String password, String userType) {
         // TODO Check in ledger to authenticate email if user already there
-        if (userType == "Buyer") {
+        if (userType.equals("Buyer")) {
             Buyer b = DBHandler.getInstance().authenticateBuyerLogin(email, password);
             if (b != null) {
-                currentUser = b;
+                currentUser = b; System.out.println("SETTING CURRENT USERRRRRR");
                 currentUser.setDetails();//will call the buyer's setdetails func, to create cart and orderlog
                 userLedger.add(b);
                 return true;
@@ -44,7 +46,7 @@ public class UserLedger {
                 System.out.println("authenticate login returned null for buyerrr");
                 return false;
             }
-        } else if (userType == "Seller") {
+        } else if (userType.equals("Seller")) {
             Seller s = DBHandler.getInstance().authenticateSellerLogin(email, password);
             if (s != null) {
                 currentUser = s;
@@ -58,6 +60,18 @@ public class UserLedger {
         } else {
             return false;
         }
-
     }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
+    }
+
+    public void addToCurrentUsersCart(Product p) {
+        currentUser.addToCart(p);
+    }
+
 }

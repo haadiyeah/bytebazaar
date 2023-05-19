@@ -22,6 +22,8 @@ public class BusinessControllerFactory {
         if(buyercontroller==null) {
             buyercontroller=new BuyerController();
         }
+        if(buyercontroller.getCurrentUser() == null)
+            System.out.println("\n\n*Getting buyer controller instance, current user is NULL\n\n");
         return buyercontroller;
     }
 

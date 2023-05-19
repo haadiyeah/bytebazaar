@@ -13,4 +13,8 @@ public class LoginBController {
     public boolean login(String email, String password, String userType) {
         return userLedger.loginRequest(email, password, userType);
     }
+
+    public User getCurrentUser() {
+        return userLedger.getCurrentUser();
+    }
 }

@@ -48,6 +48,7 @@ public class LoginController {
             yay.setTitle("Success");
             yay.setHeaderText("Congratulations, login success");
             yay.showAndWait();
+            App.setRoot("homepage");
         } else {
             Alert warn = new Alert(AlertType.WARNING);
             warn.setTitle("Error");
@@ -71,6 +72,8 @@ public class LoginController {
             warn.showAndWait();
         }
     }
+
+    
 
 
 

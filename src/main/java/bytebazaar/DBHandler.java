@@ -11,8 +11,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.LinkedList;
-
 
 public class DBHandler {
 
@@ -20,19 +20,29 @@ public class DBHandler {
     String connectionURL;
 
     Connection myconn = null;
-        Statement mystmt = null;
-        String sql = null;
-        ResultSet myRs = null;
-        String user = "root";
-        String pass = "had15mysqL";
+    Statement mystmt = null;
+    String sql = null;
+    ResultSet myRs = null;
+    String user = "root";
+    String pass = "had15mysqL";
+
+    HashMap<String, Integer> mapCategories;
 
     private DBHandler() {
+        mapCategories = new HashMap<String, Integer>();
+        mapCategories.put("Keyboards", 1);
+        mapCategories.put("Mice", 2);
+        mapCategories.put("Monitors", 3);
+        mapCategories.put("Graphic cards", 4);
+        mapCategories.put("Controllers", 5);
+        mapCategories.put("Laptops", 6);
+        mapCategories.put("PCs", 7);
+
         connectionURL = "jdbc:sqlserver://DESKTOP-61OOJ8F\\SQLEXPRESS;" +
                 "databaseName=bytebazaar;" +
                 "IntegratedSecurity=true;" + "encrypt=true;trustServerCertificate=true;" +
                 "MultipleActiveResultSets=True";
-        //connectionURL="jdbc:mysql://localhost:3306/mysqljdbc";
-        
+        // connectionURL="jdbc:mysql://localhost:3306/mysqljdbc";
 
     }
 
@@ -45,11 +55,11 @@ public class DBHandler {
 
     public void save_faq(FAQ faq) {
         try (
-            Connection con = DriverManager.getConnection(connectionURL);
-            Statement stmt = con.createStatement())
+                Connection con = DriverManager.getConnection(connectionURL);
+                Statement stmt = con.createStatement())
 
-    {
-           
+        {
+
             String query = "INSERT INTO FAQS (faqQuestion, faqAnswer) VALUES ('" + faq.getQuestion() + "', '"
                     + faq.getAnswer() + "');";
             // System.out.println("========================\n\n\n\n" + query + "\n\n\n\n");
@@ -63,23 +73,24 @@ public class DBHandler {
 
     public String fetchAns(String question) {
         try (
-            Connection con = DriverManager.getConnection(connectionURL);
-            Statement stmt = con.createStatement())
+                Connection con = DriverManager.getConnection(connectionURL);
+                Statement stmt = con.createStatement())
 
-    {
-       
-        ResultSet resultSet = stmt.executeQuery("SELECT Faqs.faqAnswer FROM Faqs WHERE faqQuestion='" + question + "';");
+        {
 
-        if (!resultSet.next()) {
+            ResultSet resultSet = stmt
+                    .executeQuery("SELECT Faqs.faqAnswer FROM Faqs WHERE faqQuestion='" + question + "';");
+
+            if (!resultSet.next()) {
+                return null;
+            } else {
+                return resultSet.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
             return null;
-        } else {
-           return resultSet.getString(1);
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return null;
     }
-}
 
     public void runSelectQuery(String query) {
         try (
@@ -377,26 +388,53 @@ public class DBHandler {
         }
     }
 
-    //Get a list of top selling products
-    public LinkedList<Product> getTopSellingProducts() {
+    // Get a list of products acording to the filter and category
+    public LinkedList<Product> getProducts(String filter, LinkedList<String> categories) {
         try (
                 Connection con = DriverManager.getConnection(connectionURL);
                 Statement stmt = con.createStatement())
 
         {
             System.out.println("getting order log");
+
+            // Making the query
+            String query = "SELECT products.* FROM products LEFT JOIN orderHasProduct ON (products.productID = orderHasProduct.productID) LEFT JOIN orders ON (orderHasProduct.orderID = orders.orderID) ";
+            if (categories.size() < 7 && categories.size()>0) {
+                query += "WHERE productCategory=";
+                for (int i = 0; i < categories.size(); i++) {
+                    query += mapCategories.get(categories.get(i));
+                    if (i < categories.size() - 1) {
+                        query += " OR productCategory=";
+                    }
+                }
+            }
+            query += "GROUP BY products.productID, products.productName, products.productPrice, products.productImageURL, products.productDescription, products.productCategory, products.productSeller, products.productQuantity ";
+            if (filter.equals("Top Selling"))
+                query += "ORDER BY COUNT(orders.orderID) DESC;";
+            else if (filter.equals("Name - A-Z"))
+                query += "ORDER BY productName ASC;";
+            else if (filter.equals("Name - Z-A"))
+                query += "ORDER BY productName DESC;";
+            else if (filter.equals("Price - High to Low"))
+                query += "ORDER BY productPrice DESC;";
+            else if (filter.equals("Price - Low to High"))
+                query += "ORDER BY productPrice ASC;";
+            else //default is top-selling
+                query += "ORDER BY COUNT(orders.orderID) DESC;";
+
+                System.out.println(query);
             ResultSet resultSet = stmt
-                    .executeQuery("SELECT products.*, COUNT(orders.orderID) AS totalOrders FROM products LEFT JOIN orderHasProduct ON (products.productID = orderHasProduct.productID) LEFT JOIN orders ON (orderHasProduct.orderID = orders.orderID) GROUP BY products.productID, products.productName, products.productPrice, products.productImageURL, products.productDescription, products.productCategory, products.productSeller, products.productQuantity ORDER BY COUNT(orders.orderID) DESC;");
+                    .executeQuery(query);
 
             if (resultSet.next() == false) {
                 System.out.println("returning empty product list");
                 return new LinkedList<Product>();// Sending back an empty list as no products exist in db
             } else {
-                
+
                 LinkedList<Product> returnList = new LinkedList<Product>();
                 // Getting all the products
                 do {
-                    System.out.println("Compiling products list, adding prod "+resultSet.getString(2));
+                    System.out.println("Compiling products list, adding prod " + resultSet.getString(2));
                     returnList.add(new Product(resultSet.getInt(1), resultSet.getFloat(3), resultSet.getString(2),
                             resultSet.getInt(7), resultSet.getString(4), resultSet.getString(5), resultSet.getInt(6)));
                 } while (resultSet.next());
@@ -408,6 +446,32 @@ public class DBHandler {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public String getProductSeller(int sellerID){
+        try (
+            Connection con = DriverManager.getConnection(connectionURL);
+            Statement stmt = con.createStatement())
+
+    {
+        System.out.println("getting product seller");
+
+        // Making the query
+        String query = "SELECT users.userName FROM users WHERE userID = "+sellerID+" AND userID =SOME (SELECT sellers.sellerID FROM sellers);";
+        ResultSet resultSet = stmt
+                .executeQuery(query);
+
+        if (resultSet.next() == false) {
+            System.out.println("no such seller found");
+            return "";
+          } else {
+            return resultSet.getString(1);
+          }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return null;
+    }
     }
 
 }

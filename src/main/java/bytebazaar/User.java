@@ -1,5 +1,7 @@
 package bytebazaar;
 
+import java.util.LinkedList;
+
 public abstract class User {
     private String email; //also the primary key in the db
     private String password;
@@ -55,5 +57,19 @@ public abstract class User {
     }
     public void setDetails() {
     }
+
+    public LinkedList<SalesLineItem> getCartList() {
+        return null;
+    }
+
+    
+    public void addToCart(Product prod) {
+        System.out.println("THIS SHOULD NOT BE CALLED");
+    }
+   
+    //Add with given qty
+    public void addToCart(Product prod, int qty) {
+
+}
 
 }

@@ -1,5 +1,6 @@
 package bytebazaarUI;
 
+import java.io.FilterReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
@@ -17,21 +18,26 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
-public class HomepageController implements Initializable{
-    private LinkedList<Product> productsToDisplay; //will contain 9 products that are currently displayed
+public class HomepageController implements Initializable {
+    private LinkedList<Product> productsToDisplay; // will contain 9 products that are currently displayed
 
     @FXML
     private Button backBtn;
@@ -268,7 +274,16 @@ public class HomepageController implements Initializable{
     private Button viewDetailbtn;
 
     @FXML
-    private ComboBox<String> filtersComboBox;
+    private Button backPageButton;
+
+    @FXML
+    private Label titleLabel;
+
+    // @FXML
+    // private ComboBox<String> filtersComboBox;
+
+    @FXML
+    private ComboBox filtersComboBox;
 
     // @FXML
     // private ImageView wishlistBtn;
@@ -278,21 +293,34 @@ public class HomepageController implements Initializable{
     LinkedList<Button> cartButtons;
     LinkedList<Button> viewButtons;
     LinkedList<ImageView> productImages;
-    LinkedList <VBox> boxes;
+    LinkedList<VBox> boxes;
+    LinkedList<CheckBox> checkboxes;
 
-    //productsToDisplay = getProductsToDisplay();
-
-  
+    // productsToDisplay = getProductsToDisplay();
 
     @FXML
-    void openCart(ActionEvent event) {
-        
+    void openCart(ActionEvent event) throws IOException {
+        App.setRoot("cart");
     }
 
     @FXML
     void searchProducts(ActionEvent event) throws IOException {
-        if (searchBar.getText().equalsIgnoreCase("Vaio"))
-            App.setRoot("noresults");
+        String searched = searchBar.getText();
+        if(searched.isBlank())
+        return;
+
+       LinkedList<Product> resultsToDisplay= new LinkedList<Product>();
+        productsToDisplay.forEach(product -> {
+            if(product.getName().toLowerCase().contains(searched.toLowerCase())) {
+                resultsToDisplay.add(product);
+            }
+        });
+
+        if(resultsToDisplay.isEmpty()){
+            titleLabel.setText("No results!");
+        }
+        tracker=0;
+        setProducts(resultsToDisplay);
     }
 
     @FXML
@@ -320,10 +348,6 @@ public class HomepageController implements Initializable{
 
     }
 
-    void viewProducts(String filtername, LinkedList<String> categories) {
-
-    }
-
     private LinkedList<Product> getProductsToDisplay() {
         // WRITE CODE TO GET A LIST OF PRODS
         LinkedList<Product> listProducts = new LinkedList<Product>();
@@ -341,143 +365,214 @@ public class HomepageController implements Initializable{
     void addToCart(ActionEvent event) {
         Button numberButton = (Button) event.getTarget();
         int id = Integer.parseInt(numberButton.getId().split("-")[1]);
-        System.out.println("Id pressed " + id);
-    
-    }
+        System.out.println("Add to cart clicked "+id);
 
+        BusinessControllerFactory.getBuyerControllerInst().addToCart(productsToDisplay.get(id)); 
+       
+        Alert alert=new Alert(AlertType.INFORMATION);
+        alert.setHeaderText("Added to cart successfully");
+        alert.setHeaderText("You have added to cart");
+        alert.showAndWait();
+
+    }
 
     @FXML
-    void viewDetail(ActionEvent event) {
+    void viewDetail(ActionEvent event) throws IOException {
         Button numberButton = (Button) event.getTarget();
         int id = Integer.parseInt(numberButton.getId().split("-")[1]);
-        System.out.println("View Id pressed " + id);
+        if(tracker>9 && tracker<18) {
+            id+=9;
+        }
+        BusinessControllerFactory.getBuyerControllerInst().setCurrentProduct(productsToDisplay.get(id));
+       System.out.println("View Id pressed " + id);
+       App.setRoot("viewingproddetail");
     }
 
-    //first 9 products passed will be set
+    static int tracker;
+
+    // first 9 products passed will be set
     void setProducts(LinkedList<Product> products) {
         
-        int i=0;
+        int i =tracker;
         int maxloops;
-        if(products.size() <=9) {
-            maxloops=products.size();
+        if (products.size() <= 9) {
+            maxloops = products.size();
         } else {
-            maxloops=9;
+            maxloops = 9;
         }
-        for(;i<maxloops;i++) {
-            System.out.println("For loop i=" + i);
-            productsToDisplay.add(products.get(i));
-            if(products.get(i).getImageURL() !=null)
-                productImages.get(i).imageProperty().set(new Image(products.get(i).getImageURL())); 
-            else //default image
-                productImages.get(i).imageProperty().set(new Image("https://icon-library.com/images/img-icon/img-icon-0.jpg")); 
-            titleLabels.get(i).setText(products.get(i).getName());
-            priceLabels.get(i).setText("Rs. " + products.get(i).getPrice() + "/-");
+        int j;
+        for (j=0; j < maxloops && i<products.size(); j++, i++) {
+            System.out.println("For loop i=" + i +" j = " +j);
+           // productsToDisplay.add(products.get(i));
+            tracker++;
+            System.out.println("Tracker = " + tracker);
+            if (products.get(i).getImageURL() != null)
+                productImages.get(j).imageProperty().set(new Image(products.get(i).getImageURL()));
+            else // default image
+                productImages.get(j).imageProperty()
+                        .set(new Image("https://icon-library.com/images/img-icon/img-icon-0.jpg"));
+            titleLabels.get(j).setText(products.get(i).getName());
+            priceLabels.get(j).setText("Rs. " + products.get(i).getPrice() + "/-");
         }
-        //remaining boxes are hidden
-        while(i<9){
+        // remaining boxes are hidden
+        while (j < 9) {
             System.out.println("While Loop i=" + i);
-            boxes.get(i).setVisible(false);
-            i++;
+            boxes.get(j).setVisible(false);
+            j++;
         }
     }
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+        // filtersComboBox= new ComboBox<String>();
+
+        BusinessControllerFactory.getBuyerControllerInst().setCurrentUser(BusinessControllerFactory.getLoginControllerInst().getCurrentUser());
+
         ObservableList<String> options = FXCollections.observableArrayList();
         options.addAll("Top Selling", "Price - Low to High", "Price - High to Low", "Name - A-Z", "Name - Z-A");
-        
-        filtersComboBox= new ComboBox<String>();
-        filtersComboBox.setItems(options);titleLabels=new LinkedList<Label>();
-        priceLabels=new LinkedList<Label>();
+
+        filtersComboBox.setItems(options);
+        // filtersComboBox.getItems().add("Price - Low to High");
+        // filtersComboBox.getItems().add("Price - High to low");
+        // filtersComboBox.getItems().add("Name - A-Z");
+        // filtersComboBox.getItems().add("Name - Z-A");
+
+        titleLabels = new LinkedList<Label>();
+        priceLabels = new LinkedList<Label>();
         productImages = new LinkedList<ImageView>();
-        cartButtons=new LinkedList<Button>();
-        viewButtons=new LinkedList<Button>();
-        boxes=new LinkedList<VBox>();
-        productsToDisplay=new LinkedList<Product>();
-       
-       titleLabels.add(productTitle0);
-       titleLabels.add(productTitle1);
-       titleLabels.add(productTitle2);
-       titleLabels.add(productTitle3);
-       titleLabels.add(productTitle4);
-       titleLabels.add(productTitle5);
-       titleLabels.add(productTitle6);
-       titleLabels.add(productTitle7);
-       titleLabels.add(productTitle8);
+        cartButtons = new LinkedList<Button>();
+        viewButtons = new LinkedList<Button>();
+        boxes = new LinkedList<VBox>();
+        checkboxes = new LinkedList<CheckBox>();
+        productsToDisplay = new LinkedList<Product>();
 
-       priceLabels.add(productPrice);
-       priceLabels.add(productPrice1);
-       priceLabels.add(productPrice2);
-       priceLabels.add(productPrice3);
-       priceLabels.add(productPrice4);
-       priceLabels.add(productPrice5);
-       priceLabels.add(productPrice6);
-       priceLabels.add(productPrice7);
-       priceLabels.add(productPrice8);
+        titleLabels.add(productTitle0);
+        titleLabels.add(productTitle1);
+        titleLabels.add(productTitle2);
+        titleLabels.add(productTitle3);
+        titleLabels.add(productTitle4);
+        titleLabels.add(productTitle5);
+        titleLabels.add(productTitle6);
+        titleLabels.add(productTitle7);
+        titleLabels.add(productTitle8);
 
-       cartButtons.add(cartBtn);
-       cartButtons.add(cartBtn1);
-       cartButtons.add(cartBtn2);
-       cartButtons.add(cartBtn3);
-       cartButtons.add(cartBtn4);
-       cartButtons.add(cartBtn5);
-       cartButtons.add(cartBtn6);
-       cartButtons.add(cartBtn7);
-       cartButtons.add(cartBtn8);
+        priceLabels.add(productPrice);
+        priceLabels.add(productPrice1);
+        priceLabels.add(productPrice2);
+        priceLabels.add(productPrice3);
+        priceLabels.add(productPrice4);
+        priceLabels.add(productPrice5);
+        priceLabels.add(productPrice6);
+        priceLabels.add(productPrice7);
+        priceLabels.add(productPrice8);
 
-       viewButtons.add(viewDetailBtn);
-       viewButtons.add(viewDetailBtn1);
-       viewButtons.add(viewDetailBtn2);
-       viewButtons.add(viewDetailBtn3);
-       viewButtons.add(viewDetailBtn4);
-       viewButtons.add(viewDetailBtn5);
-       viewButtons.add(viewDetailBtn6);
-       viewButtons.add(viewDetailBtn7);
-       viewButtons.add(viewDetailBtn8);
+        cartButtons.add(cartBtn);
+        cartButtons.add(cartBtn1);
+        cartButtons.add(cartBtn2);
+        cartButtons.add(cartBtn3);
+        cartButtons.add(cartBtn4);
+        cartButtons.add(cartBtn5);
+        cartButtons.add(cartBtn6);
+        cartButtons.add(cartBtn7);
+        cartButtons.add(cartBtn8);
 
-       productImages.add(productImage);
-       productImages.add(productImage1);
-       productImages.add(productImage2);
-       productImages.add(productImage3);
-       productImages.add(productImage4);
-       productImages.add(productImage5);
-       productImages.add(productImage6);
-       productImages.add(productImage7);
-       productImages.add(productImage8);
+        viewButtons.add(viewDetailBtn);
+        viewButtons.add(viewDetailBtn1);
+        viewButtons.add(viewDetailBtn2);
+        viewButtons.add(viewDetailBtn3);
+        viewButtons.add(viewDetailBtn4);
+        viewButtons.add(viewDetailBtn5);
+        viewButtons.add(viewDetailBtn6);
+        viewButtons.add(viewDetailBtn7);
+        viewButtons.add(viewDetailBtn8);
 
-       boxes.add(thumbnail);
-       boxes.add(thumbnail1);
-       boxes.add(thumbnail11);
-       boxes.add(thumbnail111);
-       boxes.add(thumbnail1111);
-       boxes.add(thumbnail11111);
-       boxes.add(thumbnail11112);
-       boxes.add(thumbnail11113);
-       boxes.add(thumbnail11114);
+        productImages.add(productImage);
+        productImages.add(productImage1);
+        productImages.add(productImage2);
+        productImages.add(productImage3);
+        productImages.add(productImage4);
+        productImages.add(productImage5);
+        productImages.add(productImage6);
+        productImages.add(productImage7);
+        productImages.add(productImage8);
 
-       for(int i=0;i<9;i++) {
-           viewButtons.get(i).setId("view-"+i);
-           cartButtons.get(i).setId("cart-"+i);
-           boxes.get(i).setId("box-"+i);
-       }
+        boxes.add(thumbnail);
+        boxes.add(thumbnail1);
+        boxes.add(thumbnail11);
+        boxes.add(thumbnail111);
+        boxes.add(thumbnail1111);
+        boxes.add(thumbnail11111);
+        boxes.add(thumbnail11112);
+        boxes.add(thumbnail11113);
+        boxes.add(thumbnail11114);
 
-       
+        checkboxes.add(category1);
+        checkboxes.add(category2);
+        checkboxes.add(category3);
+        checkboxes.add(category4);
+        checkboxes.add(category5);
+        checkboxes.add(category6);
+        checkboxes.add(category7);
 
-       productsToDisplay = BusinessControllerFactory.getBuyerControllerInst().getTopProducts();
+        for (int i = 0; i < 9; i++) {
+            viewButtons.get(i).setId("view-" + i);
+            cartButtons.get(i).setId("cart-" + i);
+            boxes.get(i).setId("box-" + i);
+        }
+        LinkedList<String> selectedCategories = new LinkedList<String>();
+        
+        checkboxes.forEach(checkbox -> {
+            if (checkbox.isSelected()) {
+                selectedCategories.add(checkbox.getText());
+            }
+        });
+        productsToDisplay = BusinessControllerFactory.getBuyerControllerInst().getProducts("Top Selling", selectedCategories);
 
-       if(productsToDisplay!=null) {
-        System.out.println("Productstodisplay not null, setting");
-        setProducts(productsToDisplay);
-       } else {
-        System.out.println("null");
-       }
+        if (productsToDisplay != null) {
+            System.out.println("Productstodisplay not null, setting");
+            tracker=0;
+            setProducts(productsToDisplay);
+        } else {
+            System.out.println("null");
+        }
     }
 
     @FXML
     void browseProductsClicked(ActionEvent event) {
+        String selectedFilter = (String) filtersComboBox.getValue();
+        if(selectedFilter==null) {
+            selectedFilter="Top Selling";//default
+        }
+        System.out.println("Filter = " + selectedFilter);
+        LinkedList<String> selectedCategories = new LinkedList<String>();
+        
+        checkboxes.forEach(checkbox -> {
+            if (checkbox.isSelected()) {
+                selectedCategories.add(checkbox.getText());
+            }
+        });
 
+        
+        productsToDisplay = BusinessControllerFactory.getBuyerControllerInst().getProducts(selectedFilter, selectedCategories);
+        if (productsToDisplay != null) {
+            System.out.println("Productstodisplay not null, setting");
+            tracker=0;//When setting from db tracker=0 but when next page it will not be 0
+            setProducts(productsToDisplay);
+        }
     }
 
+    @FXML
+    void openNextPage(ActionEvent event) {
+        System.out.println("Next button clicked-------------\ntrakcer="+tracker);
+        productsToDisplay.forEach(product -> { System.out.println(product.getName());});
+        if(productsToDisplay.size()>9)
+         setProducts(productsToDisplay); //without making tracker=0 so it will continue where it left off
+    }
+
+    @FXML
+    void openBackPage(ActionEvent event) {
+    
+    }
 
 
 

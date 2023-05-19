@@ -8,7 +8,9 @@ public class Product {
     private String imageURL;
     private String description;
     private int categoryID;
+   
     
+   
     //IMPORTANT TO NOTE:
     //If category id is null, it will be zero.
     //There are other nullable fields e.g. ImageURL, etc.
@@ -22,6 +24,9 @@ public class Product {
         this.imageURL = imageURL;
         this.description = description;
         this.categoryID = categoryID;
+    }
+    public Product() {
+
     }
     public int getProductID() {
         return productID;
@@ -65,6 +70,5 @@ public class Product {
     public void setCategoryID(int categoryID) {
         this.categoryID = categoryID;
     }
-
     
 }

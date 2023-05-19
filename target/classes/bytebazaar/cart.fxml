@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" prefHeight="430.0" prefWidth="606.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bytebazaarUI.CartController">
+   <children>
+      <StackPane alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="41.0" prefWidth="606.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="42.0" stroke="TRANSPARENT" strokeType="INSIDE" width="606.0">
+               <fill>
+                  <LinearGradient endX="0.12796208530805686" endY="1.0" startX="1.0" startY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.3326023519039154" green="0.6366350054740906" blue="0.9210526347160339" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.006711409395973154">
+                           <color>
+                              <Color red="0.3326023519039154" green="0.6366350054740906" blue="0.9210526347160339" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.1912751677852349">
+                           <color>
+                              <Color red="0.6064814925193787" green="0.8163580298423767" blue="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.4697986577181208">
+                           <color>
+                              <Color red="0.8101851940155029" green="0.9493827223777771" blue="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.6409395973154363">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.8154362416107382">
+                           <color>
+                              <Color red="0.4399999976158142" green="0.7200000286102295" blue="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.5277777910232544" green="0.7717592716217041" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </fill>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Rectangle>
+            <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="606.0">
+               <children>
+                  <Button fx:id="backBtn" ellipsisString="" minHeight="-Infinity" mnemonicParsing="false" onAction="#goBack" prefHeight="20.0" prefWidth="19.0" style="-fx-background-image: url(&quot;https://icon-library.com/images/android-back-icon/android-back-icon-15.jpg&quot;); -fx-background-size: cover; -fx-background-color: null;" />
+                  <ImageView fitHeight="41.0" fitWidth="138.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@topbanner.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="170.0" right="130.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <Button fx:id="profileBtn" ellipsisString="" mnemonicParsing="false" onAction="#openProfile" prefHeight="26.0" prefWidth="26.0" style="-fx-background-size: cover; -fx-background-image: url(&quot;https://icon-library.com/images/profile-icon-white/profile-icon-white-3.jpg&quot;); -fx-background-color: null;">
+                     <HBox.margin>
+                        <Insets right="7.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="wishlistBtn" ellipsisString="" mnemonicParsing="false" prefHeight="26.0" prefWidth="26.0" style="-fx-background-size: cover; -fx-background-color: null;">
+                     <graphic>
+                        <ImageView fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@wishlisticon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="cartBtn1" ellipsisString="" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#openCart" prefHeight="32.0" prefWidth="34.0" style="-fx-background-image: src=&quot;carticon.png&quot;; -fx-background-size: cover; -fx-background-color: null;">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="27.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@carticon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </StackPane>
+      <HBox prefHeight="314.0" prefWidth="606.0">
+         <children>
+            <VBox alignment="TOP_CENTER" prefHeight="303.0" prefWidth="609.0" style="-fx-background-color: #e6e7e8;">
+               <padding>
+                  <Insets left="13.0" right="13.0" top="25.0" />
+               </padding>
+               <HBox.margin>
+                  <Insets top="5.0" />
+               </HBox.margin>
+               <children>
+                  <Label fx:id="productName" prefHeight="23.0" prefWidth="77.0" text="Your cart" textAlignment="CENTER">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <ScrollPane prefHeight="239.0" prefWidth="583.0">
+                     <content>
+                        <VBox fx:id="cartVbox" prefHeight="373.0" prefWidth="566.0">
+                           <children>
+                              <HBox fx:id="headerHbox" prefHeight="34.0" prefWidth="566.0" style="-fx-background-color: #d7d7d7;">
+                                 <children>
+                                    <Label fx:id="CartItem1" contentDisplay="RIGHT" prefHeight="34.0" prefWidth="274.0" text="Product">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets left="20.0" />
+                                       </padding>
+                                    </Label>
+                                    <Label fx:id="CartItem11" contentDisplay="RIGHT" prefHeight="34.0" prefWidth="98.0" text="Price">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets left="20.0" />
+                                       </padding>
+                                    </Label>
+                                    <Label fx:id="CartItem12" contentDisplay="RIGHT" prefHeight="34.0" prefWidth="99.0" text="Quantity">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets left="20.0" />
+                                       </padding>
+                                    </Label>
+                                    <Label fx:id="CartItem121" contentDisplay="RIGHT" prefHeight="34.0" prefWidth="98.0" text="Amount">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets left="20.0" />
+                                       </padding>
+                                    </Label>
+                                 </children>
+                                 <effect>
+                                    <DropShadow>
+                                       <color>
+                                          <Color red="0.843137264251709" green="0.843137264251709" blue="0.843137264251709" />
+                                       </color>
+                                    </DropShadow>
+                                 </effect>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </content>
+                  </ScrollPane>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_RIGHT" prefHeight="41.0" prefWidth="579.0">
+         <children>
+            <Label fx:id="productName1" prefHeight="28.0" prefWidth="56.0" text="Total:" textAlignment="CENTER">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Label fx:id="totalAmount" prefHeight="28.0" prefWidth="134.0" text="TotalAmnt" textAlignment="CENTER">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Pane prefHeight="41.0" prefWidth="227.0" />
+            <Button fx:id="checkoutBtn" mnemonicParsing="false" onAction="#gotoCheckout" prefHeight="41.0" prefWidth="149.0" style="-fx-background-color: #11438d; -fx-background-radius: 5;" text="Checkout" textFill="WHITE">
+               <effect>
+                  <DropShadow height="13.68" radius="5.9725" width="12.21">
+                     <color>
+                        <Color red="0.5320000052452087" green="0.543666660785675" blue="0.5600000023841858" opacity="0.8816794157028198" />
+                     </color>
+                  </DropShadow>
+               </effect>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <HBox.margin>
+                  <Insets top="10.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets right="20.0" />
+         </padding>
+      </HBox>
+   </children>
+</VBox>

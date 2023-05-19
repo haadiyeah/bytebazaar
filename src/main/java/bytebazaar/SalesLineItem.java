@@ -12,6 +12,19 @@ public class SalesLineItem {
         this.productName=name;
         this.quantity = quantity;
     }
+    //Constructor to create sales line item from product, assumed qty:1
+    public SalesLineItem(Product p) {
+        this.productID=p.getProductID();
+        this.price=p.getPrice();
+        this.productName=p.getName();
+        this.quantity=1;
+    }
+    public SalesLineItem(Product p, int qty) {
+        this.productID=p.getProductID();
+        this.price=p.getPrice();
+        this.productName=p.getName();
+        this.quantity=qty;
+    }
     public int getProductID() {
         return productID;
     }

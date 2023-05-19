@@ -30,6 +30,10 @@ public class Cart {
         calculateTotal();
     }
 
+    public void add(SalesLineItem p) {
+        itemsList.add(p);
+    }
+
     //Calc running total function
     
 }

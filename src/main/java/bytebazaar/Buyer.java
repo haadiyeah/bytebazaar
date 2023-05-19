@@ -45,6 +45,21 @@ public class Buyer extends User {
         this.cart = cart;
     }
 
+    //Assumed qty:1
+    @Override
+    public void addToCart(Product prod) {
+        cart.add(new SalesLineItem(prod));
+    }
+    @Override
+    //Add with given qty
+    public void addToCart(Product prod, int qty) {
+        cart.add(new SalesLineItem(prod, qty));
+    }
+
+    @Override
+    public LinkedList<SalesLineItem> getCartList() {
+        return cart.itemsList;
+    }
     
 
     // public String getDeliveryDetails() {
