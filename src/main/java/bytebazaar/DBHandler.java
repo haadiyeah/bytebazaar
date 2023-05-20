@@ -104,10 +104,6 @@ public class DBHandler {
             stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
 
             ResultSet generatedKeys = stmt.getGeneratedKeys();
-            int orderId = -1;
-            if (generatedKeys.next()) {
-                orderId = generatedKeys.getInt(1);
-            }
 
             saveOrderHasProduct(stmt, o.getOrderID(), o.getProductsList());
 
