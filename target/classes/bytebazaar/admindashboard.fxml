@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-image: url(&quot;https://t4.ftcdn.net/jpg/01/84/15/05/360_F_184150518_n7nMgXVC3hwqj15DCT2cc6cx94oT9K4n.jpg&quot;); -fx-background-size: cover;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bytebazaarUI.AdminDashboardController">
+   <children>
+      <VBox prefHeight="430.0" prefWidth="600.0">
+         <children>
+            <StackPane prefHeight="86.0" prefWidth="600.0" style="-fx-background-color: #2E9AC3;">
+               <effect>
+                  <DropShadow />
+               </effect>
+               <children>
+                  <VBox alignment="CENTER" prefHeight="58.0" prefWidth="600.0">
+                     <children>
+                        <Label prefHeight="38.0" prefWidth="215.0" text="Welcome Admin" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="26.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <Button ellipsisString="" mnemonicParsing="false" onAction="#logout" prefHeight="35.0" prefWidth="35.0" style="-fx-background-image: url(&quot;https://icon-library.com/images/exit-icon-png/exit-icon-png-6.jpg&quot;); -fx-background-size: cover; -fx-background-color: null;">
+                     <StackPane.margin>
+                        <Insets left="500.0" />
+                     </StackPane.margin>
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color red="0.03959999978542328" green="0.06629999727010727" blue="0.36000001430511475" opacity="0.805343508720398" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                  </Button>
+               </children>
+            </StackPane>
+            <FlowPane alignment="CENTER" columnHalignment="CENTER" />
+            <HBox alignment="CENTER" prefHeight="308.0" prefWidth="600.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#viewAllBuyers" prefHeight="38.0" prefWidth="141.0" style="-fx-background-color: #ffffff; -fx-background-radius: 100;" text="View all buyers" textFill="#092272">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <effect>
+                        <DropShadow height="29.79" radius="14.395" spread="0.08" width="29.79">
+                           <color>
+                              <Color red="0.18039216101169586" green="0.6039215922355652" blue="0.7647058963775635" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <HBox.margin>
+                        <Insets right="15.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#viewAllSellers" prefHeight="38.0" prefWidth="140.0" style="-fx-background-color: #ffffff; -fx-background-radius: 100;" text="View all sellers" textFill="#092272">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <effect>
+                        <DropShadow height="29.79" radius="14.395" spread="0.08" width="29.79">
+                           <color>
+                              <Color red="0.18039216101169586" green="0.6039215922355652" blue="0.7647058963775635" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <HBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#addNewFaq" prefHeight="38.0" prefWidth="154.0" style="-fx-background-color: #092272; -fx-background-radius: 100;" text="Add new FAQ" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <effect>
+                        <DropShadow height="29.79" radius="14.395" spread="0.08" width="29.79">
+                           <color>
+                              <Color red="0.18039216101169586" green="0.6039215922355652" blue="0.7647058963775635" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <HBox.margin>
+                        <Insets left="15.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</HBox>

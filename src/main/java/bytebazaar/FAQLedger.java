@@ -23,6 +23,35 @@ public class FAQLedger {
         }
 
     }
+
+    public LinkedList<FAQ> getFAQs(){
+        LinkedList<FAQ> retList = DBHandler.getInstance().getFAQs();
+        if(retList != null) {
+            faqs=retList;
+            return retList;
+        } else {
+            return null;
+        }
+    }
+
+    public LinkedList<FAQ> getStoredFAQs(){
+        return faqs;
+    }
+
+
+    public LinkedList<FAQ> findInFAQs(String text) {
+        LinkedList<FAQ> retfaqs = new LinkedList<FAQ>();
+        for(int i=0;i<faqs.size();i++) {
+            if((faqs.get(i).getQuestion().toLowerCase().contains(text.toLowerCase())) || (faqs.get(i).getAnswer().toLowerCase().contains(text.toLowerCase()))){
+                retfaqs.add(faqs.get(i));
+            }
+        }
+        if(retfaqs.isEmpty()) {
+            return null;
+        } else {
+            return retfaqs;
+        }
+    }
     
     
 }

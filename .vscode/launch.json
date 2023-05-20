@@ -5,6 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "App",
+            "request": "launch",
+            "mainClass": "bytebazaar.App",
+            "projectName": ""
+        },
+        {
+            "type": "java",
+            "name": "StarRatingExample",
+            "request": "launch",
+            "mainClass": "bytebazaar/bytebazaar.StarRatingExample",
+            "projectName": "bytebazaar"
+        },
+        {
             "name": "Java",
             "type": "java",
             "request": "launch",

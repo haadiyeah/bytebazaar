@@ -13,7 +13,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.LinkedList;
-
 public class DBHandler {
 
     private static DBHandler instance;
@@ -62,7 +61,7 @@ public class DBHandler {
 
             String query = "INSERT INTO FAQS (faqQuestion, faqAnswer) VALUES ('" + faq.getQuestion() + "', '"
                     + faq.getAnswer() + "');";
-            // System.out.println("========================\n\n\n\n" + query + "\n\n\n\n");
+            System.out.println("========================\n\n\n\n" + query + "\n\n\n\n");
             stmt.executeUpdate(query);
 
         } catch (SQLException e) {
@@ -85,6 +84,31 @@ public class DBHandler {
                 return null;
             } else {
                 return resultSet.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public LinkedList<FAQ> getFAQs(){
+        try (
+                Connection con = DriverManager.getConnection(connectionURL);
+                Statement stmt = con.createStatement())
+
+        {
+            LinkedList<FAQ> returnList = new LinkedList<FAQ>();
+            ResultSet resultSet = stmt
+                    .executeQuery("SELECT Faqs.faqQuestion, Faqs.faqAnswer FROM Faqs;");
+
+            if (!resultSet.next()) {
+                return null;
+            } else {
+                do {
+                    returnList.add(new FAQ(resultSet.getString(1), resultSet.getString(2)));
+                } while (resultSet.next());
+
+                return returnList;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -123,38 +147,44 @@ public class DBHandler {
     }
 
     // Authenticate login.
-    // Returns a buyer object
-    // returns null if an account with the email doesnt exist OR if password does
-    // not match with the records,
-    public Buyer authenticateBuyerLogin(String email, String password) {
+    // Returns a user object that can be cast as seller or user as per need.
+    // returns null if an account with the email doesnt exist OR if password does not match with the records,
+    public User authenticateLogin(String email, String password, String type) {
         try (
                 Connection con = DriverManager.getConnection(connectionURL);
                 Statement stmt = con.createStatement())
 
         {
-            ResultSet resultSet = stmt.executeQuery("SELECT * FROM users WHERE userEmail='" + email + "';");
+            String query="";
+            if(type.equals("Admin")) {
+                query="SELECT * FROM users WHERE userEmail='" + email + "' AND userID NOT IN (SELECT buyers.buyerID FROM buyers) AND userID NOT IN (SELECT sellers.sellerID FROM sellers);";
+            } else {
+                query="SELECT * FROM users WHERE userEmail='" + email + "';";
+            }
+            ResultSet resultSet = stmt.executeQuery(query);
 
             if (!resultSet.next()) {
                 return null;
             } else {
-                System.out.println(
-                        "password entered is " + password + " and resultset getstring 3 is " + resultSet.getString(3));
-                //// resultSet.next();
-                // System.out.println(" ======================== \n\n " + resultSet.getString(0)
-                //// + "\n==============================\n");
-                if (password.equals(resultSet.getString(3))) {
-                    int uID = resultSet.getInt(1);
-                    String uEmail = resultSet.getString(2);
-                    String uPass = resultSet.getString(3);
-                    String uPhone = resultSet.getString(4);
-                    String uName = resultSet.getString(5);
-                    System.out.println("Returning authenticate now");
+                do {
+                    if (password.equals(resultSet.getString(3))) {
+                        int uID = resultSet.getInt(1);
+                        String uEmail = resultSet.getString(2);
+                        String uPass = resultSet.getString(3);
+                        String uPhone = resultSet.getString(4);
+                        String uName = resultSet.getString(5);
+                        System.out.println("Returning authenticate now");
 
-                    return new Buyer(uID, uEmail, uPass, uPhone, uName);
+                        if(type.equals("Buyer"))
+                            return new Buyer(uID, uEmail, uPass, uPhone, uName);
+                        else if(type.equals("Seller"))
+                            return new Seller(uID, uEmail, uPass, uPhone, uName);
+                        else if(type.equals("Admin"))
+                            return new Admin(uID, uEmail, uPass, uPhone, uName);
+                    }
+                } while (resultSet.next());
 
-                } else {
-                    return null;
-                }
+                return null;
 
             }
 
@@ -164,47 +194,6 @@ public class DBHandler {
         }
     }
 
-    // Authenticate login.
-    // Returns a seller object
-    // returns null if an account with the email doesnt exist OR if password does
-    // not match with the records,
-    public Seller authenticateSellerLogin(String email, String password) {
-        try (
-                Connection con = DriverManager.getConnection(connectionURL);
-                Statement stmt = con.createStatement())
-
-        {
-            ResultSet resultSet = stmt.executeQuery("SELECT * FROM users WHERE userEmail='" + email + "';");
-
-            if (!resultSet.next()) {
-                return null;
-            } else {
-                System.out.println(
-                        "password entered is " + password + " and resultset getstring 3 is " + resultSet.getString(3));
-                //// resultSet.next();
-                // System.out.println(" ======================== \n\n " + resultSet.getString(0)
-                //// + "\n==============================\n");
-                if (password.equals(resultSet.getString(3))) {
-                    int uID = resultSet.getInt(1);
-                    String uEmail = resultSet.getString(2);
-                    String uPass = resultSet.getString(3);
-                    String uPhone = resultSet.getString(4);
-                    String uName = resultSet.getString(5);
-                    System.out.println("Returning authenticate now");
-
-                    return new Seller(uID, uEmail, uPass, uPhone, uName);
-
-                } else {
-                    return null;
-                }
-
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
     public boolean checkUserExists(String email) {
         try (

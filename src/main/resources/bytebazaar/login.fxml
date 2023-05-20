@@ -103,6 +103,21 @@
                         </DropShadow>
                      </effect>
                      <HBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#loginAsAdmin" prefHeight="38.0" prefWidth="141.0" style="-fx-background-color: #092272; -fx-background-radius: 100;" text="Log in (ADMIN)" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <effect>
+                        <DropShadow height="29.79" radius="14.395" spread="0.08" width="29.79">
+                           <color>
+                              <Color red="0.18039216101169586" green="0.6039215922355652" blue="0.7647058963775635" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <HBox.margin>
                         <Insets left="15.0" />
                      </HBox.margin>
                   </Button>

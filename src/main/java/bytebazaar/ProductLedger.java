@@ -14,7 +14,7 @@ public class ProductLedger {
 
     public LinkedList<Product> getProducts(String filter, LinkedList<String> categories) {
         productLedger.clear();
-        productLedger = DBHandler.getInstance().getProducts( filter,  categories);
+        productLedger = DBHandler.getInstance().getProducts(filter,  categories);
         return productLedger;
     }
     public LinkedList<Product> getProductLedger() {
