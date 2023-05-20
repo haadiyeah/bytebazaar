@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" prefHeight="430.0" prefWidth="606.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bytebazaarUI.ViewingProdDetailController">
+   <children>
+      <StackPane alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="41.0" prefWidth="606.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="42.0" stroke="TRANSPARENT" strokeType="INSIDE" width="606.0">
+               <fill>
+                  <LinearGradient endX="0.12796208530805686" endY="1.0" startX="1.0" startY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.3326023519039154" green="0.6366350054740906" blue="0.9210526347160339" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.006711409395973154">
+                           <color>
+                              <Color red="0.3326023519039154" green="0.6366350054740906" blue="0.9210526347160339" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.1912751677852349">
+                           <color>
+                              <Color red="0.6064814925193787" green="0.8163580298423767" blue="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.4697986577181208">
+                           <color>
+                              <Color red="0.8101851940155029" green="0.9493827223777771" blue="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.6409395973154363">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.8154362416107382">
+                           <color>
+                              <Color red="0.4399999976158142" green="0.7200000286102295" blue="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.5277777910232544" green="0.7717592716217041" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </fill>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Rectangle>
+            <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="606.0">
+               <children>
+                  <Button fx:id="backBtn" ellipsisString="" minHeight="-Infinity" mnemonicParsing="false" onAction="#goBack" prefHeight="20.0" prefWidth="19.0" style="-fx-background-image: url(&quot;https://icon-library.com/images/android-back-icon/android-back-icon-15.jpg&quot;); -fx-background-size: cover; -fx-background-color: null;" />
+                  <ImageView fitHeight="41.0" fitWidth="138.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@topbanner.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="170.0" right="130.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <Button fx:id="profileBtn" ellipsisString="" mnemonicParsing="false" onAction="#openProfile" prefHeight="26.0" prefWidth="26.0" style="-fx-background-size: cover; -fx-background-image: url(&quot;https://icon-library.com/images/profile-icon-white/profile-icon-white-3.jpg&quot;); -fx-background-color: null;">
+                     <HBox.margin>
+                        <Insets right="7.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="wishlistBtn" ellipsisString="" mnemonicParsing="false" prefHeight="26.0" prefWidth="26.0" style="-fx-background-size: cover; -fx-background-color: null;">
+                     <graphic>
+                        <ImageView fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@wishlisticon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="cartBtn1" ellipsisString="" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#openCart" prefHeight="32.0" prefWidth="34.0" style="-fx-background-image: src=&quot;carticon.png&quot;; -fx-background-size: cover; -fx-background-color: null;">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="27.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@carticon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </StackPane>
+      <HBox prefHeight="314.0" prefWidth="606.0">
+         <children>
+            <VBox alignment="TOP_CENTER" prefHeight="292.0" prefWidth="341.0" style="-fx-background-color: #e6e7e8;">
+               <padding>
+                  <Insets left="13.0" right="13.0" top="25.0" />
+               </padding>
+               <HBox.margin>
+                  <Insets top="5.0" />
+               </HBox.margin>
+               <children>
+                  <ImageView fx:id="mainImage" fitHeight="223.0" fitWidth="299.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@laptop1.jpg" />
+                     </image>
+                  </ImageView>
+                  <HBox prefHeight="49.0" prefWidth="225.0" spacing="5.0" style="-fx-background-radius: 10;">
+                     <children>
+                        <ImageView fx:id="secondaryImg1" fitHeight="49.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="secondaryImg2" fitHeight="49.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="secondaryImg3" fitHeight="49.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                     <VBox.margin>
+                        <Insets left="8.0" right="8.0" top="5.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" prefHeight="284.0" prefWidth="420.0" spacing="3.0">
+               <children>
+                  <Label fx:id="productName" prefHeight="55.0" prefWidth="309.0" text="HP Laptop Intel Core i7-1260P">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Label fx:id="productPrice" contentDisplay="RIGHT" prefHeight="28.0" prefWidth="179.0" text="Rs. 42,000/-">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="productStockStatus" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="18.0" prefWidth="129.0" text="IN STOCK">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <Label contentDisplay="RIGHT" prefHeight="33.0" prefWidth="311.0" text="Description &amp; Specifications">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="productDesc" contentDisplay="RIGHT" prefHeight="82.0" prefWidth="311.0" text="Long-lasting battery life and a sleek and portable, micro-edge bezel design.Intel Core i7-1260P Processor (12 Cores | 16 Threads)8 GB DDR4 RAM 15.6″ FHD IPS Display | Windows 11" wrapText="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <VBox alignment="CENTER" spacing="12.0">
+                     <children>
+                        <HBox alignment="CENTER">
+                           <children>
+                              <HBox fx:id="addToCartHbox" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="150.0">
+                                 <children>
+                                    <Label fx:id="addtoCartLabel" alignment="CENTER" contentDisplay="RIGHT" prefHeight="33.0" prefWidth="120.0" style="-fx-background-color: #a1cef5; -fx-background-radius: 50;" text="Add to cart" textAlignment="CENTER" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                       <effect>
+                                          <DropShadow height="16.19" offsetX="1.0" offsetY="1.0" radius="3.5475000000000003" spread="0.23" width="0.0">
+                                             <color>
+                                                <Color red="0.22368420660495758" green="0.22368420660495758" blue="0.22368420660495758" opacity="0.6200000047683716" />
+                                             </color>
+                                          </DropShadow>
+                                       </effect>
+                                    </Label>
+                                    <Button fx:id="cartBtn" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addToCart" prefHeight="32.0" prefWidth="32.0" style="-fx-background-color: null; -fx-background-image: url(&quot;https://icon-library.com/images/my-cart-icon/my-cart-icon-5.jpg&quot;); -fx-background-size: cover;">
+                                       <HBox.margin>
+                                          <Insets left="-18.0" />
+                                       </HBox.margin>
+                                       <effect>
+                                          <DropShadow height="11.72" offsetX="1.0" offsetY="1.0" radius="6.827500000000001" width="17.59">
+                                             <color>
+                                                <Color red="0.4399999976158142" green="0.4399999976158142" blue="0.4399999976158142" opacity="0.4351145029067993" />
+                                             </color>
+                                          </DropShadow>
+                                       </effect>
+                                    </Button>
+                                 </children>
+                                 <padding>
+                                    <Insets right="23.0" />
+                                 </padding>
+                              </HBox>
+                              <HBox fx:id="addToWishlistHbox" alignment="CENTER" maxWidth="-Infinity" prefHeight="34.0" prefWidth="169.0">
+                                 <children>
+                                    <Label fx:id="addtoWishlistLabel" alignment="CENTER" contentDisplay="RIGHT" prefHeight="33.0" prefWidth="100.0" style="-fx-background-color: #eebfcf; -fx-background-radius: 50;" text="Add to wishlist" textFill="WHITE">
+                                       <effect>
+                                          <DropShadow height="15.14" offsetX="1.0" offsetY="1.0" radius="8.535" spread="0.13">
+                                             <color>
+                                                <Color opacity="0.39694657921791077" />
+                                             </color>
+                                          </DropShadow>
+                                       </effect>
+                                    </Label>
+                                    <Button fx:id="wishlistBtn" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="34.0" prefWidth="32.0" style="-fx-background-color: null; -fx-background-image: url(&quot;https://icon-library.com/images/facebook-love-icon-png/facebook-love-icon-png-21.jpg&quot;); -fx-background-size: cover;">
+                                       <HBox.margin>
+                                          <Insets left="-13.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                                 <padding>
+                                    <Insets right="23.0" />
+                                 </padding>
+                              </HBox>
+                           </children>
+                        </HBox>
+                        <Button fx:id="buyNowBtn" mnemonicParsing="false" onAction="#buyNow" prefHeight="32.0" prefWidth="298.0" style="-fx-background-color: #5f8dbf; -fx-background-radius: 30;" text="Buy Now" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <effect>
+                              <DropShadow height="21.01" radius="12.934999999999999" spread="0.31" width="32.73">
+                                 <color>
+                                    <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.5038167834281921" />
+                                 </color>
+                              </DropShadow>
+                           </effect>
+                        </Button>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox>
+         <children>
+            <HBox alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="62.0" prefWidth="265.0">
+               <children>
+                  <Label contentDisplay="RIGHT" prefHeight="62.0" prefWidth="81.0" text="Seller:">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="companyName" contentDisplay="RIGHT" prefHeight="62.0" prefWidth="108.0" text="TJ Company">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </Label>
+                  <Button fx:id="viewCompanyProfileBtn" mnemonicParsing="false" onAction="#viewCompanyProfile" prefHeight="33.0" prefWidth="105.0" style="-fx-background-color: #a1cef5; -fx-background-radius: 5;" text="View Profile" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <effect>
+                        <DropShadow height="6.35" radius="2.675" spread="0.06" width="6.35">
+                           <color>
+                              <Color red="0.6100000143051147" green="0.6100000143051147" blue="0.6100000143051147" opacity="0.6183205842971802" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets right="15.0" />
+               </padding>
+            </HBox>
+            <HBox fx:id="reviewsBox" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="87.0" prefWidth="344.0" style="-fx-background-color: #e6e7e8;">
+               <children>
+                  <Label contentDisplay="RIGHT" prefHeight="62.0" prefWidth="97.0" text="Reviews:">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="reviewsSummary" contentDisplay="RIGHT" prefHeight="62.0" prefWidth="149.0" text="4.9 (234 reviews)">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </Label>
+                  <Button fx:id="viewReviewsBtn" mnemonicParsing="false" onAction="#viewReviews" prefHeight="33.0" prefWidth="102.0" style="-fx-background-color: #fffaae; -fx-background-radius: 5;" text="View Reviews">
+                     <effect>
+                        <DropShadow height="15.14" radius="6.3375" width="12.21">
+                           <color>
+                              <Color opacity="0.25954198837280273" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets right="20.0" />
+               </padding>
+            </HBox>
+         </children>
+      </HBox>
+   </children>
+</VBox>
