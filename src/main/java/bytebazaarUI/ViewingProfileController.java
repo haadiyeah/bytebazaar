@@ -118,6 +118,7 @@ public class ViewingProfileController implements Initializable{
         orderTotals.add(recentordertotalbill3);
 
         Buyer currentBuyer = (Buyer)BusinessControllerFactory.getBuyerControllerInst().getCurrentUser();
+        
         name.setText(currentBuyer.getName());
         email.setText(currentBuyer.getEmail());
         phoneNumber.setText(currentBuyer.getPhoneNum());
@@ -144,8 +145,6 @@ public class ViewingProfileController implements Initializable{
             orderTotals.get(i).setText("");
             i++;
         }
-
     }
-
 
 }
