@@ -1,6 +1,10 @@
 package bytebazaar;
+<<<<<<< HEAD
 
 import bytebazaarUI.*;
+=======
+//import bytebazaarUI.*;
+>>>>>>> 8467d8f7eda8380d25264e7693485094a384f96f
 
 import java.io.IOException;
 import javafx.application.Application;
@@ -15,7 +19,10 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8467d8f7eda8380d25264e7693485094a384f96f
         scene = new Scene(loadFXML("welcomepg"), 600, 430);
         stage.setScene(scene);
         stage.setTitle("ByteBazaar - the hardware solution");
@@ -39,3 +46,4 @@ public class App extends Application {
         launch();
     }
 }
+

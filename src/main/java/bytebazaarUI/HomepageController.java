@@ -338,15 +338,11 @@ public class HomepageController implements Initializable {
 
     }
 
-    @FXML
-    void viewCompanyProfile(ActionEvent event) {
-
+     @FXML
+    void openFAQs(ActionEvent event) throws IOException {
+        App.setRoot("faqsuser");
     }
 
-    @FXML
-    void viewReviews(ActionEvent event) {
-
-    }
 
     private LinkedList<Product> getProductsToDisplay() {
         // WRITE CODE TO GET A LIST OF PRODS

@@ -74,6 +74,24 @@ public class LoginController {
         }
     }
 
+    @FXML
+    void loginAsAdmin(ActionEvent event) throws IOException {
+        if (BusinessControllerFactory.getLoginControllerInst().login(emailText.getText(), passwordText.getText(),
+                "Admin")) {
+            Alert yay = new Alert(AlertType.INFORMATION);
+            yay.setTitle("Success");
+            yay.setHeaderText("Congratulations, login success");
+            yay.showAndWait();
+            App.setRoot("admindashboard");
+        } else {
+            Alert warn = new Alert(AlertType.WARNING);
+            warn.setTitle("Error");
+            warn.setHeaderText("Login unsuccessful");
+            warn.setContentText("Please check your credentials and ensure they are correct");
+            warn.showAndWait();
+        }
+    }
+
     
 
 

@@ -18,8 +18,7 @@ public class UserLedger {
     public int createUser(String name, String email, String phone, String password) {
         if (DBHandler.getInstance().checkUserExists(email) == false) {
             Buyer b = new Buyer(email, password, phone, name);
-            // User a = new Buyer(email, password, phone, name);
-
+           
             int returnID = DBHandler.getInstance().save(b);
             if (returnID > 0) { // no error occurred;
                 b.setID(returnID); // Setting the return ID
@@ -33,9 +32,11 @@ public class UserLedger {
     }
 
     public boolean loginRequest(String email, String password, String userType) {
-        // TODO Check in ledger to authenticate email if user already there
+        // TODO Check in ledger to authenticate email if user already there, such as recently logged in
+
+        
         if (userType.equals("Buyer")) {
-            Buyer b = DBHandler.getInstance().authenticateBuyerLogin(email, password);
+            Buyer b = (Buyer)DBHandler.getInstance().authenticateLogin(email, password, userType);
             if (b != null) {
                 currentUser = b;
                 System.out.println("SETTING CURRENT USERRRRRR");
@@ -47,7 +48,7 @@ public class UserLedger {
                 return false;
             }
         } else if (userType.equals("Seller")) {
-            Seller s = DBHandler.getInstance().authenticateSellerLogin(email, password);
+            Seller s = (Seller)DBHandler.getInstance().authenticateLogin(email, password, userType);
             if (s != null) {
                 currentUser = s;
                 currentUser.setDetails();// will call the seller's setdetails func, to add order-recieved log and
@@ -56,6 +57,16 @@ public class UserLedger {
                 return true;
             } else {
                 System.out.println("authenticate login returned null for seller");
+                return false;
+            }
+        } else if (userType.equals("Admin")) {
+            Admin a = (Admin)DBHandler.getInstance().authenticateLogin(email, password, userType);
+            if (a != null) {
+                currentUser = a;
+                userLedger.add(a);
+                return true;
+            } else {
+                System.out.println("authenticate login returned null for admin");
                 return false;
             }
         } else {
