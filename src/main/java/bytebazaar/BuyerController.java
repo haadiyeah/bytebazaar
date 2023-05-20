@@ -7,25 +7,36 @@ public class BuyerController {
     ProductLedger productLedger;
 
     BuyerController() {
-        userLedger=new UserLedger();
-        productLedger=new ProductLedger();
+        userLedger = new UserLedger();
+        productLedger = new ProductLedger();
     }
 
-    //Initially the default account will be buyer
+    public int buyNow(LinkedList<SalesLineItem> productsList) {
+        Buyer currBuyer = (Buyer) BusinessControllerFactory.getBuyerControllerInst().getCurrentUser();
+
+        int orderID = currBuyer.buyNow(productsList, currBuyer.getID());
+
+        return orderID;
+    }
+
+    // Initially the default account will be buyer
     public int signup(String name, String phone, String email, String password) {
         return userLedger.createUser(name, email, phone, password);
     }
 
     public LinkedList<Product> getProducts(String filter, LinkedList<String> categories) {
-        return productLedger.getProducts(filter, categories);//will automatically set in itself too
-        //return productLedger.getProductLedger();//will return the set products
+        return productLedger.getProducts(filter, categories);// will automatically set in itself too
+        // return productLedger.getProductLedger();//will return the set products
     }
+
     public void setCurrentProduct(Product p) {
         productLedger.setCurrentProduct(p);
     }
+
     public Product getCurrentProduct() {
         return productLedger.getCurrentProduct();
     }
+
     public String getCurrentProductSeller() {
         return productLedger.getProductSeller(productLedger.getCurrentProduct());
     }
@@ -33,7 +44,8 @@ public class BuyerController {
     public User getCurrentUser() {
         return userLedger.getCurrentUser();
     }
-    public void  setCurrentUser(User u) {
+
+    public void setCurrentUser(User u) {
         userLedger.setCurrentUser(u);
     }
 
@@ -42,12 +54,12 @@ public class BuyerController {
     }
 
     public void addToCart(Product p) {
-       // userLedger.getCurrentUser().addToCart(p);
-       userLedger.addToCurrentUsersCart(p);
+        // userLedger.getCurrentUser().addToCart(p);
+        userLedger.addToCurrentUsersCart(p);
     }
 
     public boolean updateCurrentUser(String name, String email, String password, String phone, String address) {
-        return userLedger.updateCurrentUser(name,email,password,phone,address);
+        return userLedger.updateCurrentUser(name, email, password, phone, address);
     }
 
     public void logout() {

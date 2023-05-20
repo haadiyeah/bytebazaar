@@ -3,6 +3,7 @@ package bytebazaar;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Order {
     private int orderID;
@@ -16,7 +17,12 @@ public class Order {
         this.orderDate = orderDate;
         this.orderTime = orderTime;
         this.buyerID = buyerID;
-        productsList=new LinkedList<SalesLineItem>();
+        productsList = new LinkedList<SalesLineItem>();
+    }
+
+    public void Create(LinkedList<SalesLineItem> productsList, int buyerID) {
+        this.productsList = productsList;
+        this.buyerID = buyerID;
     }
 
     public void addSaleItemToOrder(SalesLineItem s) {
@@ -30,35 +36,48 @@ public class Order {
     public int getOrderID() {
         return orderID;
     }
+
     public void setOrderID(int orderID) {
         this.orderID = orderID;
     }
+
     public Date getOrderDate() {
         return orderDate;
     }
+
     public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
     }
+
     public Time getOrderTime() {
         return orderTime;
     }
+
     public void setOrderTime(Time orderTime) {
         this.orderTime = orderTime;
     }
+
     public int getBuyerID() {
         return buyerID;
     }
+
     public void setBuyerID(int buyerID) {
         this.buyerID = buyerID;
     }
-    public int getTotalItems(){
+
+    public int getTotalItems() {
         return productsList.size();
     }
-    public float getTotalBill(){
-        float ret=0;
-        for(int i=0;i<productsList.size();i++) {
-            ret+= productsList.get(i).getPrice() * productsList.get(i).getQuantity();
+
+    public float getTotalBill() {
+        float ret = 0;
+        for (int i = 0; i < productsList.size(); i++) {
+            ret += productsList.get(i).getPrice() * productsList.get(i).getQuantity();
         }
         return ret;
+    }
+
+    public LinkedList<SalesLineItem> getProductsList() {
+        return productsList;
     }
 }

@@ -7,6 +7,7 @@ import javafx.scene.control.Alert.AlertType;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -69,6 +70,59 @@ public class DBHandler {
             e.printStackTrace();
         }
 
+    }
+
+    // public void saveOrder(Order o) {
+    // try (
+    // Connection con = DriverManager.getConnection(connectionURL);
+    // Statement stmt = con.createStatement())
+
+    // {
+
+    // String query = "INSERT INTO orders (orderDate, orderTime, buyerID) VALUES
+    // ("+o.getOrderDate()+","+o.getOrderTime()+","+o.getBuyerID() + ")";
+    // stmt.executeUpdate(query);
+    // //stmt.close();
+
+    // for(SalesLineItem p : o.getProductsList())
+    // query = "INSERT INTO orderHasProduct (orderID, productID, quantity) VALUES
+    // ("+o.getOrderID()+","+p.getProductID()+ "," +p.getQuantity()+")";
+    // PreparedStatement preparedStatement = con.prepareStatement(query);
+
+    // } catch (SQLException e) {
+    // e.printStackTrace();
+    // }
+
+    // }
+
+    public void saveOrder(Order o) {
+        try (Connection con = DriverManager.getConnection(connectionURL);
+                Statement stmt = con.createStatement()) {
+
+            String query = "INSERT INTO orders (orderDate, orderTime, buyerID) VALUES (" + o.getOrderDate() + ","
+                    + o.getOrderTime() + "," + o.getBuyerID() + ")";
+            stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+
+            ResultSet generatedKeys = stmt.getGeneratedKeys();
+            int orderId = -1;
+            if (generatedKeys.next()) {
+                orderId = generatedKeys.getInt(1);
+            }
+
+            saveOrderHasProduct(stmt, o.getOrderID(), o.getProductsList());
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void saveOrderHasProduct(Statement stmt, int orderId, LinkedList<SalesLineItem> productsList)
+            throws SQLException {
+        for (SalesLineItem p : productsList) {
+            String query = "INSERT INTO orderHasProduct (orderID, productID, quantity) VALUES (" + orderId + ","
+                    + p.getProductID() + "," + p.getQuantity() + ")";
+            stmt.executeUpdate(query);
+        }
     }
 
     public String fetchAns(String question) {
@@ -477,8 +531,7 @@ public class DBHandler {
 
     public boolean updateUser(int id, String name, String email, String password, String phone, String address) {
         try (Connection con = DriverManager.getConnection(connectionURL);
-            Statement stmt = con.createStatement())
-        {
+                Statement stmt = con.createStatement()) {
             // Making the query
             String query1 = "UPDATE users SET userEmail='" + email + "', userPassword='" + password + "', userPhone='"
                     + phone + "',userName='" + name + "' WHERE userID=" + id + ";";
@@ -495,25 +548,24 @@ public class DBHandler {
 
     public boolean deleteUser(User u, String userType) {
         try (Connection con = DriverManager.getConnection(connectionURL);
-        Statement stmt = con.createStatement())
-    {
-        // Making the query
-        String query1 = "DELETE FROM users WHERE userID="+u.getID()+";";
-        String query2 = "";
-        if(userType.equals("Buyer"))
-            query2= "DELETE FROM buyers WHERE buyerID="+u.getID()+";";
-        else if(userType.equals("Seller"))
-            query2="DELETE FROM sellers WHERE sellerID="+u.getID()+";";
-        
-        stmt.executeUpdate(query1);
-        stmt.executeUpdate(query2);
-        
-        return true;
+                Statement stmt = con.createStatement()) {
+            // Making the query
+            String query1 = "DELETE FROM users WHERE userID=" + u.getID() + ";";
+            String query2 = "";
+            if (userType.equals("Buyer"))
+                query2 = "DELETE FROM buyers WHERE buyerID=" + u.getID() + ";";
+            else if (userType.equals("Seller"))
+                query2 = "DELETE FROM sellers WHERE sellerID=" + u.getID() + ";";
 
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return false;
-    }
+            stmt.executeUpdate(query1);
+            stmt.executeUpdate(query2);
+
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }
