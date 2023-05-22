@@ -59,6 +59,19 @@ CREATE TABLE Faqs (
 	faqQuestion VARCHAR(300) PRIMARY KEY,
 	faqAnswer VARCHAR(500)
 )
+DROP TABLE Shipment
+
+CREATE TABLE Shipment (
+  ShipmentID INT PRIMARY KEY IDENTITY(1,1),
+  OrderID INT,
+  TrackID INT,
+  DeliverTo VARCHAR(255),
+  Address VARCHAR(255),
+  Phone VARCHAR(255),
+  Email VARCHAR(255),
+  FOREIGN KEY (OrderID) REFERENCES Orders(orderID)
+);
+
 
 
 DROP FUNCTION IF EXISTS getPersonID;
