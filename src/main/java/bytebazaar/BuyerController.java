@@ -29,6 +29,12 @@ public class BuyerController {
         // return productLedger.getProductLedger();//will return the set products
     }
 
+    public void shipment(String OId, String DeliverTo, String Address, String Phone, String Email) {
+        Buyer currBuyer = (Buyer) BusinessControllerFactory.getBuyerControllerInst().getCurrentUser();
+
+        int trackId = currBuyer.shipment(OId, DeliverTo, Address, Phone, Email);
+    }
+
     public void setCurrentProduct(Product p) {
         productLedger.setCurrentProduct(p);
     }
@@ -70,5 +76,4 @@ public class BuyerController {
         return userLedger.deleteBuyer(u);
     }
 
-   
 }

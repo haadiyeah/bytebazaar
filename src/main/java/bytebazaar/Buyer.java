@@ -30,6 +30,11 @@ public class Buyer extends User {
 
     }
 
+    public int shipment(String OId, String DeliverTo, String Address, String Phone, String Email) {
+        int trackId = order.makeShipment(OId, DeliverTo, Address, Phone, Email);
+        return trackId;
+    }
+
     @Override
     public void setDetails() {
         orderHistory = DBHandler.getInstance().getOrderHistory(getID());

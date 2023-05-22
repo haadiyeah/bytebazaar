@@ -18,6 +18,13 @@ public class Shipment {
         this.email = email;
     }
 
+    public int Validate(Shipment S) {
+        // API Class
+        ShipmentAPI API = new ShipmentAPI();
+        int trackId = API.Validate(S);
+        return trackId;
+    }
+
     // Getters and setters
     public int getShipmentID() {
         return shipmentID;
