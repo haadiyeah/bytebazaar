@@ -19,4 +19,18 @@ public class OrderLedger {
         orderList.add(o);
         return 0;
     }
+
+    public int makeShipment(String OId, String DeliverTo, String Address, String Phone, String Email) {
+        int trackId;
+        Order o = null;
+        for (Order order : orderList) {
+            if (Integer.parseInt(OId) == order.getOrderID()) {
+                o = order;
+                break;
+            }
+        }
+        trackId = o.createShipment(OId, DeliverTo, Address, Phone, Email);
+
+        return trackId;
+    }
 }

@@ -3,7 +3,6 @@ package bytebazaar;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.LinkedList;
-import java.util.List;
 
 public class Order {
     private int orderID;
@@ -11,6 +10,19 @@ public class Order {
     private Time orderTime;
     private int buyerID;
     private LinkedList<SalesLineItem> productsList;
+    private Shipment ship;
+
+    public void setProductsList(LinkedList<SalesLineItem> productsList) {
+        this.productsList = productsList;
+    }
+
+    public Shipment getShip() {
+        return ship;
+    }
+
+    public void setShip(Shipment ship) {
+        this.ship = ship;
+    }
 
     public Order(int orderID, Date orderDate, Time orderTime, int buyerID) {
         this.orderID = orderID;
@@ -18,6 +30,15 @@ public class Order {
         this.orderTime = orderTime;
         this.buyerID = buyerID;
         productsList = new LinkedList<SalesLineItem>();
+
+    }
+
+    public int createShipment(String OId, String DeliverTo, String Address, String Phone, String Email) {
+        ship = new Shipment(buyerID, 0, DeliverTo, Address, Phone, Email);
+        // s.setAddress(Address);
+        int trackId = ship.Validate(ship);
+
+        return trackId;
     }
 
     public void Create(LinkedList<SalesLineItem> productsList, int buyerID) {
