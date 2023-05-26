@@ -103,10 +103,28 @@ public class DBHandler {
                     + o.getOrderTime() + "," + o.getBuyerID() + ")";
             stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
 
-            ResultSet generatedKeys = stmt.getGeneratedKeys();
-
             saveOrderHasProduct(stmt, o.getOrderID(), o.getProductsList());
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveShipment(Shipment shipment) {
+        try (Connection con = DriverManager.getConnection(connectionURL);
+                PreparedStatement stmt = con.prepareStatement(
+                        "INSERT INTO Shipment (OrderID, TrackID, DeliverTo, Address, Phone, Email) VALUES (?, ?, ?, ?, ?, ?)")) {
+
+            stmt.setInt(1, shipment.getOrderID());
+            stmt.setInt(2, shipment.getTrackID());
+            stmt.setString(3, shipment.getDeliverTo());
+            stmt.setString(4, shipment.getAddress());
+            stmt.setString(5, shipment.getPhone());
+            stmt.setString(6, shipment.getEmail());
+
+            stmt.executeUpdate();
+
+            System.out.println("Shipment inserted successfully.");
         } catch (SQLException e) {
             e.printStackTrace();
         }

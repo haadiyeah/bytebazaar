@@ -17,6 +17,7 @@ public class OrderLedger {
         o.Create(productsList, buyerID);
 
         orderList.add(o);
+        DBHandler.getInstance().saveOrder(o);
         return 0;
     }
 
@@ -30,7 +31,7 @@ public class OrderLedger {
             }
         }
         trackId = o.createShipment(OId, DeliverTo, Address, Phone, Email);
-
+        DBHandler.getInstance().saveShipment(o.getShip());
         return trackId;
     }
 }

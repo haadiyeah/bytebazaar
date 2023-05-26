@@ -21,8 +21,8 @@ public class Shipment {
     public int Validate(Shipment S) {
         // API Class
         ShipmentAPI API = new ShipmentAPI();
-        int trackId = API.Validate(S);
-        return trackId;
+        trackID = API.Validate(S);
+        return trackID;
     }
 
     // Getters and setters
