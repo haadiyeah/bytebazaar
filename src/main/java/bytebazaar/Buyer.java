@@ -6,8 +6,17 @@ public class Buyer extends User {
 
     private LinkedList<Order> orderHistory;
     private OrderLedger order;
+
     private Cart cart;
     private String deliveryDetails;
+
+    public OrderLedger getOrder() {
+        return order;
+    }
+
+    public void setOrder(OrderLedger order) {
+        this.order = order;
+    }
 
     // Constructor used to create new buyer when id not generated yet
     public Buyer(String email, String password, String phoneNum, String name) {
@@ -30,8 +39,8 @@ public class Buyer extends User {
 
     }
 
-    public int shipment(String OId, String DeliverTo, String Address, String Phone, String Email) {
-        int trackId = order.makeShipment(OId, DeliverTo, Address, Phone, Email);
+    public int shipment(int oId, String DeliverTo, String Address, String Phone, String Email) {
+        int trackId = order.makeShipment(oId, DeliverTo, Address, Phone, Email);
         return trackId;
     }
 

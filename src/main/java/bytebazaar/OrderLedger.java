@@ -21,16 +21,23 @@ public class OrderLedger {
         return 0;
     }
 
-    public int makeShipment(String OId, String DeliverTo, String Address, String Phone, String Email) {
+    public Order getLastOrder() {
+        if (!orderList.isEmpty()) {
+            return orderList.getLast();
+        }
+        return null; // Return null if the list is empty
+    }
+
+    public int makeShipment(int oId, String DeliverTo, String Address, String Phone, String Email) {
         int trackId;
         Order o = null;
         for (Order order : orderList) {
-            if (Integer.parseInt(OId) == order.getOrderID()) {
+            if (oId == order.getOrderID()) {
                 o = order;
                 break;
             }
         }
-        trackId = o.createShipment(OId, DeliverTo, Address, Phone, Email);
+        trackId = o.createShipment(oId, DeliverTo, Address, Phone, Email);
         DBHandler.getInstance().saveShipment(o.getShip());
         return trackId;
     }

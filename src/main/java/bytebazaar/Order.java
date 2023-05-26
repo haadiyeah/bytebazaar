@@ -33,8 +33,8 @@ public class Order {
 
     }
 
-    public int createShipment(String OId, String DeliverTo, String Address, String Phone, String Email) {
-        ship = new Shipment(buyerID, 0, DeliverTo, Address, Phone, Email);
+    public int createShipment(int oId, String DeliverTo, String Address, String Phone, String Email) {
+        ship = new Shipment(oId, 0, DeliverTo, Address, Phone, Email);
         // s.setAddress(Address);
         int trackId = ship.Validate(ship);
 
