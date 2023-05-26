@@ -36,7 +36,7 @@ public class confirmO {
     @FXML
     void confirmOrder(ActionEvent event) throws IOException {
         // Load the selectPaymentMethod.fxml file
-        App.setRoot("orderPlaced");
+        App.setRoot("checkoutpage");
 
         // FXMLLoader loader = new
         // FXMLLoader(getClass().getResource("orderPlaced.fxml"));

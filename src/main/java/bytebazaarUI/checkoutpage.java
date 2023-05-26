@@ -3,6 +3,7 @@ package bytebazaarUI;
 import java.io.IOException;
 
 import bytebazaar.App;
+import bytebazaar.BusinessControllerFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -70,7 +71,9 @@ public class checkoutpage {
         A3 = a3.getText();
         A4 = a4.getText();
 
-        App.setRoot("selectPaymentMethod");
+        BusinessControllerFactory.getBuyerControllerInst().shipment(A1, A2, A3, A4);
+
+        App.setRoot("orderPlaced");
     }
 
     @FXML
