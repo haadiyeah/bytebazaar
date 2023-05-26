@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.LinkedList;
+
 public class DBHandler {
 
     private static DBHandler instance;
@@ -91,7 +92,7 @@ public class DBHandler {
         }
     }
 
-    public LinkedList<FAQ> getFAQs(){
+    public LinkedList<FAQ> getFAQs() {
         try (
                 Connection con = DriverManager.getConnection(connectionURL);
                 Statement stmt = con.createStatement())
@@ -148,18 +149,20 @@ public class DBHandler {
 
     // Authenticate login.
     // Returns a user object that can be cast as seller or user as per need.
-    // returns null if an account with the email doesnt exist OR if password does not match with the records,
+    // returns null if an account with the email doesnt exist OR if password does
+    // not match with the records,
     public User authenticateLogin(String email, String password, String type) {
         try (
                 Connection con = DriverManager.getConnection(connectionURL);
                 Statement stmt = con.createStatement())
 
         {
-            String query="";
-            if(type.equals("Admin")) {
-                query="SELECT * FROM users WHERE userEmail='" + email + "' AND userID NOT IN (SELECT buyers.buyerID FROM buyers) AND userID NOT IN (SELECT sellers.sellerID FROM sellers);";
+            String query = "";
+            if (type.equals("Admin")) {
+                query = "SELECT * FROM users WHERE userEmail='" + email
+                        + "' AND userID NOT IN (SELECT buyers.buyerID FROM buyers) AND userID NOT IN (SELECT sellers.sellerID FROM sellers);";
             } else {
-                query="SELECT * FROM users WHERE userEmail='" + email + "';";
+                query = "SELECT * FROM users WHERE userEmail='" + email + "';";
             }
             ResultSet resultSet = stmt.executeQuery(query);
 
@@ -175,11 +178,11 @@ public class DBHandler {
                         String uName = resultSet.getString(5);
                         System.out.println("Returning authenticate now");
 
-                        if(type.equals("Buyer"))
+                        if (type.equals("Buyer"))
                             return new Buyer(uID, uEmail, uPass, uPhone, uName);
-                        else if(type.equals("Seller"))
+                        else if (type.equals("Seller"))
                             return new Seller(uID, uEmail, uPass, uPhone, uName);
-                        else if(type.equals("Admin"))
+                        else if (type.equals("Admin"))
                             return new Admin(uID, uEmail, uPass, uPhone, uName);
                     }
                 } while (resultSet.next());
@@ -193,7 +196,6 @@ public class DBHandler {
             return null;
         }
     }
-
 
     public boolean checkUserExists(String email) {
         try (
@@ -245,6 +247,28 @@ public class DBHandler {
             warn.showAndWait();
             e.printStackTrace();
             return -2;
+        }
+
+    }
+
+    public boolean save(Review r) {
+        try (
+                Connection con = DriverManager.getConnection(connectionURL);
+                Statement stmt = con.createStatement())
+
+        {
+            String query = "INSERT INTO reviews (reviewRating, reviewText, reviewWriterID, reviewProductID) VALUES("+r.getRating() +", '"+r.getReviewText()+"',"+r.getPersonID()+", "+r.getProductID()+");";
+            // System.out.println("========================\n\n\n\n" + query + "\n\n\n\n");
+            stmt.executeUpdate(query);
+            return true;
+
+        } catch (SQLException e) {
+            Alert warn = new Alert(AlertType.WARNING);
+            warn.setHeaderText("An error occurred");
+            warn.setContentText("Check the terminal");
+            warn.showAndWait();
+            e.printStackTrace();
+            return false;
         }
 
     }
@@ -466,8 +490,7 @@ public class DBHandler {
 
     public boolean updateUser(int id, String name, String email, String password, String phone, String address) {
         try (Connection con = DriverManager.getConnection(connectionURL);
-            Statement stmt = con.createStatement())
-        {
+                Statement stmt = con.createStatement()) {
             // Making the query
             String query1 = "UPDATE users SET userEmail='" + email + "', userPassword='" + password + "', userPhone='"
                     + phone + "',userName='" + name + "' WHERE userID=" + id + ";";
@@ -484,25 +507,79 @@ public class DBHandler {
 
     public boolean deleteUser(User u, String userType) {
         try (Connection con = DriverManager.getConnection(connectionURL);
-        Statement stmt = con.createStatement())
-    {
-        // Making the query
-        String query1 = "DELETE FROM users WHERE userID="+u.getID()+";";
-        String query2 = "";
-        if(userType.equals("Buyer"))
-            query2= "DELETE FROM buyers WHERE buyerID="+u.getID()+";";
-        else if(userType.equals("Seller"))
-            query2="DELETE FROM sellers WHERE sellerID="+u.getID()+";";
-        
-        stmt.executeUpdate(query1);
-        stmt.executeUpdate(query2);
-        
-        return true;
+                Statement stmt = con.createStatement()) {
+            // Making the query
+            String query1 = "DELETE FROM users WHERE userID=" + u.getID() + ";";
+            String query2 = "";
+            if (userType.equals("Buyer"))
+                query2 = "DELETE FROM buyers WHERE buyerID=" + u.getID() + ";";
+            else if (userType.equals("Seller"))
+                query2 = "DELETE FROM sellers WHERE sellerID=" + u.getID() + ";";
 
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return false;
+            stmt.executeUpdate(query1);
+            stmt.executeUpdate(query2);
+
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
+
+    public float getAverageRating(int id) {
+        try (
+                Connection con = DriverManager.getConnection(connectionURL);
+                Statement stmt = con.createStatement())
+
+        {
+            System.out.println("getting avg rating");
+
+            ResultSet resultSet = stmt.executeQuery(
+                    "SELECT ROUND(AVG(CAST(reviewRating AS FLOAT)), 2) AS avgRating FROM reviews WHERE reviewProductID = "
+                            + id + ";");
+
+            if (resultSet.next() == false) {
+                System.out.println("no rating found");
+                return 0;
+            } else {
+                return resultSet.getFloat(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public LinkedList<Review> getReviews(int id) {
+        try (
+                Connection con = DriverManager.getConnection(connectionURL);
+                Statement stmt = con.createStatement())
+
+        {
+            ResultSet resultSet = stmt.executeQuery(
+                    "SELECT reviewText, reviewRating, userName, reviewProductID FROM reviews JOIN users ON(users.userID=reviews.reviewWriterID) WHERE reviewProductID="
+                            + id + ";");
+
+            if (resultSet.next() == false) {
+                return null;
+            } else {
+
+                LinkedList<Review> returnList = new LinkedList<Review>();
+                // Getting all the reviews
+                do {
+                    returnList.add(new Review(resultSet.getString(1), resultSet.getInt(2), resultSet.getString(3),
+                            resultSet.getInt(4)));
+                } while (resultSet.next());
+
+                return returnList;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

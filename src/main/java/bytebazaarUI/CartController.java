@@ -95,8 +95,10 @@ public class CartController implements Initializable {
 
     @FXML
     void decreaseQty(ActionEvent event) {
+        //Checking which button was pressed
         Button numberButton = (Button) event.getTarget();
         int id = Integer.parseInt(numberButton.getId().split("-")[1]);
+        
         cartList.get(id).setQuantity( cartList.get(id).getQuantity() -1 );
         if(cartList.get(id).getQuantity() == 0) {
             cartList.remove(id); 
@@ -108,7 +110,7 @@ public class CartController implements Initializable {
             quantities.get(id).setText(""+cartList.get(id).getQuantity());
             amounts.get(id).setText(""+cartList.get(id).getPrice()*cartList.get(id).getQuantity());
         }
-        updateTotal();
+        //updateTotal();
         
     }
 
@@ -119,7 +121,7 @@ public class CartController implements Initializable {
         cartList.get(id).setQuantity( cartList.get(id).getQuantity() +1 );
         quantities.get(id).setText(""+cartList.get(id).getQuantity());
         amounts.get(id).setText(""+cartList.get(id).getPrice()*cartList.get(id).getQuantity());
-        updateTotal();
+        //updateTotal();
     }
 
     @FXML
@@ -138,16 +140,8 @@ public class CartController implements Initializable {
     }
 
     @FXML
-    void openProfile(ActionEvent event) {
-
-    }
-
-    private void updateTotal() {
-        float total=0;
-        for(int i=0;i<cartList.size();i++) {
-            total+= cartList.get(i).getQuantity()*cartList.get(i).getPrice();
-        }
-        totalAmount.setText("Rs. " + total + "/-");
+    void openProfile(ActionEvent event) throws IOException {
+        App.setRoot("viewingprofile");
     }
 
     @Override
@@ -156,10 +150,13 @@ public class CartController implements Initializable {
 
         //Initializing necessary lists;
         cartList = new LinkedList<SalesLineItem>();
-        cartList = BusinessControllerFactory.getBuyerControllerInst().getCartList();
         boxes=new LinkedList<HBox>();
         quantities = new LinkedList<Label>();
         amounts = new LinkedList<Label>();
+
+        //Get a list of sales item
+        cartList = BusinessControllerFactory.getBuyerControllerInst().getCartList(); 
+       
 
         float total=0;
         //Setting up the cart and calculating the total alongside.
@@ -203,8 +200,7 @@ public class CartController implements Initializable {
                 cartItemAmount.setPrefWidth(98.0);
                 cartItemAmount.setFont(new Font(14.0));
                 cartItemAmount.setPadding(new Insets(0, 0, 0, 20.0));
-                total+= cartList.get(i).getQuantity()*cartList.get(i).getPrice();
-
+                
                 // Create Buttons
                 Button increaseQtyButton = new Button("+");
                 increaseQtyButton.setId("increaseQtyButton-"+i); // Setting id to access later
@@ -226,6 +222,8 @@ public class CartController implements Initializable {
 
                 //Add to external-most vbox
                 cartVbox.getChildren().add(cartitemHbox);
+
+                total += cartList.get(i).getPrice()*cartList.get(i).getQuantity();
 
             }
 

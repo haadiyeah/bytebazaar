@@ -108,13 +108,13 @@ public class ViewingProdDetailController implements Initializable {
     }
 
     @FXML
-    void openCart(ActionEvent event) {
-
+    void openCart(ActionEvent event) throws IOException {
+        App.setRoot("cart");
     }
 
     @FXML
     void openProfile(ActionEvent event) throws IOException {
-       // App.setRoot("viewingprofile");
+        App.setRoot("viewingprofile");
     }
 
     @FXML
@@ -128,8 +128,8 @@ public class ViewingProdDetailController implements Initializable {
     }
 
     @FXML
-    void viewReviews(ActionEvent event) {
-
+    void viewReviews(ActionEvent event) throws IOException {
+        App.setRoot("viewingreviews");
     }
 
     @Override

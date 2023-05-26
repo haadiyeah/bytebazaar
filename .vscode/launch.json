@@ -56,7 +56,7 @@
             "name": "App",
             "request": "launch",
             "mainClass": "bytebazaar/bytebazaar.App",
-            "vmArgs": "--module-path \"C:/Users/HP/Downloads/openjfx-19.0.2.1_windows-x64_bin-sdk/javafx-sdk-19.0.2.1/lib\" --add-modules javafx.controls,javafx.fxml",
+            "vmArgs": "--module-path \"C:/Users/HP/Downloads/openjfx-19.0.2.1_windows-x64_bin-sdk/javafx-sdk-19.0.2.1/lib\" --add-modules javafx.controls,javafx.fxml --add-exports=javafx.graphics/com.sun.javafx.scene=org.controlsfx.controls --add-exports=javafx.graphics/com.sun.javafx.scene.traversal=org.controlsfx.controls --add-exports=javafx.graphics/com.sun.javafx.css=org.controlsfx.controls --add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=org.controlsfx.controls --add-exports=javafx.controls/com.sun.javafx.scene.control=org.controlsfx.controls --add-exports=javafx.controls/com.sun.javafx.scene.control.inputmap=org.controlsfx.controls --add-exports=javafx.base/com.sun.javafx.event=org.controlsfx.controls --add-exports=javafx.base/com.sun.javafx.collections=org.controlsfx.controls --add-exports=javafx.base/com.sun.javafx.runtime=org.controlsfx.controls --add-exports=javafx.web/com.sun.webkit=org.controlsfx.controls --add-exports=javafx.graphics/com.sun.javafx.css=org.controlsfx.controls",
             "projectName": "bytebazaar"
         }
     ]

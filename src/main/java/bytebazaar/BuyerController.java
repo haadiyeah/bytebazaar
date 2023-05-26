@@ -5,10 +5,13 @@ import java.util.LinkedList;
 public class BuyerController {
     UserLedger userLedger;
     ProductLedger productLedger;
+    FAQLedger faqLedger;
 
     BuyerController() {
         userLedger=new UserLedger();
         productLedger=new ProductLedger();
+        faqLedger=new FAQLedger();
+        faqLedger.populateFAQs();//Will refresh (repopulate) the faqs
     }
 
     //Initially the default account will be buyer
@@ -54,9 +57,45 @@ public class BuyerController {
         userLedger.setCurrentUser(null);
     }
 
-    public boolean deleteBuyer(User u) {
-        return userLedger.deleteBuyer(u);
+    public boolean deleteBuyer() {
+        return userLedger.deleteBuyer(getCurrentUser());
     }
 
-   
+    //When browsing products, buyer may want to see average rating
+    public float getAverageProductRating(int id) {
+        return productLedger.getAverageRating( id);
+    }
+
+    //When browsing products, buyer may want to get reviews
+    public LinkedList<Review> getReviews(int id) {
+        return productLedger.getReviews(id);
+    }
+
+    public boolean submitReview(String reviewText, int rating, int userID, int productID){
+        return ReviewLedger.createNewReview(reviewText, rating, userID, productID);
+    }
+
+    //Will refresh (repopulate) the faqs from db and then return
+    public LinkedList<FAQ> refreshFAQs() {
+        return faqLedger.populateFAQs();
+    }
+
+    //Will return the current stored FAQs in the db
+    public LinkedList<FAQ> getFAQs() {
+        return faqLedger.getStoredFAQs();
+    }
+
+    //Function used to search faqs
+    public LinkedList<FAQ> findInFaq(String text) {
+        return faqLedger.findInFAQs(text);
+    }
+
+    public float getCartTotal() {
+      return 0; //TODO
+    }
+
+    public void updateCartItemQty(int indexNo, char amount) {
+      //  userLedger.getCurrentUser().
+    }
+
 }

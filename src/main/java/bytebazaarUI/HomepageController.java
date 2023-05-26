@@ -1,27 +1,22 @@
 package bytebazaarUI;
 
-import java.io.FilterReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import bytebazaar.App;
 import bytebazaar.BusinessControllerFactory;
-import bytebazaar.DBHandler;
 import bytebazaar.Product;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -30,11 +25,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 public class HomepageController implements Initializable {
     private LinkedList<Product> productsToDisplay; // will contain 9 products that are currently displayed
@@ -283,7 +276,7 @@ public class HomepageController implements Initializable {
     // private ComboBox<String> filtersComboBox;
 
     @FXML
-    private ComboBox filtersComboBox;
+    private ComboBox filtersComboBox; //ignore warning
 
     // @FXML
     // private ImageView wishlistBtn;
@@ -299,16 +292,20 @@ public class HomepageController implements Initializable {
     // productsToDisplay = getProductsToDisplay();
 
     @FXML
+    //Cart button clicked
     void openCart(ActionEvent event) throws IOException {
         App.setRoot("cart");
     }
 
     @FXML
+    //Search products button clicked
     void searchProducts(ActionEvent event) throws IOException {
+        //Error handling
         String searched = searchBar.getText();
         if(searched.isBlank())
         return;
 
+        //Searching for the products in the existing list
        LinkedList<Product> resultsToDisplay= new LinkedList<Product>();
         productsToDisplay.forEach(product -> {
             if(product.getName().toLowerCase().contains(searched.toLowerCase())) {
@@ -334,8 +331,27 @@ public class HomepageController implements Initializable {
     }
 
     @FXML
-    void goBack(ActionEvent event) {
+    //Back button will cause user to logout
+    void goBack(ActionEvent event) throws IOException {
+        Alert confirm = new Alert(AlertType.CONFIRMATION);
+        confirm.setTitle("Exit?");
+        confirm.setHeaderText("Do you want to exit? You will be logged out");
+        confirm.showAndWait();
 
+        Optional<ButtonType> result = confirm.showAndWait();
+        if (!result.isPresent() || result.get() == ButtonType.CANCEL) {
+            // Not logged out, show message?
+        } else if (result.get() == ButtonType.OK) {
+
+            BusinessControllerFactory.getLoginControllerInst().logout(); // this will call logout on buyercontroller
+
+            Alert yay = new Alert(AlertType.INFORMATION);
+            yay.setTitle("Logout successfull");
+            yay.setHeaderText("You are now logged out");
+            yay.setContentText("You will be redirected shortly");
+            yay.showAndWait();
+            App.setRoot("welcomepg");
+        }
     }
 
      @FXML
@@ -343,26 +359,15 @@ public class HomepageController implements Initializable {
         App.setRoot("faqsuser");
     }
 
-
-    private LinkedList<Product> getProductsToDisplay() {
-        // WRITE CODE TO GET A LIST OF PRODS
-        LinkedList<Product> listProducts = new LinkedList<Product>();
-        Product p = new Product(1, 190, "Laptop", 1, "https://icon-library.com/icon/icon-laptops-6.html", "Wow", 1);
-        listProducts.add(p);
-
-        Product p2 = new Product(2, 190, "Laptop2", 1, "https://icon-library.com/icon/icon-laptops-6.html", "Wow", 1);
-        listProducts.add(p2);
-
-        return listProducts;
-
-    }
-
     @FXML
+    //Adding to cart directly from browse products page
     void addToCart(ActionEvent event) {
+        //Checking which button was clicked
         Button numberButton = (Button) event.getTarget();
         int id = Integer.parseInt(numberButton.getId().split("-")[1]);
         System.out.println("Add to cart clicked "+id);
 
+        //Adding to cart through buyer controller
         BusinessControllerFactory.getBuyerControllerInst().addToCart(productsToDisplay.get(id)); 
        
         Alert alert=new Alert(AlertType.INFORMATION);
@@ -373,12 +378,14 @@ public class HomepageController implements Initializable {
     }
 
     @FXML
+    //Viewing detail of a particular product
     void viewDetail(ActionEvent event) throws IOException {
+        //Checking which button was clicked
         Button numberButton = (Button) event.getTarget();
         int id = Integer.parseInt(numberButton.getId().split("-")[1]);
         if(tracker>9 && tracker<18) {
             id+=9;
-        }
+        }//TODO Add ceiling function
         BusinessControllerFactory.getBuyerControllerInst().setCurrentProduct(productsToDisplay.get(id));
        System.out.println("View Id pressed " + id);
        App.setRoot("viewingproddetail");
@@ -418,21 +425,75 @@ public class HomepageController implements Initializable {
         }
     }
 
+    @FXML
+    void browseProductsClicked(ActionEvent event) {
+        String selectedFilter = (String) filtersComboBox.getValue();
+        if(selectedFilter==null) {
+            selectedFilter="Top Selling";//default
+        }
+        System.out.println("Filter = " + selectedFilter);
+        LinkedList<String> selectedCategories = new LinkedList<String>();
+        
+        checkboxes.forEach(checkbox -> {
+            if (checkbox.isSelected()) {
+                selectedCategories.add(checkbox.getText());
+            }
+        });
+
+        
+        productsToDisplay = BusinessControllerFactory.getBuyerControllerInst().getProducts(selectedFilter, selectedCategories);
+        if (productsToDisplay != null) {
+            System.out.println("Productstodisplay not null, setting");
+            tracker=0;//When setting from db tracker=0 but when next page it will not be 0
+            setProducts(productsToDisplay);
+        }
+    }
+
+    @FXML
+    void openNextPage(ActionEvent event) {
+        System.out.println("Next button clicked-------------\ntrakcer="+tracker);
+        productsToDisplay.forEach(product -> { System.out.println(product.getName());});
+        if(productsToDisplay.size()>9)
+         setProducts(productsToDisplay); //without making tracker=0 so it will continue where it left off
+    }
+
+    @FXML
+    void openBackPage(ActionEvent event) throws IOException {
+        Alert confirm = new Alert(AlertType.CONFIRMATION);
+        confirm.setTitle("Exit?");
+        confirm.setHeaderText("Do you want to exit? You will be logged out");
+        confirm.showAndWait();
+
+        Optional<ButtonType> result = confirm.showAndWait();
+        if (!result.isPresent() || result.get() == ButtonType.CANCEL) {
+            // Not logged out, show message?
+        } else if (result.get() == ButtonType.OK) {
+
+            BusinessControllerFactory.getLoginControllerInst().logout(); // this will call logout on buyercontroller
+
+            Alert yay = new Alert(AlertType.INFORMATION);
+            yay.setTitle("Logout successfull");
+            yay.setHeaderText("You are now logged out");
+            yay.setContentText("You will be redirected shortly");
+            yay.showAndWait();
+            App.setRoot("welcomepg");
+        }
+    }
+
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         // filtersComboBox= new ComboBox<String>();
 
-        BusinessControllerFactory.getBuyerControllerInst().setCurrentUser(BusinessControllerFactory.getLoginControllerInst().getCurrentUser());
-
+        //Setting the filter combo box
         ObservableList<String> options = FXCollections.observableArrayList();
         options.addAll("Top Selling", "Price - Low to High", "Price - High to Low", "Name - A-Z", "Name - Z-A");
+        filtersComboBox.setItems(options);//Ignore the warning
 
-        filtersComboBox.setItems(options);
-        // filtersComboBox.getItems().add("Price - Low to High");
-        // filtersComboBox.getItems().add("Price - High to low");
-        // filtersComboBox.getItems().add("Name - A-Z");
-        // filtersComboBox.getItems().add("Name - Z-A");
-
+        //Setting the current user, as this screen will be displaying 
+        //right adfter buyer logs in
+        BusinessControllerFactory.getBuyerControllerInst().setCurrentUser(BusinessControllerFactory.getLoginControllerInst().getCurrentUser());
+        
+        //Initlalizing the lists to store information for product browsing
         titleLabels = new LinkedList<Label>();
         priceLabels = new LinkedList<Label>();
         productImages = new LinkedList<ImageView>();
@@ -442,6 +503,7 @@ public class HomepageController implements Initializable {
         checkboxes = new LinkedList<CheckBox>();
         productsToDisplay = new LinkedList<Product>();
 
+        //Populating the lists
         titleLabels.add(productTitle0);
         titleLabels.add(productTitle1);
         titleLabels.add(productTitle2);
@@ -510,6 +572,7 @@ public class HomepageController implements Initializable {
         checkboxes.add(category6);
         checkboxes.add(category7);
 
+        //Setting IDs which will need to be accessed later to manipulate the grid
         for (int i = 0; i < 9; i++) {
             viewButtons.get(i).setId("view-" + i);
             cartButtons.get(i).setId("cart-" + i);
@@ -517,13 +580,17 @@ public class HomepageController implements Initializable {
         }
         LinkedList<String> selectedCategories = new LinkedList<String>();
         
+        //Seeing which categories are selected
         checkboxes.forEach(checkbox -> {
             if (checkbox.isSelected()) {
                 selectedCategories.add(checkbox.getText());
             }
         });
+
+        //Getting the products to display with the default filter and selected categories
         productsToDisplay = BusinessControllerFactory.getBuyerControllerInst().getProducts("Top Selling", selectedCategories);
 
+        //Displaying the products
         if (productsToDisplay != null) {
             System.out.println("Productstodisplay not null, setting");
             tracker=0;
@@ -532,46 +599,5 @@ public class HomepageController implements Initializable {
             System.out.println("null");
         }
     }
-
-    @FXML
-    void browseProductsClicked(ActionEvent event) {
-        String selectedFilter = (String) filtersComboBox.getValue();
-        if(selectedFilter==null) {
-            selectedFilter="Top Selling";//default
-        }
-        System.out.println("Filter = " + selectedFilter);
-        LinkedList<String> selectedCategories = new LinkedList<String>();
-        
-        checkboxes.forEach(checkbox -> {
-            if (checkbox.isSelected()) {
-                selectedCategories.add(checkbox.getText());
-            }
-        });
-
-        
-        productsToDisplay = BusinessControllerFactory.getBuyerControllerInst().getProducts(selectedFilter, selectedCategories);
-        if (productsToDisplay != null) {
-            System.out.println("Productstodisplay not null, setting");
-            tracker=0;//When setting from db tracker=0 but when next page it will not be 0
-            setProducts(productsToDisplay);
-        }
-    }
-
-    @FXML
-    void openNextPage(ActionEvent event) {
-        System.out.println("Next button clicked-------------\ntrakcer="+tracker);
-        productsToDisplay.forEach(product -> { System.out.println(product.getName());});
-        if(productsToDisplay.size()>9)
-         setProducts(productsToDisplay); //without making tracker=0 so it will continue where it left off
-    }
-
-    @FXML
-    void openBackPage(ActionEvent event) {
-    
-    }
-
-
-
-
 
 }

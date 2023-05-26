@@ -86,7 +86,7 @@
                      <graphic>
                         <ImageView fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../fxpractice/src/main/java/fxpractice/wishlisticon.png" />
+                              <Image url="@wishlisticon.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -98,7 +98,7 @@
                      <graphic>
                         <ImageView fitHeight="27.0" fitWidth="27.0" onDragDetected="#openCart" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../fxpractice/src/main/java/fxpractice/carticon.png" />
+                              <Image url="@carticon.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -116,17 +116,12 @@
             </ImageView>
             <VBox alignment="CENTER" prefHeight="172.0" prefWidth="210.0">
                <children>
-                  <Label fx:id="productName" text="Product name">
+                  <Label fx:id="productName" alignment="CENTER" prefHeight="93.0" prefWidth="199.0" text="Product name" wrapText="true">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="numberOfReviews" text="418 Reviews">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="averageRating" text="Average: 4.9">
+                  <Label fx:id="averageRating" text="Average rating: 4.9">
                      <font>
                         <Font size="18.0" />
                      </font>

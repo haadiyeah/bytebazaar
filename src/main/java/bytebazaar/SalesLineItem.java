@@ -49,4 +49,8 @@ public class SalesLineItem {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    public float getSubTotal() {
+        return this.quantity*this.price;
+    }
 }

@@ -24,7 +24,8 @@ public class FAQLedger {
 
     }
 
-    public LinkedList<FAQ> getFAQs(){
+    //This function populates the current userLedger with ALL the FAQs present in the database.
+    public LinkedList<FAQ> populateFAQs(){
         LinkedList<FAQ> retList = DBHandler.getInstance().getFAQs();
         if(retList != null) {
             faqs=retList;

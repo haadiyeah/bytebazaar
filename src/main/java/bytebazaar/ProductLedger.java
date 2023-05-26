@@ -37,5 +37,13 @@ public class ProductLedger {
        return DBHandler.getInstance().getProductSeller(prod.getSellerID());
     }
 
+    public float getAverageRating(int id){
+        return DBHandler.getInstance().getAverageRating(id);
+    }
+
+    public LinkedList<Review> getReviews(int id) {
+        return DBHandler.getInstance().getReviews(id);
+    }
+
 
 }

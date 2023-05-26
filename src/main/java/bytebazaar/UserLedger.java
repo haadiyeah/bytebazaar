@@ -8,7 +8,6 @@ public class UserLedger {
 
     public UserLedger() {
         userLedger = new LinkedList<User>();
-
     }
 
     // This fucntion creates NEW user as buyer(Default) and returns the newly
@@ -31,10 +30,19 @@ public class UserLedger {
         }
     }
 
-    public boolean loginRequest(String email, String password, String userType) {
-        // TODO Check in ledger to authenticate email if user already there, such as recently logged in
+    public boolean checkInLedger(String email, String password) {
+        for(int i=0; i<userLedger.size(); i++) {
+            if(userLedger.get(i).getEmail().equals(email) && userLedger.get(i).getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-        
+    public boolean loginRequest(String email, String password, String userType) {
+       if(checkInLedger(email, password)) {
+            return true;
+       } 
         if (userType.equals("Buyer")) {
             Buyer b = (Buyer)DBHandler.getInstance().authenticateLogin(email, password, userType);
             if (b != null) {

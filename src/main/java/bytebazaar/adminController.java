@@ -17,19 +17,5 @@ public class adminController {
            return false;
         }
     }
-
-    public LinkedList<FAQ> getFAQs() {
-        return faqledger.getFAQs();
-    }
-
-    public LinkedList<FAQ> findInFaq(String text) {
-        return faqledger.findInFAQs(text);
-    }
-
-    public LinkedList<FAQ> getFAQledger() {
-        return faqledger.getStoredFAQs();
-    }
-
-    
     
 }

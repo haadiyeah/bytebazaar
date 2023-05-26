@@ -47,6 +47,12 @@ public class EditProfileController implements Initializable {
     private Label nameLabel;
 
     @FXML
+    private Button cartBtn;
+
+    @FXML
+    private Button profileBtn;
+
+    @FXML
     private TextField nameText;
 
     @FXML
@@ -82,7 +88,8 @@ public class EditProfileController implements Initializable {
             // Not logged out, show message?
         } else if (result.get() == ButtonType.OK) {
             if (BusinessControllerFactory.getBuyerControllerInst()
-                    .deleteBuyer(BusinessControllerFactory.getBuyerControllerInst().getCurrentUser())) {
+                    .deleteBuyer()) { //will automatically select current User to delete. 
+                
                 BusinessControllerFactory.getLoginControllerInst().logout();
                 Alert yay = new Alert(AlertType.INFORMATION);
                 yay.setTitle("Account deleted");
@@ -204,20 +211,16 @@ public class EditProfileController implements Initializable {
         App.setRoot("viewingprofile");
     }
 
-    @FXML
-    private Button cartBtn;
+   
 
     @FXML
-    private Button profileBtn;
-
-    @FXML
-    void openCart(ActionEvent event) {
-
+    void openCart(ActionEvent event) throws IOException {
+        App.setRoot("cart");
     }
 
     @FXML
-    void openProfile(ActionEvent event) {
-
+    void openProfile(ActionEvent event) throws IOException {
+        App.setRoot("viewingprofile");
     }
 
     @FXML

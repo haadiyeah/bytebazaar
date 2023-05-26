@@ -91,8 +91,8 @@ public class ViewingProfileController implements Initializable{
 
     }
     @FXML
-    void openCart(ActionEvent event) {
-
+    void openCart(ActionEvent event) throws IOException {
+        App.setRoot("cart");
     }
     @FXML
     void openWishList(ActionEvent event)  {

@@ -1,5 +1,8 @@
 package bytebazaarUI;
 
+import java.io.IOException;
+
+import bytebazaar.App;
 import bytebazaar.BusinessControllerFactory;
 import bytebazaar.adminController;
 import javafx.event.ActionEvent;
@@ -43,8 +46,8 @@ public class AddFAQController {
     private Button wishlistBtn;
 
     @FXML
-    void goBack(ActionEvent event) {
-
+    void goBack(ActionEvent event) throws IOException {
+        App.setRoot("admindashboard");
     }
 
     @FXML
@@ -75,7 +78,7 @@ public class AddFAQController {
 
     @FXML
     void openCart(ActionEvent event) {
-
+        //do nothing u are admin no shopping for u
     }
 
 }

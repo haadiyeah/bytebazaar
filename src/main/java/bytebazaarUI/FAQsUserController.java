@@ -100,7 +100,9 @@ public class FAQsUserController implements Initializable{
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        LinkedList<FAQ> faqs= BusinessControllerFactory.getAdminControllerInst().getFAQs();
+        //Following function will populate the faqLedger reference present in BuyerController and also
+        //return the list of the faqs as populated.
+        LinkedList<FAQ> faqs= BusinessControllerFactory.getBuyerControllerInst().getFAQs();
 
         faqsContainerVbox.getChildren().remove(singleFaqVbox);
 
@@ -114,7 +116,7 @@ public class FAQsUserController implements Initializable{
         if(faqsearch.getText()==null || faqsearch.getText()=="") {
             return;
         }
-        LinkedList<FAQ> faqs = BusinessControllerFactory.getAdminControllerInst().findInFaq(faqsearch.getText());
+        LinkedList<FAQ> faqs = BusinessControllerFactory.getBuyerControllerInst().findInFaq(faqsearch.getText());
         if(faqs==null) {
             Alert err = new Alert(AlertType.ERROR);
             err.setHeaderText("No results found");
@@ -127,7 +129,7 @@ public class FAQsUserController implements Initializable{
 
     @FXML
     void resetButtonClicked(ActionEvent event) {
-        LinkedList<FAQ> faqs= BusinessControllerFactory.getAdminControllerInst().getFAQledger();
+        LinkedList<FAQ> faqs=  BusinessControllerFactory.getBuyerControllerInst().refreshFAQs(); //Will load dynamically from db
         if(faqs!=null) {
             setFAQs(faqs);
         }

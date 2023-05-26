@@ -61,7 +61,6 @@ public abstract class User {
     public LinkedList<SalesLineItem> getCartList() {
         return null;
     }
-
     
     public void addToCart(Product prod) {
         System.out.println("THIS SHOULD NOT BE CALLED");

@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
@@ -15,9 +16,8 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
-<?import org.controlsfx.control.Rating?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxpractice.WritingReviewController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bytebazaarUI.WritingReviewController">
    <children>
       <StackPane alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="41.0" prefWidth="606.0">
          <children>
@@ -87,7 +87,7 @@
                      <graphic>
                         <ImageView fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../fxpractice/src/main/java/fxpractice/wishlisticon.png" />
+                              <Image url="@wishlisticon.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -99,7 +99,7 @@
                      <graphic>
                         <ImageView fitHeight="27.0" fitWidth="27.0" onDragDetected="#openCart" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../fxpractice/src/main/java/fxpractice/carticon.png" />
+                              <Image url="@carticon.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -118,12 +118,12 @@
       </Label>
       <HBox alignment="CENTER" prefHeight="140.0" prefWidth="600.0">
          <children>
-            <ImageView fitHeight="101.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="134.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../../fxpractice/src/main/java/fxpractice/laptop1.jpg" />
                </image>
             </ImageView>
-            <VBox alignment="CENTER_LEFT" prefHeight="113.0" prefWidth="346.0">
+            <VBox alignment="CENTER_LEFT" prefHeight="140.0" prefWidth="263.0">
                <children>
                   <Label fx:id="productName" text="HP laptop Touch screen">
                      <font>
@@ -133,7 +133,7 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <Label fx:id="sellername" text="Seller: TJ company">
+                  <Label fx:id="priceAmount" text="Seller: TJ company">
                      <font>
                         <Font size="15.0" />
                      </font>
@@ -141,12 +141,12 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <Label text="Enter rating">
+                  <Label text="Slide to rate">
                      <font>
-                        <Font size="15.0" />
+                        <Font name="System Italic" size="11.0" />
                      </font>
                   </Label>
-                  <Rating fx:id="starrating" partialRating="true" prefHeight="30.0" prefWidth="176.0" />
+                  <Slider fx:id="ratingSlider" blockIncrement="1.0" majorTickUnit="1.0" max="5.0" minorTickCount="0" prefHeight="38.0" prefWidth="241.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
                </children>
                <HBox.margin>
                   <Insets />

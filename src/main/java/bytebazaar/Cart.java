@@ -11,27 +11,27 @@ public class Cart {
         runningTotal=0;
     }
 
-    public void calculateTotal() {
+    public float updateTotal() {
         runningTotal=0;
         for(int i=0;i<itemsList.size();i++) {
-            runningTotal+= itemsList.get(i).getPrice();
+            runningTotal+= itemsList.get(i).getSubTotal();
         }
+        return runningTotal;
     }
 
     public Cart(LinkedList<SalesLineItem> itemsList) {
         this.itemsList = itemsList;
-        calculateTotal();;
+        updateTotal();
     }
     public LinkedList<SalesLineItem> getItemsList() {
         return itemsList;
     }
     public void setItemsList(LinkedList<SalesLineItem> itemsList) {
         this.itemsList = itemsList;
-        calculateTotal();
+        updateTotal();
     }
 
     public void add(SalesLineItem p) {
-        boolean flag;
         for(int i=0;i<itemsList.size();i++) {
             //If exists in the list, just update its quantity
             if (itemsList.get(i).getProductID() == p.getProductID()) {
@@ -42,7 +42,24 @@ public class Cart {
        
         //Doesnt exist in the list==add it
         itemsList.add(p);
+        updateTotal();
     }
+
+    public float getRunningTotal() {
+        return runningTotal;
+    }
+
+    public void updateItemQty(int indexNo, char type) {
+        if(type=='+') {
+            itemsList.get(indexNo).setQuantity(itemsList.get(indexNo).getQuantity()+1);
+        } else if(type=='-') {
+            itemsList.get(indexNo).setQuantity(itemsList.get(indexNo).getQuantity()-1);
+        } else {
+            return;
+        }
+        updateTotal();
+    }
+
 
     //Calc running total function
     
