@@ -87,7 +87,7 @@ public class CartController implements Initializable {
 
     @FXML
     private Button wishlistBtn;
-    
+
     private LinkedList<SalesLineItem> cartList;
     private LinkedList<Label> quantities;
     private LinkedList<Label> amounts;
@@ -107,10 +107,10 @@ public class CartController implements Initializable {
             //ORRRR 
             cartVbox.getChildren().remove(boxes.get(id));
         } else {
-            quantities.get(id).setText(""+cartList.get(id).getQuantity());
-            amounts.get(id).setText(""+cartList.get(id).getPrice()*cartList.get(id).getQuantity());
+            quantities.get(id).setText("" + cartList.get(id).getQuantity());
+            amounts.get(id).setText("" + cartList.get(id).getPrice() * cartList.get(id).getQuantity());
         }
-        //updateTotal();
+        updateTotal();
         
     }
 
@@ -121,7 +121,7 @@ public class CartController implements Initializable {
         cartList.get(id).setQuantity( cartList.get(id).getQuantity() +1 );
         quantities.get(id).setText(""+cartList.get(id).getQuantity());
         amounts.get(id).setText(""+cartList.get(id).getPrice()*cartList.get(id).getQuantity());
-        //updateTotal();
+        updateTotal();
     }
 
     @FXML
@@ -131,7 +131,8 @@ public class CartController implements Initializable {
 
     @FXML
     void gotoCheckout(ActionEvent event) {
-        // Mahad
+        int orderID = BusinessControllerFactory.getBuyerControllerInst().buyNow(cartList);
+
     }
 
     @FXML
@@ -140,28 +141,33 @@ public class CartController implements Initializable {
     }
 
     @FXML
-    void openProfile(ActionEvent event) throws IOException {
-        App.setRoot("viewingprofile");
+    void openProfile(ActionEvent event) {
+
+    }
+
+    private void updateTotal() {
+        float total=0;
+        for(int i=0;i<cartList.size();i++) {
+            total+= cartList.get(i).getQuantity()*cartList.get(i).getPrice();
+        }
+        totalAmount.setText("Rs. " + total + "/-");
     }
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        this.cartVbox.getChildren().remove(this.cartitemHbox);//removing the dummy data
+        this.cartVbox.getChildren().remove(this.cartitemHbox);// removing the dummy data
 
-        //Initializing necessary lists;
+        // Initializing necessary lists;
         cartList = new LinkedList<SalesLineItem>();
+        cartList = BusinessControllerFactory.getBuyerControllerInst().getCartList();
         boxes=new LinkedList<HBox>();
         quantities = new LinkedList<Label>();
         amounts = new LinkedList<Label>();
 
-        //Get a list of sales item
-        cartList = BusinessControllerFactory.getBuyerControllerInst().getCartList(); 
-       
-
         float total=0;
         //Setting up the cart and calculating the total alongside.
         if (cartList != null) {
-            for(int i=0;i<cartList.size();i++) {
+            for (int i = 0; i < cartList.size(); i++) {
                 // Create HBox
                 HBox cartitemHbox = new HBox();
                 cartitemHbox.setAlignment(Pos.CENTER);
@@ -193,34 +199,35 @@ public class CartController implements Initializable {
                 cartItemQuantity.setFont(new Font(14.0));
                 cartItemQuantity.setPadding(new Insets(0, 0, 0, 10.0));
 
-                Label cartItemAmount = new Label("" + cartList.get(i).getQuantity()*cartList.get(i).getPrice());
+                Label cartItemAmount = new Label("" + cartList.get(i).getQuantity() * cartList.get(i).getPrice());
                 amounts.add(cartItemAmount);
                 cartItemAmount.setContentDisplay(ContentDisplay.RIGHT);
                 cartItemAmount.setPrefHeight(34.0);
                 cartItemAmount.setPrefWidth(98.0);
                 cartItemAmount.setFont(new Font(14.0));
                 cartItemAmount.setPadding(new Insets(0, 0, 0, 20.0));
-                
+                total+= cartList.get(i).getQuantity()*cartList.get(i).getPrice();
+
                 // Create Buttons
                 Button increaseQtyButton = new Button("+");
-                increaseQtyButton.setId("increaseQtyButton-"+i); // Setting id to access later
+                increaseQtyButton.setId("increaseQtyButton-" + i); // Setting id to access later
                 increaseQtyButton.setOnAction(e -> increaseQty(e));
                 increaseQtyButton.setMnemonicParsing(false);
                 increaseQtyButton.setPrefHeight(25.0);
                 increaseQtyButton.setPrefWidth(27.0);
 
                 Button decreaseQtyButton = new Button("-");
-                decreaseQtyButton.setId("decreaseQtyButton-"+i); // Setting id to access later
+                decreaseQtyButton.setId("decreaseQtyButton-" + i); // Setting id to access later
                 decreaseQtyButton.setOnAction(e -> decreaseQty(e));
                 decreaseQtyButton.setMnemonicParsing(false);
                 decreaseQtyButton.setPrefHeight(25.0);
                 decreaseQtyButton.setPrefWidth(26.0);
 
-                //Add components to HBox
+                // Add components to HBox
                 cartitemHbox.getChildren().addAll(cartItemName, cartItemPrice, increaseQtyButton, cartItemQuantity,
                         decreaseQtyButton, cartItemAmount);
 
-                //Add to external-most vbox
+                // Add to external-most vbox
                 cartVbox.getChildren().add(cartitemHbox);
 
                 total += cartList.get(i).getPrice()*cartList.get(i).getQuantity();

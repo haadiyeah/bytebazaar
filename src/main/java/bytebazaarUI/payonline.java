@@ -75,23 +75,8 @@ public class payonline {
     @FXML
     void payNow(ActionEvent event) throws IOException {
         // Load the selectPaymentMethod.fxml file
-        App.setRoot("confirmO");
+        App.setRoot("checkoutpage");
 
-        // FXMLLoader loader = new FXMLLoader(getClass().getResource("confirmO.fxml"));
-
-        // loader.setController(new confirmO(A1, A2, A3, A4));
-
-        // Parent root = loader.load();
-
-        // // Create a scene with the root node
-        // Scene scene = new Scene(root);
-
-        // // Get the stage from the event object
-        // Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        // // Set the scene for the stage
-        // stage.setScene(scene);
-        // stage.show();
     }
 
     @FXML

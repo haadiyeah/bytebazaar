@@ -1,4 +1,6 @@
 package bytebazaar;
+
+import bytebazaarUI.*;
 //import bytebazaarUI.*;
 
 import java.io.IOException;
@@ -10,11 +12,11 @@ import javafx.stage.Stage;
 
 public class App extends Application {
     private static Scene scene;
-    //jcnwjncjan
+    // jcnwjncjan
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("welcomepg"), 600, 430);
+        scene = new Scene(loadFXML("selectPaymentMethod"), 600, 430);
         stage.setScene(scene);
         stage.setTitle("ByteBazaar - the hardware solution");
         stage.show();
@@ -29,11 +31,11 @@ public class App extends Application {
         return fxmlLoader.load();
     }
 
-
     public static void main(String[] args) {
-        // System.out.println("JavaFX Version: " + System.getProperty("javafx.version"));
-        // System.out.println("JavaFX Runtime Version: " + System.getProperty("javafx.runtime.version"));
+        // System.out.println("JavaFX Version: " +
+        // System.getProperty("javafx.version"));
+        // System.out.println("JavaFX Runtime Version: " +
+        // System.getProperty("javafx.runtime.version"));
         launch();
     }
 }
-

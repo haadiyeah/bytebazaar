@@ -7,6 +7,7 @@ import javafx.scene.control.Alert.AlertType;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -69,6 +70,73 @@ public class DBHandler {
             e.printStackTrace();
         }
 
+    }
+
+    // public void saveOrder(Order o) {
+    // try (
+    // Connection con = DriverManager.getConnection(connectionURL);
+    // Statement stmt = con.createStatement())
+
+    // {
+
+    // String query = "INSERT INTO orders (orderDate, orderTime, buyerID) VALUES
+    // ("+o.getOrderDate()+","+o.getOrderTime()+","+o.getBuyerID() + ")";
+    // stmt.executeUpdate(query);
+    // //stmt.close();
+
+    // for(SalesLineItem p : o.getProductsList())
+    // query = "INSERT INTO orderHasProduct (orderID, productID, quantity) VALUES
+    // ("+o.getOrderID()+","+p.getProductID()+ "," +p.getQuantity()+")";
+    // PreparedStatement preparedStatement = con.prepareStatement(query);
+
+    // } catch (SQLException e) {
+    // e.printStackTrace();
+    // }
+
+    // }
+
+    public void saveOrder(Order o) {
+        try (Connection con = DriverManager.getConnection(connectionURL);
+                Statement stmt = con.createStatement()) {
+
+            String query = "INSERT INTO orders (orderDate, orderTime, buyerID) VALUES (" + o.getOrderDate() + ","
+                    + o.getOrderTime() + "," + o.getBuyerID() + ")";
+            stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+
+            saveOrderHasProduct(stmt, o.getOrderID(), o.getProductsList());
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveShipment(Shipment shipment) {
+        try (Connection con = DriverManager.getConnection(connectionURL);
+                PreparedStatement stmt = con.prepareStatement(
+                        "INSERT INTO Shipment (OrderID, TrackID, DeliverTo, Address, Phone, Email) VALUES (?, ?, ?, ?, ?, ?)")) {
+
+            stmt.setInt(1, shipment.getOrderID());
+            stmt.setInt(2, shipment.getTrackID());
+            stmt.setString(3, shipment.getDeliverTo());
+            stmt.setString(4, shipment.getAddress());
+            stmt.setString(5, shipment.getPhone());
+            stmt.setString(6, shipment.getEmail());
+
+            stmt.executeUpdate();
+
+            System.out.println("Shipment inserted successfully.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void saveOrderHasProduct(Statement stmt, int orderId, LinkedList<SalesLineItem> productsList)
+            throws SQLException {
+        for (SalesLineItem p : productsList) {
+            String query = "INSERT INTO orderHasProduct (orderID, productID, quantity) VALUES (" + orderId + ","
+                    + p.getProductID() + "," + p.getQuantity() + ")";
+            stmt.executeUpdate(query);
+        }
     }
 
     public String fetchAns(String question) {

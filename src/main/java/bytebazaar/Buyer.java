@@ -5,6 +5,7 @@ import java.util.LinkedList;
 public class Buyer extends User {
 
     private LinkedList<Order> orderHistory;
+    private OrderLedger order;
     private Cart cart;
     private String deliveryDetails;
 
@@ -20,6 +21,18 @@ public class Buyer extends User {
         super(id, email, password, phoneNum, name);
         orderHistory = new LinkedList<Order>();
 
+    }
+
+    public int buyNow(LinkedList<SalesLineItem> productsList, int buyerID) {
+        int orderID = order.makeOrder(productsList, buyerID);
+
+        return orderID;
+
+    }
+
+    public int shipment(String OId, String DeliverTo, String Address, String Phone, String Email) {
+        int trackId = order.makeShipment(OId, DeliverTo, Address, Phone, Email);
+        return trackId;
     }
 
     @Override

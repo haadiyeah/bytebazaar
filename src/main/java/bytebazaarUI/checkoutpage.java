@@ -70,22 +70,7 @@ public class checkoutpage {
         A3 = a3.getText();
         A4 = a4.getText();
 
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("selectPaymentMethod.fxml"));
-
-        //loader.setController(new selectPaymentMethod(A1, A2, A3, A4));
-
-        //Parent root = loader.load();
-
-        // Create a scene with the root node
-        //Scene scene = new Scene(root);
-
         App.setRoot("selectPaymentMethod");
-        // Get the stage from the event object
-        //Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        // Set the scene for the stage
-        //stage.setScene(scene);
-        //stage.show();
     }
 
     @FXML
