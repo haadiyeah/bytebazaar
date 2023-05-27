@@ -8,7 +8,6 @@ public class Buyer extends User {
     private OrderLedger orders;
     private Cart cart;
     private String deliveryDetails;
-
     	
     // Constructor used to create new buyer when id not generated yet
     public Buyer(String email, String password, String phoneNum, String name) {
