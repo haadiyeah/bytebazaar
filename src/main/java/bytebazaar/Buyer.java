@@ -4,49 +4,61 @@ import java.util.LinkedList;
 
 public class Buyer extends User {
 
-    private LinkedList<Order> orderHistory;
-    private OrderLedger order;
+    //private LinkedList<Order> orderHistory;
+    private OrderLedger orders;
     private Cart cart;
     private String deliveryDetails;
 
+    	
     // Constructor used to create new buyer when id not generated yet
     public Buyer(String email, String password, String phoneNum, String name) {
         super(email, password, phoneNum, name);
-        orderHistory = new LinkedList<Order>();
-
+        orders = new OrderLedger();
     }
 
     // Constructor used to create new buyer when id known (e.g.. fetching from db)
     public Buyer(int id, String email, String password, String phoneNum, String name) {
         super(id, email, password, phoneNum, name);
-        orderHistory = new LinkedList<Order>();
+        //orderHistory = new LinkedList<Order>();
+        orders = new OrderLedger();
 
     }
 
-    public int buyNow(LinkedList<SalesLineItem> productsList, int buyerID) {
-        int orderID = order.makeOrder(productsList, buyerID);
+    public OrderLedger getOrders() {
+        return orders;
+    }
+    public void setOrders(OrderLedger order) {
+        this.orders = order;
+    }
 
+    //Buying products; creates an order in orderLedger
+    public int buyNow(LinkedList<SalesLineItem> productsList) {
+        int orderID = orders.makeOrder(productsList, this.getID());
         return orderID;
-
     }
 
-    public int shipment(String OId, String DeliverTo, String Address, String Phone, String Email) {
-        int trackId = order.makeShipment(OId, DeliverTo, Address, Phone, Email);
+    public void clearCart() {
+        cart.clearCart();
+    }
+
+   public int shipment(int oId, String DeliverTo, String Address, String Phone, String Email) {
+        int trackId = orders.makeShipment(oId, DeliverTo, Address, Phone, Email);
         return trackId;
     }
 
     @Override
     public void setDetails() {
-        orderHistory = DBHandler.getInstance().getOrderHistory(getID());
+        //orderHistory = DBHandler.getInstance().getOrderHistory(getID());
+        orders.setOrderList( DBHandler.getInstance().getOrderHistory(getID()));
         this.cart = new Cart();
     }
 
     public LinkedList<Order> getOrderHistory() {
-        return orderHistory;
+        return orders.getOrderList();
     }
 
     public void setOrderHistory(LinkedList<Order> orderHistory) {
-        this.orderHistory = orderHistory;
+       orders.setOrderList(orderHistory);
     }
 
     public Cart getCart() {
@@ -82,6 +94,10 @@ public class Buyer extends User {
     @Override
     public void setDeliveryDetails(String s) {
         deliveryDetails = s;
+    }
+
+    public float getLastOrderBill() {
+        return orders.getLastOrderBill();
     }
 
    

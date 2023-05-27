@@ -130,9 +130,10 @@ public class CartController implements Initializable {
     }
 
     @FXML
-    void gotoCheckout(ActionEvent event) {
+    void gotoCheckout(ActionEvent event) throws IOException {
         int orderID = BusinessControllerFactory.getBuyerControllerInst().buyNow(cartList);
-
+        //BusinessControllerFactory.getBuyerControllerInst().clearCart();
+        App.setRoot("selectPaymentMethod");
     }
 
     @FXML

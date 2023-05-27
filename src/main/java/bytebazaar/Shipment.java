@@ -9,19 +9,18 @@ public class Shipment {
     private String phone;
     private String email;
 
-    public Shipment(int orderID, int trackID, String deliverTo, String address, String phone, String email) {
+    public Shipment(int orderID,String deliverTo, String address, String phone, String email) {
         this.orderID = orderID;
-        this.trackID = trackID;
         this.deliverTo = deliverTo;
         this.address = address;
         this.phone = phone;
         this.email = email;
     }
 
-    public int Validate(Shipment S) {
+    public int Validate() {
         // API Class
         ShipmentAPI API = new ShipmentAPI();
-        trackID = API.Validate(S);
+        this.trackID = API.Validate(this);
         return trackID;
     }
 

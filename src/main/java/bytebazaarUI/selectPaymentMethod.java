@@ -1,20 +1,20 @@
 package bytebazaarUI;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import bytebazaar.App;
+import bytebazaar.BusinessControllerFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
-import javafx.scene.Node;
 
-public class selectPaymentMethod {
+
+public class selectPaymentMethod implements Initializable {
     String A1;
     String A2;
     String A3;
@@ -51,6 +51,28 @@ public class selectPaymentMethod {
 
     @FXML
     private Button pOB;
+
+    @FXML
+    private Button backBtn;
+
+    @FXML
+    private Button cartBtn1;
+
+    @FXML
+    private Label deliveryFeeLabel;
+
+    @FXML
+    private Label itemsTotalLabel;
+
+    @FXML
+    private Button profileBtn;
+
+    @FXML
+    private Label totalToPayLabel;
+
+    @FXML
+    private Button wishlistBtn;
+
 
     @FXML
     void cOD(MouseEvent event) throws IOException {
@@ -152,5 +174,34 @@ public class selectPaymentMethod {
     void selctPaymentMethod(MouseEvent event) {
 
     }
+
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        float total = BusinessControllerFactory.getBuyerControllerInst().getLatestOrderBill();
+        float deliveryFee=190;//Set delivery fee in admin controller and fetch it
+        float totalToPay = total+deliveryFee; 
+        itemsTotalLabel.setText("Rs. " + total + "/-");
+        deliveryFeeLabel.setText("Rs. " + deliveryFee + "/-");
+        totalToPayLabel.setText("Rs. " + totalToPay + "/-");
+        
+    }
+
+
+
+    @FXML
+    void goBack(ActionEvent event) throws IOException {
+        App.setRoot("cart");
+    }
+
+    @FXML
+    void openCart(ActionEvent event) throws IOException {
+        App.setRoot("cart");
+    }
+
+    @FXML
+    void openProfile(ActionEvent event) throws IOException {
+        App.setRoot("viewingprofile");
+    }
+
 
 }

@@ -1,7 +1,5 @@
 package bytebazaar;
 
-import com.microsoft.sqlserver.jdbc.SQLServerDriver;
-
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
@@ -95,18 +93,34 @@ public class DBHandler {
 
     // }
 
-    public void saveOrder(Order o) {
+    //Will return latest orderID
+    public int saveOrder(Order o) {
         try (Connection con = DriverManager.getConnection(connectionURL);
                 Statement stmt = con.createStatement()) {
 
-            String query = "INSERT INTO orders (orderDate, orderTime, buyerID) VALUES (" + o.getOrderDate() + ","
-                    + o.getOrderTime() + "," + o.getBuyerID() + ")";
+            String query = "INSERT INTO orders (orderDate, orderTime, buyerID) VALUES ('" + o.getOrderDate() + "','"
+                    + o.getOrderTime() + "'," + o.getBuyerID() + ");";
+
+                    System.out.println("\n\n\n!!!!!!!!!!!!! SAVING !!!!!!!!!!!! \n\n\n"+query+"\n\n\n");
+                    
             stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
 
-            saveOrderHasProduct(stmt, o.getOrderID(), o.getProductsList());
+            //Get the latest orderID, which was just inserted
+            ResultSet resultSet = stmt
+            .executeQuery("SELECT MAX(orderID) FROM orders;"); 
+
+            int orderID;
+            if (resultSet.next()) {
+                orderID= resultSet.getInt(1);
+                saveOrderHasProduct(stmt, orderID, o.getProductsList());
+                return orderID;
+            } else { //Fail to save
+                return -1;
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
+            return -1;
         }
     }
 
@@ -134,7 +148,8 @@ public class DBHandler {
             throws SQLException {
         for (SalesLineItem p : productsList) {
             String query = "INSERT INTO orderHasProduct (orderID, productID, quantity) VALUES (" + orderId + ","
-                    + p.getProductID() + "," + p.getQuantity() + ")";
+                    + p.getProductID() + "," + p.getQuantity() + ");";
+                    System.out.println("\n\n\n!!!!!!!!!!!!! SAVING ORDERHASPRODUCT !!!!!!!!!!!! \n\n\n"+query+"\n\n\n");
             stmt.executeUpdate(query);
         }
     }
@@ -338,7 +353,6 @@ public class DBHandler {
             e.printStackTrace();
             return false;
         }
-
     }
 
     // gets a list of orders placed by the buyer whose id is passed

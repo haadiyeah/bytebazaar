@@ -19,6 +19,11 @@ public class Cart {
         return runningTotal;
     }
 
+    public void clearCart() {
+        itemsList.clear();
+        updateTotal(); //makes it 0
+    }
+
     public Cart(LinkedList<SalesLineItem> itemsList) {
         this.itemsList = itemsList;
         updateTotal();

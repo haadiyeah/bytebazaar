@@ -14,6 +14,20 @@ public class BuyerController {
         faqLedger.populateFAQs();//Will refresh (repopulate) the faqs
     }
 
+    public int buyNow(LinkedList<SalesLineItem> productsList) {
+        int orderID = userLedger.getCurrentUser().buyNow(productsList);
+        return orderID;
+    }
+
+    public void clearCart() {
+        ((Buyer)userLedger.getCurrentUser()).clearCart();
+    }
+
+    public float getLatestOrderBill() {
+        return ((Buyer)userLedger.getCurrentUser()).getLastOrderBill() ;
+    }
+
+
     // Initially the default account will be buyer
     public int signup(String name, String phone, String email, String password) {
         return userLedger.createUser(name, email, phone, password);
@@ -24,12 +38,36 @@ public class BuyerController {
         // return productLedger.getProductLedger();//will return the set products
     }
 
-    public void shipment(String OId, String DeliverTo, String Address, String Phone, String Email) {
-        Buyer currBuyer = (Buyer) BusinessControllerFactory.getBuyerControllerInst().getCurrentUser();
-
-        int trackId = currBuyer.shipment(OId, DeliverTo, Address, Phone, Email);
+    //Function that makes shipment and returns trackID
+    //If an error occurs, it will return -1
+    public int shipment(String DeliverTo, String Address, String Phone, String Email) {
+        //Buyer currBuyer = (Buyer)getCurrentUser();
+        if( getCurrentUser() instanceof Buyer ) {
+            int OId = ((Buyer)getCurrentUser()).getOrders().getLastOrder().getOrderID();
+            if(OId >0)
+                return ((Buyer)getCurrentUser()).shipment(OId, DeliverTo, Address, Phone, Email);
+            else
+                return -1;
+        } else {
+            return -1;
+        }
     }
 
+    public void cancelLatestOrder() {
+        
+    }
+
+    public LinkedList<String> getLatestOrderInfo() {
+        LinkedList<String> retList= new LinkedList<String>();
+
+        //Returns a list of required info in this order: ID, Name, Address, Phone, Email
+        retList.add( ((Buyer)getCurrentUser()).getOrders().getLastOrder().getOrderID() + "" ) ;
+        retList.add( ((Buyer)getCurrentUser()).getOrders().getLastOrder().getShip().getDeliverTo() );
+        retList.add( ((Buyer)getCurrentUser()).getOrders().getLastOrder().getShip().getAddress() );
+        retList.add( ((Buyer)getCurrentUser()).getOrders().getLastOrder().getShip().getPhone() );
+        retList.add( ((Buyer)getCurrentUser()).getOrders().getLastOrder().getShip().getEmail() );
+        return retList;
+    }
     public void setCurrentProduct(Product p) {
         productLedger.setCurrentProduct(p);
     }

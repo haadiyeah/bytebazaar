@@ -16,7 +16,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("selectPaymentMethod"), 600, 430);
+        scene = new Scene(loadFXML("welcomepg"), 600, 430);
         stage.setScene(scene);
         stage.setTitle("ByteBazaar - the hardware solution");
         stage.show();

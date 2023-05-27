@@ -1,24 +1,78 @@
 package bytebazaarUI;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.LinkedList;
+import java.util.ResourceBundle;
 
 import bytebazaar.App;
-import javafx.beans.property.StringProperty;
+import bytebazaar.BusinessControllerFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Node;
-import javafx.scene.Scene;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.stage.Stage;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 
-public class orderPlaced {
+public class orderPlaced implements Initializable {
     String A1;
     String A2;
     String A3;
     String A4;
+
+    @FXML
+    private Label DeliveryPhoneLabel;
+
+    @FXML
+    private Button backBtn;
+
+    @FXML
+    private Button cartBtn1;
+
+    @FXML
+    private Label deliveryAddressLabel;
+
+    @FXML
+    private Label deliveryEmailLabel;
+
+    @FXML
+    private Label deliveryFeeLabel;
+
+    @FXML
+    private Label deliveryNameLabel;
+
+    @FXML
+    private Label itemsTotalLabel;
+
+    @FXML
+    private Label orderIDLabel;
+
+    @FXML
+    private Button profileBtn;
+    @FXML
+    private Label totalToPayLabel;
+
+    @FXML
+    private HBox trackOrderBtn;
+
+    @FXML
+    private Button wishlistBtn;
+
+    @FXML
+    void goBack(ActionEvent event) throws IOException {
+        App.setRoot("homepage");
+    }
+
+    @FXML
+    void openCart(ActionEvent event) throws IOException {
+        App.setRoot("cart");
+    }
+
+    @FXML
+    void openProfile(ActionEvent event) throws IOException {
+        App.setRoot("viewingprofile");
+    }
+
 
     // orderPlaced(String A1, String A2, String A3, String A4) {
     // this.A1 = A1;
@@ -26,18 +80,8 @@ public class orderPlaced {
     // this.A3 = A3;
     // this.A4 = A4;
     // }
-
     @FXML
-    private TextField a1;
-
-    @FXML
-    private TextField a2;
-
-    @FXML
-    private TextField a3;
-
-    @FXML
-    private TextField a4;
+    private Button tO;
 
     public void initialize() {
         // a1.setText(A1);
@@ -46,28 +90,7 @@ public class orderPlaced {
         // a4.setText(A4);
     }
 
-    @FXML
-    private Button tO;
-
-    @FXML
-    void address(ActionEvent event) {
-
-    }
-
-    @FXML
-    void deliveryName(ActionEvent event) {
-
-    }
-
-    @FXML
-    void email(ActionEvent event) {
-
-    }
-
-    @FXML
-    void phone(ActionEvent event) {
-
-    }
+   
 
     @FXML
     void trackOrder(ActionEvent event) throws IOException {
@@ -89,6 +112,23 @@ public class orderPlaced {
         // // Set the scene for the stage
         // stage.setScene(scene);
         // stage.show();
+    }
+
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        float total = BusinessControllerFactory.getBuyerControllerInst().getLatestOrderBill();
+        float deliveryFee=190;//Set delivery fee in admin controller and fetch it
+        float totalToPay = total+deliveryFee; 
+        itemsTotalLabel.setText("Rs. " + total + "/-");
+        deliveryFeeLabel.setText("Rs. " + deliveryFee + "/-");
+        totalToPayLabel.setText("Rs. " + totalToPay + "/-");
+        
+        LinkedList<String> info = BusinessControllerFactory.getBuyerControllerInst().getLatestOrderInfo();
+        orderIDLabel.setText(info.get(0));
+        deliveryNameLabel.setText(info.get(1));
+        deliveryAddressLabel.setText(info.get(2));
+        DeliveryPhoneLabel.setText(info.get(3));
+        deliveryEmailLabel.setText(info.get(4));
     }
 
 }

@@ -68,7 +68,7 @@ public abstract class User {
    
     //Add with given qty
     public void addToCart(Product prod, int qty) {
-}
+    }
 public String getDeliveryDetails() {
     return null;
 }
@@ -77,4 +77,7 @@ public void setDeliveryDetails(String s) {
     
 }
 
+public int buyNow(LinkedList<SalesLineItem> u) {
+    return -1;
+}
 }
