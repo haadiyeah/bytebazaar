@@ -1,5 +1,7 @@
 package bytebazaarUI;
 
+import java.util.Random;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -28,7 +30,9 @@ public class trackController {
     }
 
     public trackController() {
-        int step = 0;
+        Random random = new Random();
+        int step = random.nextInt(4);
+        ;
 
         if (step == 4) {
             PaymentPending.setStyle("-fx-background-color:  #75A81E;");
