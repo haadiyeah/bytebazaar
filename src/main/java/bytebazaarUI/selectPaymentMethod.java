@@ -13,7 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 
-
 public class selectPaymentMethod implements Initializable {
     String A1;
     String A2;
@@ -72,7 +71,6 @@ public class selectPaymentMethod implements Initializable {
 
     @FXML
     private Button wishlistBtn;
-
 
     @FXML
     void cOD(MouseEvent event) throws IOException {
@@ -178,15 +176,13 @@ public class selectPaymentMethod implements Initializable {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         float total = BusinessControllerFactory.getBuyerControllerInst().getLatestOrderBill();
-        float deliveryFee=190;//Set delivery fee in admin controller and fetch it
-        float totalToPay = total+deliveryFee; 
+        float deliveryFee = 190;// Set delivery fee in admin controller and fetch it
+        float totalToPay = total + deliveryFee;
         itemsTotalLabel.setText("Rs. " + total + "/-");
         deliveryFeeLabel.setText("Rs. " + deliveryFee + "/-");
         totalToPayLabel.setText("Rs. " + totalToPay + "/-");
-        
+
     }
-
-
 
     @FXML
     void goBack(ActionEvent event) throws IOException {
@@ -202,6 +198,5 @@ public class selectPaymentMethod implements Initializable {
     void openProfile(ActionEvent event) throws IOException {
         App.setRoot("viewingprofile");
     }
-
 
 }

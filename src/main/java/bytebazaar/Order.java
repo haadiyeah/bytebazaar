@@ -12,10 +12,10 @@ public class Order {
     private LinkedList<SalesLineItem> productsList;
     private Shipment ship;
     private float totalBill;
+    private boolean paid;
 
-   
-
-    //When fetching orders from the DB, this constructor is called, as OrderID is already known.
+    // When fetching orders from the DB, this constructor is called, as OrderID is
+    // already known.
     public Order(int orderID, Date orderDate, Time orderTime, int buyerID) {
         this.orderID = orderID;
         this.orderDate = orderDate;
@@ -24,16 +24,18 @@ public class Order {
         productsList = new LinkedList<SalesLineItem>();
     }
 
-    //When creating a new order in the system. This constructor is used as orderID can only be set 
-    //after saving in the db
+    // When creating a new order in the system. This constructor is used as orderID
+    // can only be set
+    // after saving in the db
     public Order(Date orderDate, Time orderTime, int buyerID, LinkedList<SalesLineItem> listItems) {
         this.orderDate = orderDate;
         this.orderTime = orderTime;
         this.buyerID = buyerID;
         productsList = listItems;
-        this.orderID= -1; 
-        //Until set, this will remain -1
-        //If orderID!= -1, it means it has been stored in DB
+        this.orderID = -1;
+        this.paid = false;
+        // Until set, this will remain -1
+        // If orderID!= -1, it means it has been stored in DB
     }
 
     public void setProductsList(LinkedList<SalesLineItem> productsList) {
@@ -48,12 +50,11 @@ public class Order {
         this.ship = ship;
     }
 
-
     public int createShipment(String DeliverTo, String Address, String Phone, String Email) {
         ship = new Shipment(this.orderID, DeliverTo, Address, Phone, Email);
         // s.setAddress(Address);
         int trackId = ship.Validate();
-        //ship.setTrackID(trackId);
+        // ship.setTrackID(trackId);
         return trackId;
     }
 
@@ -112,4 +113,18 @@ public class Order {
     public LinkedList<SalesLineItem> getProductsList() {
         return productsList;
     }
+
+    public boolean isPaid() {
+        return paid;
+    }
+
+    public void setTotalBill(float totalBill) {
+        this.totalBill = totalBill;
+    }
+
+    public void setPaid(boolean paid) {
+        DBHandler.getInstance().updateOrderPaidStatus(orderID, paid);
+        this.paid = paid;
+    }
+
 }

@@ -68,57 +68,95 @@ public class DBHandler {
 
     }
 
-    // public void saveOrder(Order o) {
-    // try (
-    // Connection con = DriverManager.getConnection(connectionURL);
-    // Statement stmt = con.createStatement())
+    public void deleteOrder(int orderID) {
 
-    // {
+        try (Connection connection = DriverManager.getConnection(connectionURL)) {
+            // Delete rows from orderHasProduct table
+            PreparedStatement deleteOrderHasProductStmt = connection
+                    .prepareStatement("DELETE FROM orderHasProduct WHERE orderID = " + orderID);
+            // deleteOrderHasProductStmt.setInt(1, orderID);
+            deleteOrderHasProductStmt.executeUpdate();
 
-    // String query = "INSERT INTO orders (orderDate, orderTime, buyerID) VALUES
-    // ("+o.getOrderDate()+","+o.getOrderTime()+","+o.getBuyerID() + ")";
-    // stmt.executeUpdate(query);
-    // //stmt.close();
+            // Delete rows from orders table
+            PreparedStatement deleteOrdersStmt = connection
+                    .prepareStatement("DELETE FROM orders WHERE orderID = " + orderID);
+            // deleteOrdersStmt.setInt(1, orderID);
+            deleteOrdersStmt.executeUpdate();
 
-    // for(SalesLineItem p : o.getProductsList())
-    // query = "INSERT INTO orderHasProduct (orderID, productID, quantity) VALUES
-    // ("+o.getOrderID()+","+p.getProductID()+ "," +p.getQuantity()+")";
-    // PreparedStatement preparedStatement = con.prepareStatement(query);
+            // Delete rows from Shipment table
+            PreparedStatement deleteShipmentStmt = connection
+                    .prepareStatement("DELETE FROM Shipment WHERE OrderID = " + orderID);
+            // deleteShipmentStmt.setInt(1, orderID);
+            deleteShipmentStmt.executeUpdate();
 
-    // } catch (SQLException e) {
-    // e.printStackTrace();
-    // }
+            System.out.println("Yo Man Deleted Rows with order ID " + orderID + " successfully.");
+        } catch (SQLException e) {
+            System.out.println("Error occurred while dropping rows with order ID " + orderID + ": " + e.getMessage());
+        }
+    }
 
-    // }
-
-    //Will return latest orderID
+    // Will return latest orderID
     public int saveOrder(Order o) {
         try (Connection con = DriverManager.getConnection(connectionURL);
                 Statement stmt = con.createStatement()) {
 
-            String query = "INSERT INTO orders (orderDate, orderTime, buyerID) VALUES ('" + o.getOrderDate() + "','"
+            String query = "INSERT INTO orders (orderDate, orderTime, buyerID) VALUES ('" + o.getOrderDate()
+                    + "','"
                     + o.getOrderTime() + "'," + o.getBuyerID() + ");";
 
-                    System.out.println("\n\n\n!!!!!!!!!!!!! SAVING !!!!!!!!!!!! \n\n\n"+query+"\n\n\n");
-                    
+            System.out.println("\n\n\n!!!!!!!!!!!!! SAVING !!!!!!!!!!!! \n\n\n" + query + "\n\n\n");
+
             stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
 
-            //Get the latest orderID, which was just inserted
+            // Get the latest orderID, which was just inserted
             ResultSet resultSet = stmt
-            .executeQuery("SELECT MAX(orderID) FROM orders;"); 
+                    .executeQuery("SELECT MAX(orderID) FROM orders;");
 
             int orderID;
             if (resultSet.next()) {
-                orderID= resultSet.getInt(1);
+                orderID = resultSet.getInt(1);
                 saveOrderHasProduct(stmt, orderID, o.getProductsList());
                 return orderID;
-            } else { //Fail to save
+            } else { // Fail to save
                 return -1;
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
             return -1;
+        }
+    }
+
+    public void updateOrderPaidStatus(int orderID, boolean paid) {
+
+        try (Connection connection = DriverManager.getConnection(connectionURL);
+                PreparedStatement updateStmt = connection
+                        .prepareStatement("UPDATE orders SET paid = ? WHERE orderID = ?")) {
+
+            // Set the parameter values
+            updateStmt.setBoolean(1, paid);
+            updateStmt.setInt(2, orderID);
+
+            // Execute the update statement
+            int rowsAffected = updateStmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Paid status updated for order ID " + orderID);
+            } else {
+                System.out.println("No order found with order ID " + orderID);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error occurred while updating the paid status: " + e.getMessage());
+        }
+    }
+
+    private void saveOrderHasProduct(Statement stmt, int orderId, LinkedList<SalesLineItem> productsList)
+            throws SQLException {
+        for (SalesLineItem p : productsList) {
+            String query = "INSERT INTO orderHasProduct (orderID, productID, quantity) VALUES (" + orderId + ","
+                    + p.getProductID() + "," + p.getQuantity() + ");";
+            System.out.println("\n\n\n!!!!!!!!!!!!! SAVING ORDERHASPRODUCT !!!!!!!!!!!! \n\n\n" + query + "\n\n\n");
+            stmt.executeUpdate(query);
         }
     }
 
@@ -142,14 +180,27 @@ public class DBHandler {
         }
     }
 
-    private void saveOrderHasProduct(Statement stmt, int orderId, LinkedList<SalesLineItem> productsList)
-            throws SQLException {
-        for (SalesLineItem p : productsList) {
-            String query = "INSERT INTO orderHasProduct (orderID, productID, quantity) VALUES (" + orderId + ","
-                    + p.getProductID() + "," + p.getQuantity() + ");";
-                    System.out.println("\n\n\n!!!!!!!!!!!!! SAVING ORDERHASPRODUCT !!!!!!!!!!!! \n\n\n"+query+"\n\n\n");
-            stmt.executeUpdate(query);
+    public int shipmentAPI(int orderID) {
+        String insertQuery = "INSERT INTO ShipmentAPI (OrderID) VALUES (?)";
+        String selectQuery = "SELECT MAX(TrackID) AS MaxTrackID FROM ShipmentAPID";
+
+        try (Connection connection = DriverManager.getConnection(connectionURL);
+                PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
+                PreparedStatement selectStatement = connection.prepareStatement(selectQuery)) {
+
+            insertStatement.setInt(1, orderID);
+            insertStatement.executeUpdate();
+
+            ResultSet resultSet = selectStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1); // Retrieve the generated TrackID
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
+        return -1; // Return -1 if an error occurred or no TrackID is available
+
     }
 
     public String fetchAns(String question) {
@@ -229,7 +280,8 @@ public class DBHandler {
 
     // Authenticate login.
     // Returns a BUYER object
-    // returns null if an account with the email doesnt exist OR if password doesnot match with the records,
+    // returns null if an account with the email doesnt exist OR if password doesnot
+    // match with the records,
     public Buyer authenticateBuyerLogin(String email, String password) {
         try (
                 Connection con = DriverManager.getConnection(connectionURL);
@@ -238,10 +290,11 @@ public class DBHandler {
         {
             String query = "SELECT * FROM buyers WHERE userEmail='" + email + "';";
             // if (type.equals("Admin")) {
-            //     query = "SELECT * FROM users WHERE userEmail='" + email
-            //             + "' AND userID NOT IN (SELECT buyers.buyerID FROM buyers) AND userID NOT IN (SELECT sellers.sellerID FROM sellers);";
+            // query = "SELECT * FROM users WHERE userEmail='" + email
+            // + "' AND userID NOT IN (SELECT buyers.buyerID FROM buyers) AND userID NOT IN
+            // (SELECT sellers.sellerID FROM sellers);";
             // } else {
-            //     query = "SELECT * FROM users WHERE userEmail='" + email + "';";
+            // query = "SELECT * FROM users WHERE userEmail='" + email + "';";
             // }
             ResultSet resultSet = stmt.executeQuery(query);
 
@@ -258,11 +311,11 @@ public class DBHandler {
                         System.out.println("Returning authenticate now");
 
                         // if (type.equals("Buyer"))
-                            return new Buyer(uID, uEmail, uPass, uPhone, uName);
+                        return new Buyer(uID, uEmail, uPass, uPhone, uName);
                         // else if (type.equals("Seller"))
-                        //     return new Seller(uID, uEmail, uPass, uPhone, uName);
+                        // return new Seller(uID, uEmail, uPass, uPhone, uName);
                         // else if (type.equals("Admin"))
-                        //     return new Admin(uID, uEmail, uPass, uPhone, uName);
+                        // return new Admin(uID, uEmail, uPass, uPhone, uName);
                     }
                 } while (resultSet.next());
 
@@ -281,7 +334,8 @@ public class DBHandler {
                 Statement stmt = con.createStatement())
 
         {
-            String query = "SELECT sellers.userID, userEmail, userPassword, userPhone, userName FROM sellers JOIN buyers ON buyers.userID=sellers.userID WHERE userEmail='"+email+"' AND userPassword='"+password+"';";
+            String query = "SELECT sellers.userID, userEmail, userPassword, userPhone, userName FROM sellers JOIN buyers ON buyers.userID=sellers.userID WHERE userEmail='"
+                    + email + "' AND userPassword='" + password + "';";
             ResultSet resultSet = stmt.executeQuery(query);
 
             if (!resultSet.next()) {
@@ -292,7 +346,7 @@ public class DBHandler {
                 String uPass = resultSet.getString(3);
                 String uPhone = resultSet.getString(4);
                 String uName = resultSet.getString(5);
-                System.out.println("Returning authenticate now");     
+                System.out.println("Returning authenticate now");
                 return new Seller(uID, uEmail, uPass, uPhone, uName);
             }
 
@@ -308,7 +362,7 @@ public class DBHandler {
                 Statement stmt = con.createStatement())
 
         {
-            String query = "SELECT * FROM admins WHERE userEmail='"+email+"' AND userPassword='"+password+"';";
+            String query = "SELECT * FROM admins WHERE userEmail='" + email + "' AND userPassword='" + password + "';";
             ResultSet resultSet = stmt.executeQuery(query);
 
             if (!resultSet.next()) {
@@ -319,7 +373,7 @@ public class DBHandler {
                 String uPass = resultSet.getString(3);
                 String uPhone = resultSet.getString(4);
                 String uName = resultSet.getString(5);
-                System.out.println("Returning authenticate now");     
+                System.out.println("Returning authenticate now");
                 return new Admin(uID, uEmail, uPass, uPhone, uName);
             }
 
@@ -328,7 +382,6 @@ public class DBHandler {
             return null;
         }
     }
-
 
     public boolean checkUserExists(String email) {
         try (
@@ -390,7 +443,9 @@ public class DBHandler {
                 Statement stmt = con.createStatement())
 
         {
-            String query = "INSERT INTO reviews (reviewRating, reviewText, reviewWriterID, reviewProductID) VALUES("+r.getRating() +", '"+r.getReviewText()+"',"+r.getPersonID()+", "+r.getProductID()+");";
+            String query = "INSERT INTO reviews (reviewRating, reviewText, reviewWriterID, reviewProductID) VALUES("
+                    + r.getRating() + ", '" + r.getReviewText() + "'," + r.getPersonID() + ", " + r.getProductID()
+                    + ");";
             // System.out.println("========================\n\n\n\n" + query + "\n\n\n\n");
             stmt.executeUpdate(query);
             return true;
@@ -593,7 +648,7 @@ public class DBHandler {
         }
     }
 
-    //gets product seller name of a specific id
+    // gets product seller name of a specific id
     public String getProductSeller(int sellerID) {
         try (
                 Connection con = DriverManager.getConnection(connectionURL);
@@ -645,9 +700,9 @@ public class DBHandler {
             String query1 = "DELETE FROM buyers WHERE userID=" + id + ";";
             // String query2 = "";
             // if (userType.equals("Buyer"))
-            //     query2 = "DELETE FROM buyers WHERE buyerID=" + u.getID() + ";";
+            // query2 = "DELETE FROM buyers WHERE buyerID=" + u.getID() + ";";
             // else if (userType.equals("Seller"))
-            //     query2 = "DELETE FROM sellers WHERE sellerID=" + u.getID() + ";";
+            // query2 = "DELETE FROM sellers WHERE sellerID=" + u.getID() + ";";
 
             stmt.executeUpdate(query1);
             // stmt.executeUpdate(query2);

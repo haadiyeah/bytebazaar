@@ -75,7 +75,7 @@ public class ViewingReviewsController implements Initializable {
     void goBack(ActionEvent event) throws IOException {
         backBtn.getScene().getWindow().hide();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(new URL("file:src/main/recources/bytebazaar/viewingproddetail.fxml"));
+        loader.setLocation(new URL("file:src/main/resources/bytebazaar/viewingproddetail.fxml"));
         ViewingProdDetailController prodDetailCtrl = new ViewingProdDetailController();
         prodDetailCtrl.setData(currentBuyerID, currentProductID);
         loader.setController(prodDetailCtrl);

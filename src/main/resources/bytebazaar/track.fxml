@@ -62,16 +62,16 @@
                         </Label>
                         <VBox prefHeight="275.0" prefWidth="324.0" spacing="5.0">
                            <children>
-                              <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="324.0" spacing="20.0" style="-fx-background-color: #75A81E;">
+                              <HBox fx:id="PaymentPending" alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="324.0" spacing="20.0" style="-fx-background-color: #75A81E;">
                                  <children>
                                     <Button minWidth="26.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="31.0" style="-fx-background-image: url(&quot;https://icon-library.com/images/pending-icon/pending-icon-16.jpg&quot;); -fx-background-color: transparent; -fx-background-size: cover;" />
-                                    <Label text="Payment Pending" />
+                                    <Label text="Payment" />
                                  </children>
                                  <padding>
                                     <Insets bottom="5.0" left="20.0" right="10.0" top="5.0" />
                                  </padding>
                               </HBox>
-                              <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="45.0" prefWidth="324.0" spacing="20.0" style="-fx-background-color: #75A81E;">
+                              <HBox fx:id="Processing" alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="45.0" prefWidth="324.0" spacing="20.0">
                                  <children>
                                     <Button minWidth="30.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="31.0" style="-fx-background-image: url(&quot;https://icon-library.com/images/processing-icon/processing-icon-11.jpg&quot;); -fx-background-color: transparent; -fx-background-size: cover;" text="Icon" />
                                     <Label text="Processing" />
@@ -80,7 +80,7 @@
                                     <Insets bottom="5.0" left="20.0" right="10.0" top="5.0" />
                                  </padding>
                               </HBox>
-                              <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="62.0" prefHeight="45.0" prefWidth="324.0" spacing="20.0">
+                              <HBox fx:id="Shipped" alignment="CENTER_LEFT" layoutX="10.0" layoutY="62.0" prefHeight="45.0" prefWidth="324.0" spacing="20.0">
                                  <children>
                                     <Button minWidth="30.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="31.0" style="-fx-background-image: url(&quot;https://icon-library.com/images/deliver-icon/deliver-icon-15.jpg&quot;); -fx-background-color: transparent; -fx-background-size: cover;" text="Icon">
                                        <opaqueInsets>
@@ -93,7 +93,7 @@
                                     <Insets bottom="5.0" left="20.0" right="10.0" top="5.0" />
                                  </padding>
                               </HBox>
-                              <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="80.0" prefHeight="45.0" prefWidth="324.0" spacing="20.0">
+                              <HBox fx:id="Delivered" alignment="CENTER_LEFT" layoutX="10.0" layoutY="80.0" prefHeight="45.0" prefWidth="324.0" spacing="20.0">
                                  <children>
                                     <Button minWidth="30.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="31.0" style="-fx-background-image: url(&quot;https://icon-library.com/images/delivery-icon/delivery-icon-14.jpg&quot;); -fx-background-color: transparent; -fx-background-size: cover;" text="Icon" />
                                     <Label text="Delivered" />
