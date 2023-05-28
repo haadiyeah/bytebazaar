@@ -1,20 +1,26 @@
 package bytebazaarUI;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import bytebazaar.App;
 import bytebazaar.BusinessControllerFactory;
+import bytebazaar.Product;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 
-public class WritingReviewController  {
+public class WritingReviewController implements Initializable  {
 
     @FXML
     private Button backBtn;
@@ -23,7 +29,7 @@ public class WritingReviewController  {
     private Button cartBtn;
 
     @FXML
-    private Label priceAmount;
+    private Label prodSeller;
 
     @FXML
     private Label productName;
@@ -42,7 +48,9 @@ public class WritingReviewController  {
 
     @FXML
     private Button wishlistBtn;
-
+    @FXML
+    private ImageView productImage;
+    
     @FXML
     void goBack(ActionEvent event) throws IOException {
         App.setRoot("viewingreviews");
@@ -83,6 +91,15 @@ public class WritingReviewController  {
             reviewfield.setText("");
             ratingSlider.setValue(0);
        }
+    }
+
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        Product currentprod=BusinessControllerFactory.getBuyerControllerInst().getCurrentProduct();
+        String sellerName = BusinessControllerFactory.getBuyerControllerInst().getCurrentProductSeller();
+        productImage.imageProperty().set(new Image(currentprod.getImageURL()));
+        productName.setText(currentprod.getName());
+        prodSeller.setText(sellerName);
     }
 
 }

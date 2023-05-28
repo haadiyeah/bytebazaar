@@ -3,35 +3,33 @@ package bytebazaar;
 //A class that contains singleton instances of different business controllers.
 
 public class BusinessControllerFactory {
-    private static adminController admincontroller=null;
-    private static BuyerController buyercontroller=null;
-    private static LoginBController logincontroller=null;
+    private static adminController adminController=null;
+    private static BuyerController buyerController=null;
+    private static SellerController sellerController=null;
 
     private BusinessControllerFactory(){
-
     }
 
     public static adminController getAdminControllerInst(){
-        if(admincontroller==null) 
-            admincontroller = new adminController();
+        if(adminController==null) 
+            adminController = new adminController();
 
-        return admincontroller;
+        return adminController;
     }
 
     public static BuyerController getBuyerControllerInst() {
-        if(buyercontroller==null) {
-            buyercontroller=new BuyerController();
+        if(buyerController==null) {
+            buyerController=new BuyerController();
         }
-        if(buyercontroller.getCurrentUser() == null)
-            System.out.println("\n\n*Getting buyer controller instance, current user is NULL\n\n");
-        return buyercontroller;
+        
+        return buyerController;
     }
 
-    public static LoginBController getLoginControllerInst() {
-        if(logincontroller==null) {
-            logincontroller=new LoginBController();
+    public static SellerController getSellerControllerInst() {
+        if(sellerController==null) {
+            sellerController=new SellerController();
         }
-        return logincontroller;
+        return sellerController;
     }
     
 }

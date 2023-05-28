@@ -90,7 +90,7 @@ public class EditProfileController implements Initializable {
             if (BusinessControllerFactory.getBuyerControllerInst()
                     .deleteBuyer()) { //will automatically select current User to delete. 
                 
-                BusinessControllerFactory.getLoginControllerInst().logout();
+                //BusinessControllerFactory.getLoginControllerInst().logout();
                 Alert yay = new Alert(AlertType.INFORMATION);
                 yay.setTitle("Account deleted");
                 yay.setHeaderText("Your account has been deleted");
@@ -120,7 +120,7 @@ public class EditProfileController implements Initializable {
             // Not logged out, show message?
         } else if (result.get() == ButtonType.OK) {
 
-            BusinessControllerFactory.getLoginControllerInst().logout(); // this will call logout on buyercontroller
+            //BusinessControllerFactory.getLoginControllerInst().logout(); // this will call logout on buyercontroller
 
             Alert yay = new Alert(AlertType.INFORMATION);
             yay.setTitle("Logout successfull");

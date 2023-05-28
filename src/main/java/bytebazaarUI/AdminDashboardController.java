@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Optional;
 
 import bytebazaar.App;
-import bytebazaar.BusinessControllerFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -30,7 +29,7 @@ public class AdminDashboardController {
             // Not logged out, show message?
         } else if (result.get() == ButtonType.OK) {
 
-            BusinessControllerFactory.getLoginControllerInst().logout(); // this will call logout on buyercontroller
+           // BusinessControllerFactory.getLoginControllerInst().logout(); // this will call logout on buyercontroller
 
             Alert yay = new Alert(AlertType.INFORMATION);
             yay.setTitle("Logout successfull");

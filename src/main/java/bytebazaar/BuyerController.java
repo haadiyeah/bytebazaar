@@ -3,35 +3,41 @@ package bytebazaar;
 import java.util.LinkedList;
 
 public class BuyerController {
-    UserLedger userLedger;
+    BuyerLedger buyerLedger;
     ProductLedger productLedger;
     FAQLedger faqLedger;
 
     BuyerController() {
-        userLedger=new UserLedger();
+        buyerLedger=new BuyerLedger();
         productLedger=new ProductLedger();
         faqLedger=new FAQLedger();
         faqLedger.populateFAQs();//Will refresh (repopulate) the faqs
     }
 
     public int buyNow(LinkedList<SalesLineItem> productsList) {
-        int orderID = userLedger.getCurrentUser().buyNow(productsList);
+        int orderID = buyerLedger.getCurrentBuyer().buyNow(productsList);
         return orderID;
     }
 
+    public boolean loginRequest(String email, String password) {
+        return buyerLedger.loginRequest(email, password);
+    }
+
     public void clearCart() {
-        ((Buyer)userLedger.getCurrentUser()).clearCart();
+        (buyerLedger.getCurrentBuyer()).clearCart();
     }
 
     public float getLatestOrderBill() {
-        return ((Buyer)userLedger.getCurrentUser()).getLastOrderBill() ;
+        return (buyerLedger.getCurrentBuyer()).getLastOrderBill() ;
     }
 
 
     // Initially the default account will be buyer
     public int signup(String name, String phone, String email, String password) {
-        return userLedger.createUser(name, email, phone, password);
+        return buyerLedger.createBuyer(name, email, phone, password);
     }
+
+    
 
     public LinkedList<Product> getProducts(String filter, LinkedList<String> categories) {
         return productLedger.getProducts(filter, categories);// will automatically set in itself too
@@ -80,33 +86,33 @@ public class BuyerController {
         return productLedger.getProductSeller(productLedger.getCurrentProduct());
     }
 
-    public User getCurrentUser() {
-        return userLedger.getCurrentUser();
+    public Buyer getCurrentUser() {
+        return buyerLedger.getCurrentBuyer();
     }
 
-    public void setCurrentUser(User u) {
-        userLedger.setCurrentUser(u);
+    public void setCurrentUser(Buyer u) {
+        //buyerLedger.setCurrentUser(u);
     }
 
     public LinkedList<SalesLineItem> getCartList() {
-        return userLedger.getCurrentUser().getCartList();
+        return buyerLedger.getCurrentBuyer().getCartList();
     }
 
     public void addToCart(Product p) {
         // userLedger.getCurrentUser().addToCart(p);
-        userLedger.addToCurrentUsersCart(p);
+       buyerLedger.addToCurrentUsersCart(p);
     }
 
     public boolean updateCurrentUser(String name, String email, String password, String phone, String address) {
-        return userLedger.updateCurrentUser(name, email, password, phone, address);
+        return buyerLedger.updateCurrentBuyer(name, email, password, phone, address);
     }
 
     public void logout() {
-        userLedger.setCurrentUser(null);
+        //buyerLedger.setCurrentBuyer(null);
     }
 
     public boolean deleteBuyer() {
-        return userLedger.deleteBuyer(getCurrentUser());
+        return buyerLedger.deleteBuyer(getCurrentUser().getID());
     }
 
     //When browsing products, buyer may want to see average rating
@@ -139,7 +145,7 @@ public class BuyerController {
     }
 
     public float getCartTotal() {
-      return 0; //TODO
+      return 0;//TODO
     }
 
     public void updateCartItemQty(int indexNo, char amount) {
