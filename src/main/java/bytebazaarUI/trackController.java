@@ -6,8 +6,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class trackController {
+import javafx.fxml.Initializable;
+
+public class trackController implements Initializable {
 
     @FXML
     private HBox Delivered;
@@ -24,15 +28,10 @@ public class trackController {
     @FXML
     private Button cancel;
 
-    @FXML
-    void cancelOrder(ActionEvent event) {
-
-    }
-
-    public trackController() {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
         Random random = new Random();
-        int step = random.nextInt(4);
-        ;
+        int step = random.nextInt(5);
 
         if (step == 4) {
             PaymentPending.setStyle("-fx-background-color:  #75A81E;");
@@ -47,6 +46,10 @@ public class trackController {
             PaymentPending.setStyle("-fx-background-color:  #75A81E;");
             Processing.setStyle("-fx-background-color:  #75A81E;");
         }
+    }
+
+    @FXML
+    void cancelOrder(ActionEvent event) {
 
     }
 
