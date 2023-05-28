@@ -101,7 +101,7 @@ public class SignupController {
         // Successful signup, display confirmation
         else {
             Alert confirm = new Alert(AlertType.CONFIRMATION);
-            confirm.setTitle("Welcome to TMMS");
+            confirm.setTitle("Welcome to ByteBazaar");
             confirm.setHeaderText("Please review these details and click OK to confirm");
             String info = "";
             info += "Email: " + emailTextBox.getText();
@@ -113,6 +113,8 @@ public class SignupController {
             if (!result.isPresent()) {
                 // alert is exited, no button has been pressed. do nothing
             } else if (result.get() == ButtonType.OK) {
+                //The below function call will return the newly created userID
+                //Can be used to pass
                 if (BusinessControllerFactory.getBuyerControllerInst().signup("", phoneTextBox.getText(),
                         emailTextBox.getText(), passTextBox.getText()) > 0) {
                     Alert yay = new Alert(AlertType.INFORMATION);
@@ -128,6 +130,7 @@ public class SignupController {
                     Alert warn = new Alert(AlertType.WARNING);
                     warn.setTitle("Error");
                     warn.setHeaderText("Signup unsuccessful");
+                    warn.setHeaderText("An account with this information already exists. Please use new credentials, or go back to login");
                     warn.showAndWait();
                 }
             } else if (result.get() == ButtonType.CANCEL) {

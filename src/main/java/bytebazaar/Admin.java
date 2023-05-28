@@ -1,9 +1,58 @@
 package bytebazaar;
 
-public class Admin extends User {
+public class Admin  {
+    private String email; 
+    private String password;
+    private String phoneNum;
+    private String name;
+    private int ID;
 
     public Admin(int id, String email, String password, String phoneNum, String name) {
-        super(id, email, password, phoneNum, name);
+        this.email = email;
+        this.password = password;
+        this.phoneNum = phoneNum;
+        this.name = name;
+        this.ID=id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPhoneNum() {
+        return phoneNum;
+    }
+
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int iD) {
+        ID = iD;
     }
     
 }

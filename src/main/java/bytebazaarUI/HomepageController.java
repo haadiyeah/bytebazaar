@@ -343,10 +343,10 @@ public class HomepageController implements Initializable {
             // Not logged out, show message?
         } else if (result.get() == ButtonType.OK) {
 
-            BusinessControllerFactory.getLoginControllerInst().logout(); // this will call logout on buyercontroller
+            //BusinessControllerFactory.getLoginControllerInst().logout(); // this will call logout on buyercontroller
 
             Alert yay = new Alert(AlertType.INFORMATION);
-            yay.setTitle("Logout successfull");
+            yay.setTitle("Logout successful");
             yay.setHeaderText("You are now logged out");
             yay.setContentText("You will be redirected shortly");
             yay.showAndWait();
@@ -468,9 +468,7 @@ public class HomepageController implements Initializable {
         if (!result.isPresent() || result.get() == ButtonType.CANCEL) {
             // Not logged out, show message?
         } else if (result.get() == ButtonType.OK) {
-
-            BusinessControllerFactory.getLoginControllerInst().logout(); // this will call logout on buyercontroller
-
+            //BusinessControllerFactory.getBuyerControllerInst().logout(); // this will call logout on buyercontroller
             Alert yay = new Alert(AlertType.INFORMATION);
             yay.setTitle("Logout successfull");
             yay.setHeaderText("You are now logged out");
@@ -491,7 +489,7 @@ public class HomepageController implements Initializable {
 
         //Setting the current user, as this screen will be displaying 
         //right adfter buyer logs in
-        BusinessControllerFactory.getBuyerControllerInst().setCurrentUser(BusinessControllerFactory.getLoginControllerInst().getCurrentUser());
+        BusinessControllerFactory.getBuyerControllerInst().getCurrentUser();
         
         //Initlalizing the lists to store information for product browsing
         titleLabels = new LinkedList<Label>();

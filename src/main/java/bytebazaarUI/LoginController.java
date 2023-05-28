@@ -13,8 +13,6 @@ import bytebazaar.App;
 import bytebazaar.BusinessControllerFactory;
 
 public class LoginController {
-
-    private String userType;
     // public LoginController(String usertype) {
     // this.userType=usertype;
     // }
@@ -39,11 +37,10 @@ public class LoginController {
     }
 
     @FXML
-    // Login button pressed
+    // Login button as BUYER pressed
     void performChecks(ActionEvent event) throws IOException {
         // //check if email and password match.
-        if (BusinessControllerFactory.getLoginControllerInst().login(emailText.getText(), passwordText.getText(),
-                "Buyer")) {
+        if (BusinessControllerFactory.getBuyerControllerInst().loginRequest(emailText.getText(), passwordText.getText())) {
             Alert yay = new Alert(AlertType.INFORMATION);
             yay.setTitle("Success");
             yay.setHeaderText("Congratulations, login success");
@@ -59,8 +56,7 @@ public class LoginController {
 
     @FXML
     void loginAsSeller(ActionEvent event) {
-        if (BusinessControllerFactory.getLoginControllerInst().login(emailText.getText(), passwordText.getText(),
-                "Seller")) {
+        if (BusinessControllerFactory.getSellerControllerInst().login(emailText.getText(), passwordText.getText())) {
             Alert yay = new Alert(AlertType.INFORMATION);
             yay.setTitle("Success");
             yay.setHeaderText("Congratulations, login success");
@@ -76,8 +72,7 @@ public class LoginController {
 
     @FXML
     void loginAsAdmin(ActionEvent event) throws IOException {
-        if (BusinessControllerFactory.getLoginControllerInst().login(emailText.getText(), passwordText.getText(),
-                "Admin")) {
+        if (BusinessControllerFactory.getAdminControllerInst().login(emailText.getText(), passwordText.getText())) {
             Alert yay = new Alert(AlertType.INFORMATION);
             yay.setTitle("Success");
             yay.setHeaderText("Congratulations, login success");

@@ -22,8 +22,6 @@ public class DBHandler {
     Statement mystmt = null;
     String sql = null;
     ResultSet myRs = null;
-    String user = "root";
-    String pass = "had15mysqL";
 
     HashMap<String, Integer> mapCategories;
 
@@ -160,7 +158,6 @@ public class DBHandler {
                 Statement stmt = con.createStatement())
 
         {
-
             ResultSet resultSet = stmt
                     .executeQuery("SELECT Faqs.faqAnswer FROM Faqs WHERE faqQuestion='" + question + "';");
 
@@ -231,22 +228,21 @@ public class DBHandler {
     }
 
     // Authenticate login.
-    // Returns a user object that can be cast as seller or user as per need.
-    // returns null if an account with the email doesnt exist OR if password does
-    // not match with the records,
-    public User authenticateLogin(String email, String password, String type) {
+    // Returns a BUYER object
+    // returns null if an account with the email doesnt exist OR if password doesnot match with the records,
+    public Buyer authenticateBuyerLogin(String email, String password) {
         try (
                 Connection con = DriverManager.getConnection(connectionURL);
                 Statement stmt = con.createStatement())
 
         {
-            String query = "";
-            if (type.equals("Admin")) {
-                query = "SELECT * FROM users WHERE userEmail='" + email
-                        + "' AND userID NOT IN (SELECT buyers.buyerID FROM buyers) AND userID NOT IN (SELECT sellers.sellerID FROM sellers);";
-            } else {
-                query = "SELECT * FROM users WHERE userEmail='" + email + "';";
-            }
+            String query = "SELECT * FROM buyers WHERE userEmail='" + email + "';";
+            // if (type.equals("Admin")) {
+            //     query = "SELECT * FROM users WHERE userEmail='" + email
+            //             + "' AND userID NOT IN (SELECT buyers.buyerID FROM buyers) AND userID NOT IN (SELECT sellers.sellerID FROM sellers);";
+            // } else {
+            //     query = "SELECT * FROM users WHERE userEmail='" + email + "';";
+            // }
             ResultSet resultSet = stmt.executeQuery(query);
 
             if (!resultSet.next()) {
@@ -261,17 +257,16 @@ public class DBHandler {
                         String uName = resultSet.getString(5);
                         System.out.println("Returning authenticate now");
 
-                        if (type.equals("Buyer"))
+                        // if (type.equals("Buyer"))
                             return new Buyer(uID, uEmail, uPass, uPhone, uName);
-                        else if (type.equals("Seller"))
-                            return new Seller(uID, uEmail, uPass, uPhone, uName);
-                        else if (type.equals("Admin"))
-                            return new Admin(uID, uEmail, uPass, uPhone, uName);
+                        // else if (type.equals("Seller"))
+                        //     return new Seller(uID, uEmail, uPass, uPhone, uName);
+                        // else if (type.equals("Admin"))
+                        //     return new Admin(uID, uEmail, uPass, uPhone, uName);
                     }
                 } while (resultSet.next());
 
                 return null;
-
             }
 
         } catch (SQLException e) {
@@ -280,13 +275,68 @@ public class DBHandler {
         }
     }
 
+    public Seller authenticateSellerLogin(String email, String password) {
+        try (
+                Connection con = DriverManager.getConnection(connectionURL);
+                Statement stmt = con.createStatement())
+
+        {
+            String query = "SELECT sellers.userID, userEmail, userPassword, userPhone, userName FROM sellers JOIN buyers ON buyers.userID=sellers.userID WHERE userEmail='"+email+"' AND userPassword='"+password+"';";
+            ResultSet resultSet = stmt.executeQuery(query);
+
+            if (!resultSet.next()) {
+                return null;
+            } else {
+                int uID = resultSet.getInt(1);
+                String uEmail = resultSet.getString(2);
+                String uPass = resultSet.getString(3);
+                String uPhone = resultSet.getString(4);
+                String uName = resultSet.getString(5);
+                System.out.println("Returning authenticate now");     
+                return new Seller(uID, uEmail, uPass, uPhone, uName);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Admin authenticateAdminLogin(String email, String password) {
+        try (
+                Connection con = DriverManager.getConnection(connectionURL);
+                Statement stmt = con.createStatement())
+
+        {
+            String query = "SELECT * FROM admins WHERE userEmail='"+email+"' AND userPassword='"+password+"';";
+            ResultSet resultSet = stmt.executeQuery(query);
+
+            if (!resultSet.next()) {
+                return null;
+            } else {
+                int uID = resultSet.getInt(1);
+                String uEmail = resultSet.getString(2);
+                String uPass = resultSet.getString(3);
+                String uPhone = resultSet.getString(4);
+                String uName = resultSet.getString(5);
+                System.out.println("Returning authenticate now");     
+                return new Admin(uID, uEmail, uPass, uPhone, uName);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
     public boolean checkUserExists(String email) {
         try (
                 Connection con = DriverManager.getConnection(connectionURL);
                 Statement stmt = con.createStatement())
 
         {
-            ResultSet resultSet = stmt.executeQuery("SELECT userPassword FROM users WHERE userEmail='" + email + "';");
+            ResultSet resultSet = stmt.executeQuery("SELECT userPassword FROM buyers WHERE userEmail='" + email + "';");
 
             if (resultSet.next() == false) {
                 return false;
@@ -543,6 +593,7 @@ public class DBHandler {
         }
     }
 
+    //gets product seller name of a specific id
     public String getProductSeller(int sellerID) {
         try (
                 Connection con = DriverManager.getConnection(connectionURL);
@@ -552,8 +603,8 @@ public class DBHandler {
             System.out.println("getting product seller");
 
             // Making the query
-            String query = "SELECT users.userName FROM users WHERE userID = " + sellerID
-                    + " AND userID =SOME (SELECT sellers.sellerID FROM sellers);";
+            String query = "SELECT buyers.userName FROM buyers WHERE userID = " + sellerID
+                    + " AND userID =SOME (SELECT sellers.userID FROM sellers);";
             ResultSet resultSet = stmt
                     .executeQuery(query);
 
@@ -570,13 +621,13 @@ public class DBHandler {
         }
     }
 
-    public boolean updateUser(int id, String name, String email, String password, String phone, String address) {
+    public boolean updateBuyer(int id, String name, String email, String password, String phone, String address) {
         try (Connection con = DriverManager.getConnection(connectionURL);
                 Statement stmt = con.createStatement()) {
             // Making the query
-            String query1 = "UPDATE users SET userEmail='" + email + "', userPassword='" + password + "', userPhone='"
+            String query1 = "UPDATE buyers SET userEmail='" + email + "', userPassword='" + password + "', userPhone='"
                     + phone + "',userName='" + name + "' WHERE userID=" + id + ";";
-            String query2 = "UPDATE buyers SET deliveryDetails='" + address + "' WHERE buyerID=" + id + ";";
+            String query2 = "UPDATE buyers SET deliveryDetails='" + address + "' WHERE userID=" + id + ";";
             stmt.executeUpdate(query1);
             stmt.executeUpdate(query2);
             return true;
@@ -587,19 +638,19 @@ public class DBHandler {
         }
     }
 
-    public boolean deleteUser(User u, String userType) {
+    public boolean deleteUser(int id) {
         try (Connection con = DriverManager.getConnection(connectionURL);
                 Statement stmt = con.createStatement()) {
             // Making the query
-            String query1 = "DELETE FROM users WHERE userID=" + u.getID() + ";";
-            String query2 = "";
-            if (userType.equals("Buyer"))
-                query2 = "DELETE FROM buyers WHERE buyerID=" + u.getID() + ";";
-            else if (userType.equals("Seller"))
-                query2 = "DELETE FROM sellers WHERE sellerID=" + u.getID() + ";";
+            String query1 = "DELETE FROM buyers WHERE userID=" + id + ";";
+            // String query2 = "";
+            // if (userType.equals("Buyer"))
+            //     query2 = "DELETE FROM buyers WHERE buyerID=" + u.getID() + ";";
+            // else if (userType.equals("Seller"))
+            //     query2 = "DELETE FROM sellers WHERE sellerID=" + u.getID() + ";";
 
             stmt.executeUpdate(query1);
-            stmt.executeUpdate(query2);
+            // stmt.executeUpdate(query2);
 
             return true;
 
@@ -641,7 +692,7 @@ public class DBHandler {
 
         {
             ResultSet resultSet = stmt.executeQuery(
-                    "SELECT reviewText, reviewRating, userName, reviewProductID FROM reviews JOIN users ON(users.userID=reviews.reviewWriterID) WHERE reviewProductID="
+                    "SELECT reviewText, reviewRating, userName, reviewProductID FROM reviews JOIN buyers ON(buyers.userID=reviews.reviewWriterID) WHERE reviewProductID="
                             + id + ";");
 
             if (resultSet.next() == false) {

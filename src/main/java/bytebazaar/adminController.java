@@ -4,10 +4,12 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 
 public class adminController {
+    AdminLedger adminLedger;
     FAQLedger faqledger;
 
     public adminController(){
         faqledger=new FAQLedger();
+        adminLedger=new AdminLedger();
     }
 
     public boolean addFAQ(String ques, String ans){
@@ -17,5 +19,11 @@ public class adminController {
            return false;
         }
     }
+
+    public boolean login(String email, String password) {
+        return adminLedger.loginRequest(email, password);
+    }
+
+
     
 }

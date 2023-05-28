@@ -255,5 +255,6 @@
             <Insets right="20.0" />
          </padding>
       </HBox>
+      <Label contentDisplay="RIGHT" prefHeight="11.0" prefWidth="564.0" text="Shipping charges are calculated at checkout." />
    </children>
 </VBox>
