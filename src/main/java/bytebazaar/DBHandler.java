@@ -68,35 +68,40 @@ public class DBHandler {
 
     }
 
-    // public void saveOrder(Order o) {
-    // try (
-    // Connection con = DriverManager.getConnection(connectionURL);
-    // Statement stmt = con.createStatement())
+    public void deleteOrder(int orderID) {
 
-    // {
+        try (Connection connection = DriverManager.getConnection(connectionURL)) {
+            // Delete rows from orderHasProduct table
+            PreparedStatement deleteOrderHasProductStmt = connection
+                    .prepareStatement("DELETE FROM orderHasProduct WHERE orderID = " + orderID);
+            // deleteOrderHasProductStmt.setInt(1, orderID);
+            deleteOrderHasProductStmt.executeUpdate();
 
-    // String query = "INSERT INTO orders (orderDate, orderTime, buyerID) VALUES
-    // ("+o.getOrderDate()+","+o.getOrderTime()+","+o.getBuyerID() + ")";
-    // stmt.executeUpdate(query);
-    // //stmt.close();
+            // Delete rows from orders table
+            PreparedStatement deleteOrdersStmt = connection
+                    .prepareStatement("DELETE FROM orders WHERE orderID = " + orderID);
+            // deleteOrdersStmt.setInt(1, orderID);
+            deleteOrdersStmt.executeUpdate();
 
-    // for(SalesLineItem p : o.getProductsList())
-    // query = "INSERT INTO orderHasProduct (orderID, productID, quantity) VALUES
-    // ("+o.getOrderID()+","+p.getProductID()+ "," +p.getQuantity()+")";
-    // PreparedStatement preparedStatement = con.prepareStatement(query);
+            // Delete rows from Shipment table
+            PreparedStatement deleteShipmentStmt = connection
+                    .prepareStatement("DELETE FROM Shipment WHERE OrderID = " + orderID);
+            // deleteShipmentStmt.setInt(1, orderID);
+            deleteShipmentStmt.executeUpdate();
 
-    // } catch (SQLException e) {
-    // e.printStackTrace();
-    // }
-
-    // }
+            System.out.println("Yo Man Deleted Rows with order ID " + orderID + " successfully.");
+        } catch (SQLException e) {
+            System.out.println("Error occurred while dropping rows with order ID " + orderID + ": " + e.getMessage());
+        }
+    }
 
     // Will return latest orderID
     public int saveOrder(Order o) {
         try (Connection con = DriverManager.getConnection(connectionURL);
                 Statement stmt = con.createStatement()) {
 
-            String query = "INSERT INTO orders (orderDate, orderTime, buyerID) VALUES ('" + o.getOrderDate() + "','"
+            String query = "INSERT INTO orders (orderDate, orderTime, buyerID) VALUES ('" + o.getOrderDate()
+                    + "','"
                     + o.getOrderTime() + "'," + o.getBuyerID() + ");";
 
             System.out.println("\n\n\n!!!!!!!!!!!!! SAVING !!!!!!!!!!!! \n\n\n" + query + "\n\n\n");
@@ -119,6 +124,39 @@ public class DBHandler {
         } catch (SQLException e) {
             e.printStackTrace();
             return -1;
+        }
+    }
+
+    public void updateOrderPaidStatus(int orderID, boolean paid) {
+
+        try (Connection connection = DriverManager.getConnection(connectionURL);
+                PreparedStatement updateStmt = connection
+                        .prepareStatement("UPDATE orders SET paid = ? WHERE orderID = ?")) {
+
+            // Set the parameter values
+            updateStmt.setBoolean(1, paid);
+            updateStmt.setInt(2, orderID);
+
+            // Execute the update statement
+            int rowsAffected = updateStmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Paid status updated for order ID " + orderID);
+            } else {
+                System.out.println("No order found with order ID " + orderID);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error occurred while updating the paid status: " + e.getMessage());
+        }
+    }
+
+    private void saveOrderHasProduct(Statement stmt, int orderId, LinkedList<SalesLineItem> productsList)
+            throws SQLException {
+        for (SalesLineItem p : productsList) {
+            String query = "INSERT INTO orderHasProduct (orderID, productID, quantity) VALUES (" + orderId + ","
+                    + p.getProductID() + "," + p.getQuantity() + ");";
+            System.out.println("\n\n\n!!!!!!!!!!!!! SAVING ORDERHASPRODUCT !!!!!!!!!!!! \n\n\n" + query + "\n\n\n");
+            stmt.executeUpdate(query);
         }
     }
 
@@ -163,16 +201,6 @@ public class DBHandler {
 
         return -1; // Return -1 if an error occurred or no TrackID is available
 
-    }
-
-    private void saveOrderHasProduct(Statement stmt, int orderId, LinkedList<SalesLineItem> productsList)
-            throws SQLException {
-        for (SalesLineItem p : productsList) {
-            String query = "INSERT INTO orderHasProduct (orderID, productID, quantity) VALUES (" + orderId + ","
-                    + p.getProductID() + "," + p.getQuantity() + ");";
-            System.out.println("\n\n\n!!!!!!!!!!!!! SAVING ORDERHASPRODUCT !!!!!!!!!!!! \n\n\n" + query + "\n\n\n");
-            stmt.executeUpdate(query);
-        }
     }
 
     public String fetchAns(String question) {

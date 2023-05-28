@@ -82,7 +82,7 @@ public class payonline implements Initializable {
 
     @FXML
     void payNow(ActionEvent event) throws IOException {
-
+        BusinessControllerFactory.getBuyerControllerInst().getCurrentUser().getOrders().getLastOrder().setPaid(true);
         App.setRoot("checkoutpage");
     }
 

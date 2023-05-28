@@ -9,6 +9,7 @@ import javafx.scene.layout.HBox;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import bytebazaar.BusinessControllerFactory;
 import javafx.fxml.Initializable;
 
 public class trackController implements Initializable {
@@ -31,7 +32,7 @@ public class trackController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Random random = new Random();
-        int step = random.nextInt(5);
+        int step = random.nextInt(4) + 1;
 
         if (step == 4) {
             PaymentPending.setStyle("-fx-background-color:  #75A81E;");
@@ -50,7 +51,9 @@ public class trackController implements Initializable {
 
     @FXML
     void cancelOrder(ActionEvent event) {
-
+        int orderID = BusinessControllerFactory.getBuyerControllerInst().getCurrentUser().getOrders().getLastOrder()
+                .getOrderID();
+        BusinessControllerFactory.getBuyerControllerInst().getCurrentUser().getOrders().removeOrder(orderID);
     }
 
     // hBox.setStyle("-fx-background-color: #75A81E;");

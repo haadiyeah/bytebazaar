@@ -10,7 +10,7 @@ public class OrderLedger {
     private LinkedList<Order> orderList;
 
     public OrderLedger() {
-        orderList=new LinkedList<Order>();
+        orderList = new LinkedList<Order>();
     }
 
     public LinkedList<Order> getOrderList() {
@@ -26,20 +26,32 @@ public class OrderLedger {
         LocalTime localTime = LocalTime.now();
 
         Order o = new Order(Date.valueOf(localDate), Time.valueOf(localTime), buyerID, productsList);
-        int returningOrderID= DBHandler.getInstance().saveOrder(o);//will return -1 if failed to save
+        int returningOrderID = DBHandler.getInstance().saveOrder(o);// will return -1 if failed to save
         o.setOrderID(returningOrderID);
-        if(returningOrderID!=-1)
+        if (returningOrderID != -1)
             orderList.add(o);
-        else 
+        else
             System.out.println("MADE ORDER AND ORDERID RETURNED NULL, NOT ADDED IN ORDERLIST");
 
-        return returningOrderID; 
+        return returningOrderID;
+    }
+
+    public void removeOrder(int orderID) {
+        for (Order order : orderList) {
+            if (order.getOrderID() == orderID) {
+                orderList.remove(order);
+                System.out.println("Order with order ID " + orderID + " has been removed.");
+                DBHandler.getInstance().deleteOrder(orderID);
+                return;
+            }
+        }
+        System.out.println("Order with order ID " + orderID + " not found.");
     }
 
     public Order getLastOrder() {
         if (!orderList.isEmpty()) {
-            for(int i=0;i<orderList.size();i++) {
-                System.out.println("\n\n\n ORDERRRRRR " +  orderList.get(i).getOrderID() + "\n\n");
+            for (int i = 0; i < orderList.size(); i++) {
+                System.out.println("\n\n\n ORDERRRRRR " + orderList.get(i).getOrderID() + "\n\n");
             }
             return orderList.getLast();
         }
@@ -64,7 +76,7 @@ public class OrderLedger {
                 return trackId;
             }
         }
-        return -1; //Error
-        
+        return -1; // Error
+
     }
 }
