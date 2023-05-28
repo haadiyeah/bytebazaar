@@ -26,10 +26,6 @@ public class checkoutpage implements Initializable {
     @FXML
     private Button pO;
 
-    public checkoutpage() {
-
-    }
-
     @FXML
     private Label promo;
 

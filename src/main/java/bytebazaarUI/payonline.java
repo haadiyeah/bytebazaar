@@ -50,7 +50,6 @@ public class payonline implements Initializable {
     @FXML
     private Button profileBtn;
 
-
     @FXML
     private CheckBox saveCardCheckBox;
 
@@ -61,7 +60,7 @@ public class payonline implements Initializable {
     private Button wishlistBtn;
 
     @FXML
-    void goBack(ActionEvent event)throws IOException {
+    void goBack(ActionEvent event) throws IOException {
         App.setRoot("selectPaymentMethod");
     }
 
@@ -75,13 +74,6 @@ public class payonline implements Initializable {
         App.setRoot("viewingprofile");
     }
 
-    // payonline(String A1, String A2, String A3, String A4) {
-    // this.A1 = A1;
-    // this.A2 = A2;
-    // this.A3 = A3;
-    // this.A4 = A4;
-    // }
-
     @FXML
     private Button pN;
 
@@ -90,36 +82,23 @@ public class payonline implements Initializable {
 
     @FXML
     void payNow(ActionEvent event) throws IOException {
-        // Load the selectPaymentMethod.fxml file
+
         App.setRoot("checkoutpage");
     }
-
 
     @FXML
     void selectPaymentMethod(MouseEvent event) throws IOException {
         App.setRoot("selectPaymentMethod");
-        // FXMLLoader loader = new
-        // FXMLLoader(getClass().getResource("selectPaymentMethod.fxml"));
-        // loader.setController(new selectPaymentMethod(A1, A2, A3, A4));
-        // Parent root = loader.load();
-        // // Create a scene with the root node
-        // Scene scene = new Scene(root);
-        // // Get the stage from the event object
-        // Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        // // Set the scene for the stage
-        // stage.setScene(scene);
-        // stage.show();
     }
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         float total = BusinessControllerFactory.getBuyerControllerInst().getLatestOrderBill();
-        float deliveryFee=190;//Set delivery fee in admin controller and fetch it
-        float totalToPay = total+deliveryFee; 
+        float deliveryFee = 190;// Set delivery fee in admin controller and fetch it
+        float totalToPay = total + deliveryFee;
         itemsTotalLabel.setText("Rs. " + total + "/-");
         deliveryFeeLabel.setText("Rs. " + deliveryFee + "/-");
         totalToPayLabel.setText("Rs. " + totalToPay + "/-");
-        
     }
 
 }
