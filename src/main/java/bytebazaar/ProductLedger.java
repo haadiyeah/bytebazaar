@@ -4,12 +4,9 @@ import java.util.LinkedList;
 
 public class ProductLedger {
     private LinkedList<Product> productLedger;
-    private Product currentProduct; //to view prod detail
-    
    
     public ProductLedger() {
         productLedger=new LinkedList<Product>();
-        currentProduct=new Product();
     }
 
     public LinkedList<Product> getProducts(String filter, LinkedList<String> categories) {
@@ -25,13 +22,6 @@ public class ProductLedger {
         this.productLedger = productLedger;
     }
 
-    public Product getCurrentProduct() {
-        return currentProduct;
-    }
-
-    public void setCurrentProduct(int currentProductID) {
-        this.currentProduct = getProductByProductID(currentProductID);
-    }
 
     public Product getProductByProductID(int ID) {
         for(int i=0;i<productLedger.size();i++) {

@@ -9,8 +9,6 @@ public class Product {
     private String description;
     private int categoryID;
    
-    
-   
     //IMPORTANT TO NOTE:
     //If category id is null, it will be zero.
     //There are other nullable fields e.g. ImageURL, etc.

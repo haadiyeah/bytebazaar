@@ -8,7 +8,6 @@ public class Buyer {
     private String phoneNum;
     private String name;
     private int ID;
-    //private LinkedList<Order> orderHistory;
     private OrderLedger orders;
     private Cart cart;
     private String deliveryDetails;
