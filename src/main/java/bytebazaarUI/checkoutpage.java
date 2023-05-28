@@ -26,6 +26,10 @@ public class checkoutpage implements Initializable {
     @FXML
     private Button pO;
 
+    public checkoutpage() {
+
+    }
+
     @FXML
     private Label promo;
 
@@ -90,9 +94,8 @@ public class checkoutpage implements Initializable {
         String A3 = phoneTextField.getText();
         String A4 = emailTextField.getText();
 
-
-        //Function that returns tracking ID, if returns -1 it means an erorr
-        if ( BusinessControllerFactory.getBuyerControllerInst().shipment(A1, A2, A3, A4)  == -1) {
+        // Function that returns tracking ID, if returns -1 it means an erorr
+        if (BusinessControllerFactory.getBuyerControllerInst().shipment(A1, A2, A3, A4) == -1) {
             Alert err = new Alert(AlertType.ERROR);
             err.setHeaderText("An error occurred");
             err.showAndWait();
@@ -114,8 +117,8 @@ public class checkoutpage implements Initializable {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         float total = BusinessControllerFactory.getBuyerControllerInst().getLatestOrderBill();
-        float deliveryFee=190;//Set delivery fee in admin controller and fetch it
-        float totalToPay = total+deliveryFee; 
+        float deliveryFee = 190;// Set delivery fee in admin controller and fetch it
+        float totalToPay = total + deliveryFee;
         itemsTotalLabel.setText("Rs. " + total + "/-");
         deliveryFeeLabel.setText("Rs. " + deliveryFee + "/-");
         totalToPayLabel.setText("Rs. " + totalToPay + "/-");
