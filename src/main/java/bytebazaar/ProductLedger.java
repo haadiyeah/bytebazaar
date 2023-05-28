@@ -29,8 +29,16 @@ public class ProductLedger {
         return currentProduct;
     }
 
-    public void setCurrentProduct(Product currentProduct) {
-        this.currentProduct = currentProduct;
+    public void setCurrentProduct(int currentProductID) {
+        this.currentProduct = getProductByProductID(currentProductID);
+    }
+
+    public Product getProductByProductID(int ID) {
+        for(int i=0;i<productLedger.size();i++) {
+            if(productLedger.get(i).getProductID() ==ID)
+                return productLedger.get(i);
+        }
+        return null;
     }
 
     public String getProductSeller(Product prod) {

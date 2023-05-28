@@ -42,8 +42,9 @@ public class Buyer {
     }
 
     //Buying products; creates an order in orderLedger
-    public int buyNow(LinkedList<SalesLineItem> productsList) {
-        int orderID = orders.makeOrder(productsList, this.getID());
+    public int buyNow() {
+        int orderID = orders.makeOrder(this.cart.itemsList, this.getID());
+        clearCart();
         return orderID;
     }
 
@@ -64,6 +65,10 @@ public class Buyer {
 
     public LinkedList<Order> getOrderHistory() {
         return orders.getOrderList();
+    }
+
+    public boolean updateCartQuantity(int productID, char updateType){
+        return this.cart.updateItemQty(productID, updateType);
     }
 
     public void setOrderHistory(LinkedList<Order> orderHistory) {

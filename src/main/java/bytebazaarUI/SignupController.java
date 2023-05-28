@@ -1,18 +1,23 @@
 package bytebazaarUI;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Optional;
 
 import bytebazaar.App;
 import bytebazaar.BusinessControllerFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import javafx.scene.control.Alert.AlertType;
 
 public class SignupController {
@@ -114,9 +119,9 @@ public class SignupController {
                 // alert is exited, no button has been pressed. do nothing
             } else if (result.get() == ButtonType.OK) {
                 //The below function call will return the newly created userID
-                //Can be used to pass
-                if (BusinessControllerFactory.getBuyerControllerInst().signup("", phoneTextBox.getText(),
-                        emailTextBox.getText(), passTextBox.getText()) > 0) {
+                int signupReturnedID = BusinessControllerFactory.getBuyerControllerInst().signup("", phoneTextBox.getText(),
+                emailTextBox.getText(), passTextBox.getText());
+                if (signupReturnedID > 0) {
                     Alert yay = new Alert(AlertType.INFORMATION);
                     yay.setTitle("Success");
                     yay.setHeaderText("Congratulations, your account has been created successfully.");
@@ -125,7 +130,7 @@ public class SignupController {
                     yay.showAndWait();
                     // LoginController li = new LoginController("Buyer");
                     App.setRoot("login");
-
+                    
                 } else {
                     Alert warn = new Alert(AlertType.WARNING);
                     warn.setTitle("Error");

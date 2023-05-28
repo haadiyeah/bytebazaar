@@ -14,18 +14,30 @@ public class BuyerController {
         faqLedger.populateFAQs();//Will refresh (repopulate) the faqs
     }
 
-    public int buyNow(LinkedList<SalesLineItem> productsList) {
-        int orderID = buyerLedger.getCurrentBuyer().buyNow(productsList);
+    public int buyNow(int buyerID) {
+        int orderID = buyerLedger.getBuyerByID(buyerID).buyNow();
         return orderID;
     }
 
-    public boolean loginRequest(String email, String password) {
+    
+
+    public int loginRequest(String email, String password) {
         return buyerLedger.loginRequest(email, password);
     }
 
-    public void clearCart() {
-        (buyerLedger.getCurrentBuyer()).clearCart();
+    public LinkedList<Product> searchProduct(String text){
+        LinkedList<Product> resultsToDisplay = new LinkedList<Product>();
+        productLedger.getProductLedger().forEach(product -> {
+            if(product.getName().toLowerCase().contains(text.toLowerCase())) {
+                resultsToDisplay.add(product);
+            }
+        });
+        return resultsToDisplay;
     }
+
+    // public void clearCart() {
+    //     (buyerLedger.getCurrentBuyer()).clearCart();
+    // }
 
     public float getLatestOrderBill() {
         return (buyerLedger.getCurrentBuyer()).getLastOrderBill() ;
@@ -63,6 +75,21 @@ public class BuyerController {
         
     }
 
+    public LinkedList<String> getBuyerInfo(int buyerID) {
+        LinkedList<String> retList= new LinkedList<String>();
+        Buyer b = buyerLedger.getBuyerByID(buyerID);
+        retList.add(b.getName());
+        retList.add(b.getEmail());
+        retList.add(b.getPhoneNum());
+        retList.add(b.getPassword());
+        retList.add(b.getDeliveryDetails());
+        return retList;
+    }
+
+    public LinkedList<Order> getOrderHistory(int buyerID) {
+        return buyerLedger.getBuyerByID(buyerID).getOrderHistory();
+    }
+
     public LinkedList<String> getLatestOrderInfo() {
         LinkedList<String> retList= new LinkedList<String>();
 
@@ -74,17 +101,17 @@ public class BuyerController {
         retList.add( ((Buyer)getCurrentUser()).getOrders().getLastOrder().getShip().getEmail() );
         return retList;
     }
-    public void setCurrentProduct(Product p) {
-        productLedger.setCurrentProduct(p);
-    }
+    // public void setCurrentProduct(int productID) {
+    //     productLedger.setCurrentProduct(productID);
+    // }
 
-    public Product getCurrentProduct() {
-        return productLedger.getCurrentProduct();
-    }
+    // public Product getCurrentProduct() {
+    //     return productLedger.getCurrentProduct();
+    // }
 
-    public String getCurrentProductSeller() {
-        return productLedger.getProductSeller(productLedger.getCurrentProduct());
-    }
+    // public String getCurrentProductSeller() {
+    //     return productLedger.getProductSeller(productLedger.getCurrentProduct());
+    // }
 
     public Buyer getCurrentUser() {
         return buyerLedger.getCurrentBuyer();
@@ -94,30 +121,49 @@ public class BuyerController {
         //buyerLedger.setCurrentUser(u);
     }
 
-    public LinkedList<SalesLineItem> getCartList() {
-        return buyerLedger.getCurrentBuyer().getCartList();
+    public LinkedList<SalesLineItem> getCartList(int buyerID) {
+        return buyerLedger.getCartList(buyerID);
     }
 
-    public void addToCart(Product p) {
+    public void addToCart(int buyerID, int productID) {
         // userLedger.getCurrentUser().addToCart(p);
-       buyerLedger.addToCurrentUsersCart(p);
+       //buyerLedger.addToCurrentUsersCart(productLedger.getProductByProductID(productID));
+       buyerLedger.addToCart(buyerID, productLedger.getProductByProductID(productID));
     }
 
-    public boolean updateCurrentUser(String name, String email, String password, String phone, String address) {
-        return buyerLedger.updateCurrentBuyer(name, email, password, phone, address);
+    public boolean updateBuyer(int buyerID, String name, String email, String password, String phone, String address) {
+        return buyerLedger.updateBuyer(buyerID, name, email, password, phone, address);
     }
 
     public void logout() {
         //buyerLedger.setCurrentBuyer(null);
     }
 
-    public boolean deleteBuyer() {
-        return buyerLedger.deleteBuyer(getCurrentUser().getID());
+    // public boolean deleteBuyer() {
+    //     return buyerLedger.deleteBuyer(getCurrentUser().getID());
+    // }
+
+    public boolean deleteBuyer(int buyerID) {
+        return buyerLedger.deleteBuyer(buyerID);
     }
 
     //When browsing products, buyer may want to see average rating
     public float getAverageProductRating(int id) {
         return productLedger.getAverageRating( id);
+    }
+
+    public LinkedList<String> getProductInformation(int productID) {
+        LinkedList<String> returnList=new LinkedList<String>();
+        Product p = productLedger.getProductByProductID(productID);
+        if(p!=null) {
+            returnList.add(p.getName());
+            returnList.add(p.getDescription());
+            returnList.add(p.getImageURL());
+            returnList.add("Rs. " + p.getPrice()+"/-");
+            returnList.add(productLedger.getProductSeller(p));
+            returnList.add("Average: " + productLedger.getAverageRating(productID) +"/5");
+        }
+        return returnList;
     }
 
     //When browsing products, buyer may want to get reviews
@@ -148,8 +194,10 @@ public class BuyerController {
       return 0;//TODO
     }
 
-    public void updateCartItemQty(int indexNo, char amount) {
-      //  userLedger.getCurrentUser().
+    //function returns true if the product is still in the cart after updating
+    //and returns false if the product has been removed, i.e. quantity is now 0.
+    public boolean updateCartItemQty(int buyerID, int productID, char updateType) {
+        return buyerLedger.getBuyerByID(buyerID).updateCartQuantity(productID, updateType);
     }
 
 }

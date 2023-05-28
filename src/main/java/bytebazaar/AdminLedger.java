@@ -19,21 +19,20 @@ public class AdminLedger {
         return -1;
     }
 
-    public boolean loginRequest(String email, String password) {
+    public int loginRequest(String email, String password) {
         int check=checkInLedger(email, password);
         if (check!=-1) {
-            //Set current admin as the one who returned
-            //TODO After fixing this and adding the get-through id func, this line should be removed
-            adminAccounts.addFirst (adminAccounts.remove(check));
+            //adminAccounts.addFirst (adminAccounts.remove(check));
+            return adminAccounts.get(check).getID();
         }
 
         Admin a = DBHandler.getInstance().authenticateAdminLogin(email, password);
         if (a != null) {
             //a.setDetails();
             adminAccounts.addFirst(a);
-            return true;
+            return a.getID();
         } else {
-            return false;
+            return -1;
         }
     }
 

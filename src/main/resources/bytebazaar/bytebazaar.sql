@@ -2,18 +2,19 @@ use bytebazaar
 
 --BYTE BAZAAR NEWWW
 
+DROP TABLE IF EXISTS admins;
 DROP TABLE IF EXISTS reviews;
 DROP TABLE IF EXISTS Shipment;
 DROP TABLE IF EXISTS ShipmentAPI;
 DROP TABLE IF EXISTS orderHasProduct;
 DROP TABLE IF EXISTS productHasSecondaryImage;
+DROP TABLE IF EXISTS sellers;
 DROP TABLE IF EXISTS buyers;
 DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS sellers;
 DROP TABLE IF EXISTS Faqs;
-DROP TABLE IF EXISTS users;
 
 
 CREATE TABLE buyers (
@@ -142,7 +143,7 @@ EXEC addBuyer 'Mama','mamasajid@pk.com', '0336-19191991', 'iamsmart';
 EXEC addBuyer 'Najam Uncle','najam@pk.com', '0300-1122334', 'iamfunny';
 
 EXEC addSeller 'mamasajid@pk.com';
-EXEC addSeller 'Najam Uncle';
+EXEC addSeller 'najam@pk.com';
 
 EXEC addBuyer 'Hanaa','hanaasajid@pk.com', '0011223344', 'iamshakka';
 EXEC addBuyer 'Shanze','shanijani@pk.com', '0514949149', 'iamsarcasm';
@@ -243,5 +244,9 @@ SELECT orderHasProduct.productID, productName, productPrice, quantity FROM order
 
 
 --Getting admin
+SELECT sellers.userID, userEmail, userPassword, userPhone, userName FROM sellers JOIN buyers ON buyers.userID=sellers.userID WHERE userEmail='najam@pk.com' AND userPassword='iamfunny'
+
+--DELETE FROM orders WHERE orderID=;
+--DELETE FROM orderHasProduct WHERE orderHasProduct.orderID=;
 
 SELECT * FROM buyers WHERE userEmail='' AND userID NOT IN (SELECT buyers.userID FROM buyers) AND userID NOT IN (SELECT sellers.userID FROM sellers)

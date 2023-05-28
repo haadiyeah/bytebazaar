@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bytebazaarUI.WritingReviewController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <StackPane alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="41.0" prefWidth="606.0">
          <children>
@@ -113,40 +113,40 @@
             <Font name="System Bold" size="17.0" />
          </font>
          <VBox.margin>
-            <Insets left="250.0" top="10.0" />
+            <Insets bottom="10.0" top="10.0" />
          </VBox.margin>
       </Label>
       <HBox alignment="CENTER" prefHeight="140.0" prefWidth="600.0">
          <children>
-            <ImageView fitHeight="134.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="productImage" fitHeight="134.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../../fxpractice/src/main/java/fxpractice/laptop1.jpg" />
                </image>
             </ImageView>
-            <VBox alignment="CENTER_LEFT" prefHeight="140.0" prefWidth="263.0">
+            <VBox alignment="CENTER_LEFT" prefHeight="140.0" prefWidth="373.0">
                <children>
-                  <Label fx:id="productName" text="HP laptop Touch screen">
+                  <Label fx:id="productName" prefHeight="31.0" prefWidth="360.0" text="HP laptop Touch screen">
                      <font>
-                        <Font size="16.0" />
+                        <Font size="17.0" />
                      </font>
                      <VBox.margin>
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <Label fx:id="priceAmount" text="Seller: TJ company">
+                  <Label fx:id="prodSeller" prefHeight="21.0" prefWidth="360.0" text="Seller: TJ company">
                      <font>
-                        <Font size="15.0" />
+                        <Font size="13.0" />
                      </font>
                      <VBox.margin>
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <Label text="Slide to rate">
+                  <Label prefHeight="18.0" prefWidth="57.0" text="Slide to rate">
                      <font>
                         <Font name="System Italic" size="11.0" />
                      </font>
                   </Label>
-                  <Slider fx:id="ratingSlider" blockIncrement="1.0" majorTickUnit="1.0" max="5.0" minorTickCount="0" prefHeight="38.0" prefWidth="241.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                  <Slider fx:id="ratingSlider" blockIncrement="1.0" majorTickUnit="1.0" max="5.0" minorTickCount="0" prefHeight="38.0" prefWidth="275.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
                </children>
                <HBox.margin>
                   <Insets />
@@ -176,7 +176,7 @@
             </DropShadow>
          </effect>
          <VBox.margin>
-            <Insets left="260.0" top="10.0" />
+            <Insets top="10.0" />
          </VBox.margin>
       </Button>
    </children>

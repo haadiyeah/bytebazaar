@@ -1,10 +1,8 @@
 package bytebazaar;
 
-import bytebazaarUI.*;
 //import bytebazaarUI.*;
 
 import java.io.IOException;
-import java.util.LinkedList;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

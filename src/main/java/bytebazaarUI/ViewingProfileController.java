@@ -4,18 +4,24 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
-
-import bytebazaar.App;
 import bytebazaar.BusinessControllerFactory;
 import bytebazaar.Buyer;
 import bytebazaar.Order;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button ;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
 public class ViewingProfileController implements Initializable{
+    int currentBuyerID;
+    public void setData(int buyerID) {
+        this.currentBuyerID=buyerID;
+    }
     @FXML
     private Label address;
 
@@ -78,21 +84,54 @@ public class ViewingProfileController implements Initializable{
     private LinkedList<Label> orderTotals;
     @FXML
     void goBack(ActionEvent event)throws IOException  {
-        App.setRoot("homepage");
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:src/main/resources/bytebazaar/homepage.fxml"));
+        HomepageController homepageCtrl = new HomepageController();
+        homepageCtrl.setData(currentBuyerID);
+        loader.setController(homepageCtrl);
+
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+        backBtn.getScene().getWindow().hide();
     }
 
     @FXML
     void openEditProfile(ActionEvent event) throws IOException {
-        App.setRoot("editprofile");
+        editProfBtn.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:src/main/resources/bytebazaar/editprofile.fxml"));
+        EditProfileController editProfileCtrl = new EditProfileController();
+        editProfileCtrl.setData(currentBuyerID);
+        loader.setController(editProfileCtrl);
+
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
     void openOrderHistory(ActionEvent event) {
-
+        //Redirect to a page showing complete order history
     }
     @FXML
     void openCart(ActionEvent event) throws IOException {
-        App.setRoot("cart");
+        cartBtn1.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:src/main/resources/bytebazaar/cart.fxml"));
+        CartController cartCtrl = new CartController();
+        cartCtrl.setData(currentBuyerID);
+        loader.setController(cartCtrl);
+
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
     }
     @FXML
     void openWishList(ActionEvent event)  {
@@ -117,14 +156,14 @@ public class ViewingProfileController implements Initializable{
         orderTotals.add(recentordertotalBill2);
         orderTotals.add(recentordertotalbill3);
 
-        Buyer currentBuyer = (Buyer)BusinessControllerFactory.getBuyerControllerInst().getCurrentUser();
+        LinkedList<String> info=BusinessControllerFactory.getBuyerControllerInst().getBuyerInfo(currentBuyerID);
         
-        name.setText(currentBuyer.getName());
-        email.setText(currentBuyer.getEmail());
-        phoneNumber.setText(currentBuyer.getPhoneNum());
-        address.setText(currentBuyer.getDeliveryDetails());
+        name.setText(info.get(0));
+        email.setText(info.get(1));
+        phoneNumber.setText(info.get(2));
+        address.setText(info.get(4));
 
-        LinkedList<Order> orderHist =  currentBuyer.getOrderHistory();
+        LinkedList<Order> orderHist =  BusinessControllerFactory.getBuyerControllerInst().getOrderHistory(currentBuyerID);
         int maxloops;
         if(orderHist.size()>=3) {
             maxloops=3;
