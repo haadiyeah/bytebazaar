@@ -6,10 +6,12 @@ import java.util.LinkedList;
 public class adminController {
     AdminLedger adminLedger;
     FAQLedger faqledger;
+    float deliveryRate;
 
     public adminController(){
         faqledger=new FAQLedger();
         adminLedger=new AdminLedger();
+        deliveryRate=190;
     }
 
     public boolean addFAQ(String ques, String ans){
@@ -24,6 +26,11 @@ public class adminController {
         return adminLedger.loginRequest(email, password);
     }
 
+    public float getDeliveryRate() {
+        return deliveryRate;
+    }
+
+    
 
     
 }

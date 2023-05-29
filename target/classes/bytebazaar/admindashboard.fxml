@@ -4,6 +4,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -20,16 +22,7 @@
                   <DropShadow />
                </effect>
                <children>
-                  <VBox alignment="CENTER" prefHeight="58.0" prefWidth="600.0">
-                     <children>
-                        <Label prefHeight="38.0" prefWidth="215.0" text="Welcome Admin" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="26.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </VBox>
-                  <Button ellipsisString="" mnemonicParsing="false" onAction="#logout" prefHeight="35.0" prefWidth="35.0" style="-fx-background-image: url(&quot;https://icon-library.com/images/exit-icon-png/exit-icon-png-6.jpg&quot;); -fx-background-size: cover; -fx-background-color: null;">
+                  <Button ellipsisString="" mnemonicParsing="false" onAction="#logout" prefHeight="35.0" prefWidth="35.0" style="-fx-background-size: cover; -fx-background-color: null;">
                      <StackPane.margin>
                         <Insets left="500.0" />
                      </StackPane.margin>
@@ -40,7 +33,23 @@
                            </color>
                         </DropShadow>
                      </effect>
+                     <graphic>
+                        <ImageView fitHeight="32.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@logouticon.jpg" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
+                  <VBox alignment="CENTER" prefHeight="58.0" prefWidth="600.0">
+                     <children>
+                        <Label prefHeight="38.0" prefWidth="215.0" text="Welcome Admin" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="26.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
                </children>
             </StackPane>
             <FlowPane alignment="CENTER" columnHalignment="CENTER" />

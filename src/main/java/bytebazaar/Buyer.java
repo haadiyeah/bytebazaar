@@ -41,14 +41,27 @@ public class Buyer {
     }
 
     //Buying products; creates an order in orderLedger
-    public int buyNow() {
-        int orderID = orders.makeOrder(this.cart.itemsList, this.getID());
-        clearCart();
+    public int buyNow(LinkedList<SalesLineItem> itemsList) {
+        int orderID = orders.makeOrder(itemsList, this.getID());
+        System.out.println( "\n\nPEEPOOOOO "+this.cart.itemsList.size());
         return orderID;
     }
 
     public void clearCart() {
         cart.clearCart();
+    }
+
+    public boolean cancelOrder(int orderID) {
+        return orders.removeOrder(orderID);
+    }
+
+
+    public void payForOrder(int orderID) {
+        orders.getOrderByOrderID(orderID).setPaid(true);
+    }
+
+    public float getOrderTotal(int orderID) {
+        return orders.getOrderByOrderID(orderID).getTotalBill();
     }
 
    public int shipment(int oId, String DeliverTo, String Address, String Phone, String Email) {
@@ -104,9 +117,9 @@ public class Buyer {
         deliveryDetails = s;
     }
 
-    public float getLastOrderBill() {
-        return orders.getLastOrderBill();
-    }
+    // public float getLastOrderBill() {
+    //     return orders.getLastOrderBill();
+    // }
 
     public String getEmail() {
         return email;

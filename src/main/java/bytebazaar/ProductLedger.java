@@ -43,5 +43,8 @@ public class ProductLedger {
         return DBHandler.getInstance().getReviews(id);
     }
 
+    public void addProduct(Product p) {
+        productLedger.add(p);
+    }
 
 }

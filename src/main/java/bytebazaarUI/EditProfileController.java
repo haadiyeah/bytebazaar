@@ -16,7 +16,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -89,7 +88,6 @@ public class EditProfileController implements Initializable {
         confirm.setTitle("Delete account?");
         confirm.setHeaderText("Do you really want to delete your account?");
         confirm.setContentText("All your data will be permanently removed. This cannot be undone. Are you sure?");
-        confirm.showAndWait();
 
         Optional<ButtonType> result = confirm.showAndWait();
         if (!result.isPresent() || result.get() == ButtonType.CANCEL) {
@@ -122,7 +120,6 @@ public class EditProfileController implements Initializable {
         Alert confirm = new Alert(AlertType.CONFIRMATION);
         confirm.setTitle("Log out?");
         confirm.setHeaderText("Do you want to log out?");
-        confirm.showAndWait();
 
         Optional<ButtonType> result = confirm.showAndWait();
         if (!result.isPresent() || result.get() == ButtonType.CANCEL) {
@@ -185,7 +182,6 @@ public class EditProfileController implements Initializable {
             Alert confirm = new Alert(AlertType.CONFIRMATION);
             confirm.setTitle("Profile changes!");
             confirm.setHeaderText("Do you want to save the changes?");
-            confirm.showAndWait();
 
             Optional<ButtonType> result = confirm.showAndWait();
             if (!result.isPresent()) {

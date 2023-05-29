@@ -1,12 +1,10 @@
 package bytebazaarUI;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
-import bytebazaar.App;
 import bytebazaar.BusinessControllerFactory;
 import bytebazaar.SalesLineItem;
 
@@ -169,10 +167,24 @@ public class CartController implements Initializable {
 
     @FXML
     void gotoCheckout(ActionEvent event) throws IOException {
+        //The function below creates an order , clears cart and returns the orderID.
+        //We save it to pass to the next controller.
         int orderID = BusinessControllerFactory.getBuyerControllerInst().buyNow(currentBuyerID);
-        //BusinessControllerFactory.getBuyerControllerInst().clearCart();
+        //BusinessControllerFactory.getBuyerControllerInst().clearCart(); 
         //passorderid forward
-        App.setRoot("selectPaymentMethod");
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:src/main/resources/bytebazaar/selectPaymentMethod.fxml"));
+        SelectPaymentMethodController selectPaymentCtrl = new SelectPaymentMethodController();
+        selectPaymentCtrl.setData(orderID, currentBuyerID);
+        loader.setController(selectPaymentCtrl);
+
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+        profileBtn.getScene().getWindow().hide();
+        //App.setRoot("selectPaymentMethod");
     }
 
     @FXML

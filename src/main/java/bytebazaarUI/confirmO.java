@@ -2,28 +2,27 @@ package bytebazaarUI;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 import bytebazaar.App;
 import bytebazaar.BusinessControllerFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
-import javafx.scene.Node;
 
 public class confirmO implements Initializable {
-    String A1;
-    String A2;
-    String A3;
-    String A4;
+    private int orderID;
+    private int currentBuyerID;
 
+    public void setData(int orderID, int buyerID) {
+        this.orderID = orderID;
+        this.currentBuyerID = buyerID;
+    }
+    
     // confirmO(String A1, String A2, String A3, String A4) {
     // this.A1 = A1;
     // this.A2 = A2;
@@ -122,12 +121,10 @@ public class confirmO implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        float total = BusinessControllerFactory.getBuyerControllerInst().getLatestOrderBill();
-        float deliveryFee=190;//Set delivery fee in admin controller and fetch it
-        float totalToPay = total+deliveryFee; 
-        itemsTotalLabel.setText("Rs. " + total + "/-");
-        deliveryFeeLabel.setText("Rs. " + deliveryFee + "/-");
-        totalToPayLabel.setText("Rs. " + totalToPay + "/-");
+        LinkedList<String> info = BusinessControllerFactory.getBuyerControllerInst().getOrderSummary(currentBuyerID, orderID);
+        itemsTotalLabel.setText(info.get(0));
+        deliveryFeeLabel.setText(info.get(1));
+        totalToPayLabel.setText(info.get(2));
     }
 
 }

@@ -182,7 +182,7 @@ public class DBHandler {
 
     public int shipmentAPI(int orderID) {
         String insertQuery = "INSERT INTO ShipmentAPI (OrderID) VALUES (?)";
-        String selectQuery = "SELECT MAX(TrackID) AS MaxTrackID FROM ShipmentAPID";
+        String selectQuery = "SELECT MAX(TrackID) AS MaxTrackID FROM ShipmentAPI;";
 
         try (Connection connection = DriverManager.getConnection(connectionURL);
                 PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
@@ -328,7 +328,7 @@ public class DBHandler {
         }
     }
 
-    public Seller authenticateSellerLogin(String email, String password) {
+    public Seller getSeller(String email, String password) {
         try (
                 Connection con = DriverManager.getConnection(connectionURL);
                 Statement stmt = con.createStatement())
@@ -526,11 +526,18 @@ public class DBHandler {
                 LinkedList<Order> returnList = new LinkedList<Order>();
                 // Getting all the orders
                 do {
-                    System.out.println("order: " + resultSet.getInt(1));
+                    // For each order, add the list of sale items
                     returnList.add(new Order(resultSet.getInt(1), resultSet.getDate(2), resultSet.getTime(3),
                             resultSet.getInt(4)));
-                    // For each order, add the list of sale items
                 } while (resultSet.next());
+
+                    
+                for (int i = 0; i < returnList.size(); i++) {
+                    ResultSet rs2 = stmt.executeQuery("SELECT * FROM Shipment WHERE OrderID=" + returnList.get(i).getOrderID());
+                    if(rs2.next()) {
+                        returnList.get(i).setShip( new Shipment( rs2.getInt(2), rs2.getString(4),rs2.getString(5),rs2.getString(6),rs2.getString(7) ) );
+                    }
+                }
 
                 for (int i = 0; i < returnList.size(); i++) {
                     ResultSet resultSet2 = stmt.executeQuery(

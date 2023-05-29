@@ -9,16 +9,16 @@ public class Seller {
     private String name;
     private int ID;
     private String storeInformation;
-    private LinkedList<Order> ordersRecieved;
-    private LinkedList<Product> personalProductsCatalog;
+    private OrderLedger ordersRecieved;
+    private ProductLedger personalProductsCatalog;
 
     public Seller(String email, String password, String phoneNum, String name) {
         this.email = email;
         this.password = password;
         this.phoneNum = phoneNum;
         this.name = name;
-        ordersRecieved = new LinkedList<Order>();
-        personalProductsCatalog= new LinkedList<Product>();
+        ordersRecieved= new OrderLedger();
+        personalProductsCatalog= new ProductLedger();
     }
 
     public Seller(int id, String email, String password, String phoneNum, String name) {
@@ -27,8 +27,8 @@ public class Seller {
         this.phoneNum = phoneNum;
         this.name = name;
         this.ID=id;
-        ordersRecieved = new LinkedList<Order>();
-        personalProductsCatalog= new LinkedList<Product>();
+        ordersRecieved= new OrderLedger();
+        personalProductsCatalog= new ProductLedger();
     }
 
     public String getStoreInformation() {
@@ -40,26 +40,34 @@ public class Seller {
     }
 
     public void setDetails() {
-        ordersRecieved= DBHandler.getInstance().getOrderLog(this.ID);
-        personalProductsCatalog = DBHandler.getInstance().getPersonalProductCatalog(this.ID);
+        ordersRecieved.setOrderList( DBHandler.getInstance().getOrderLog(this.ID) );
+        personalProductsCatalog.setProductLedger(DBHandler.getInstance().getPersonalProductCatalog(this.ID));
 
     }
 
     public void addOrder(Order o) {
-        ordersRecieved.add(o);
+        ordersRecieved.addOrder(o);
     }
 
-    public void removeOrder(Order o) {
-        ordersRecieved.remove(o);
+    public LinkedList<Order> getOrders() {
+        return ordersRecieved.getOrderList();
     }
+
+    public Order getOrderByOrderID(int id){
+        return ordersRecieved.getOrderByOrderID(id);
+    }
+
+    // public void removeOrder(Order o) {
+    //     ordersRecieved.removeOrder(o);
+    // }
 
     public void addProduct(Product p){
-        personalProductsCatalog.add(p);
+        personalProductsCatalog.addProduct(p);
     }
 
-    public void removeProduct(Product p) {
-        personalProductsCatalog.remove(p);
-    }
+    // public void removeProduct(Product p) {
+    //     personalProductsCatalog.remove(p);
+    // }
 
     public String getEmail() {
         return email;

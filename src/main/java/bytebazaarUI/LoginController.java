@@ -39,7 +39,17 @@ public class LoginController {
 
     @FXML
     void goBack(ActionEvent event) throws IOException {
-        App.setRoot("selectview");
+        FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(new URL("file:src/main/resources/bytebazaar/welcomepg.fxml"));
+            WelcomePgController welcomePgCtrl = new  WelcomePgController();
+            loader.setController(welcomePgCtrl);
+
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+            loginBtn.getScene().getWindow().hide();
     }
 
     @FXML
@@ -78,13 +88,27 @@ public class LoginController {
     }
 
     @FXML
-    void loginAsSeller(ActionEvent event) {
-        
-        if (BusinessControllerFactory.getSellerControllerInst().login(emailText.getText(), passwordText.getText())) {
+    void loginAsSeller(ActionEvent event) throws IOException {
+        int returningAccountID=BusinessControllerFactory.getSellerControllerInst().login(emailText.getText(), passwordText.getText());
+        if (returningAccountID!=-1) {
             Alert yay = new Alert(AlertType.INFORMATION);
             yay.setTitle("Success");
             yay.setHeaderText("Congratulations, login success");
             yay.showAndWait();
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(new URL("file:src/main/resources/bytebazaar/sellerdashboard.fxml"));
+            SellerDashboardController sellerDashboardCtrl = new SellerDashboardController();
+            sellerDashboardCtrl.setData(returningAccountID);
+            loader.setController(sellerDashboardCtrl);
+
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+            loginBtn.getScene().getWindow().hide();
+
         } else {
             Alert warn = new Alert(AlertType.WARNING);
             warn.setTitle("Error");

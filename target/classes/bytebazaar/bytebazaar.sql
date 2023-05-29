@@ -201,10 +201,15 @@ SELECT* FROM buyers;
 SELECT* FROM products;
 SELECT* FROM sellers;
 SELECT* FROM orders;
+
+INSERT INTO Shipment (OrderID, TrackID, DeliverTo, Address, Phone, Email) VALUES (1,2212, 'Hadi', 'Zolann', '020120102', 'hadi@hadi.hadi');
+INSERT INTO Shipment (OrderID, TrackID, DeliverTo, Address, Phone, Email) VALUES (2,3212, 'Haanaaa', 'ZZz', '020120102', 'hanaa@hadi.hadi');
+
 SELECT* FROM orderHasProduct;
 SELECT* FROM Shipment;
 SELECT* FROM Faqs;
 SELECT * FROM reviews;
+SELECT * FROM Shipment
 
 SELECT MAX(orderID) FROM orders;
 
@@ -242,7 +247,7 @@ ORDER BY productName ASC; --A-Z
 --Selecting products in a specific order, of a specific seller (To make sales line item)
 SELECT orderHasProduct.productID, productName, productPrice, quantity FROM orderHasProduct JOIN products ON (products.productID=orderHasProduct.productID AND productSeller=1) WHERE orderID=1;
 
-
+select* from sellers;
 --Getting admin
 SELECT sellers.userID, userEmail, userPassword, userPhone, userName FROM sellers JOIN buyers ON buyers.userID=sellers.userID WHERE userEmail='najam@pk.com' AND userPassword='iamfunny'
 

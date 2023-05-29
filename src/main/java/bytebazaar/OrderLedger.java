@@ -6,6 +6,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.LinkedList;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
 public class OrderLedger {
     private LinkedList<Order> orderList;
 
@@ -28,6 +31,11 @@ public class OrderLedger {
         Order o = new Order(Date.valueOf(localDate), Time.valueOf(localTime), buyerID, productsList);
         int returningOrderID = DBHandler.getInstance().saveOrder(o);// will return -1 if failed to save
         o.setOrderID(returningOrderID);
+
+        Alert alr=new Alert(AlertType.INFORMATION);
+        alr.setHeaderText("returning order id= " + returningOrderID);
+        alr.show();
+
         if (returningOrderID != -1)
             orderList.add(o);
         else
@@ -36,34 +44,51 @@ public class OrderLedger {
         return returningOrderID;
     }
 
-    public void removeOrder(int orderID) {
+    public boolean removeOrder(int orderID) {
         for (Order order : orderList) {
             if (order.getOrderID() == orderID) {
+                DBHandler.getInstance().deleteOrder(orderID);
                 orderList.remove(order);
                 System.out.println("Order with order ID " + orderID + " has been removed.");
-                DBHandler.getInstance().deleteOrder(orderID);
-                return;
+                return true;
             }
         }
         System.out.println("Order with order ID " + orderID + " not found.");
+        return false;
+        
     }
 
-    public Order getLastOrder() {
+    public Order getOrderByOrderID(int orderID) {
         if (!orderList.isEmpty()) {
             for (int i = 0; i < orderList.size(); i++) {
-                System.out.println("\n\n\n ORDERRRRRR " + orderList.get(i).getOrderID() + "\n\n");
+                if (orderList.get(i).getOrderID() == orderID) {
+                    return orderList.get(i);
+                }
             }
-            return orderList.getLast();
         }
-        return null; // Return null if the list is empty
+        return null;
     }
 
-    public float getLastOrderBill() {
-        if (!orderList.isEmpty()) {
-            return orderList.getLast().getTotalBill();
-        }
-        return -1; // Return null if the list is empty
+    public void addOrder(Order o) {
+        orderList.add(o);
     }
+
+    // public Order getLastOrder() {
+    //     if (!orderList.isEmpty()) {
+    //         for (int i = 0; i < orderList.size(); i++) {
+    //             System.out.println("\n\n\n ORDERRRRRR " + orderList.get(i).getOrderID() + "\n\n");
+    //         }
+    //         return orderList.getLast();
+    //     }
+    //     return null; // Return null if the list is empty
+    // }
+
+    // public float getLastOrderBill() {
+    //     if (!orderList.isEmpty()) {
+    //         return orderList.getLast().getTotalBill();
+    //     }
+    //     return -1; // Return null if the list is empty
+    // }
 
     public int makeShipment(int oId, String DeliverTo, String Address, String Phone, String Email) {
         int trackId;

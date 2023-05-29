@@ -277,6 +277,9 @@ public class HomepageController implements Initializable {
     @FXML
     private Button backPageButton;
 
+    @FXML
+    private Label viewingPageBottomLabel;
+
     private LinkedList<Integer> displayedProductsIDs; // will contain 9 products that are currently displayed
 
     @FXML
@@ -362,7 +365,6 @@ public class HomepageController implements Initializable {
         Alert confirm = new Alert(AlertType.CONFIRMATION);
         confirm.setTitle("Exit?");
         confirm.setHeaderText("Do you want to exit? You will be logged out");
-        confirm.showAndWait();
 
         Optional<ButtonType> result = confirm.showAndWait();
         if (!result.isPresent() || result.get() == ButtonType.CANCEL) {
