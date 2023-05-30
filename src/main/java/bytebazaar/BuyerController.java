@@ -8,7 +8,8 @@ public class BuyerController {
     FAQLedger faqLedger;
     ReviewLedger reviewLedger;
 
-    //Constructor, this will only be called once as there will only be 1 instance of buyer (using the businesscontrollerhandler)
+    // Constructor, this will only be called once as there will only be 1 instance
+    // of buyer (using the businesscontrollerhandler)
     BuyerController() {
         buyerLedger = new BuyerLedger();
         productLedger = new ProductLedger();
@@ -17,7 +18,8 @@ public class BuyerController {
         faqLedger.populateFAQs();// Will refresh (repopulate) the faqs
     }
 
-    // ---------------------------------Functions related to Account/Session Management ------------------------------------
+    // ---------------------------------Functions related to Account/Session
+    // Management ------------------------------------
     // Initially the default account will be buyer
     public int signup(String name, String phone, String email, String password) {
         return buyerLedger.createBuyer(name, email, phone, password);
@@ -28,12 +30,12 @@ public class BuyerController {
         return buyerLedger.loginRequest(email, password);
     }
 
-    //If user makes edit to their profile on viewing products page.
+    // If user makes edit to their profile on viewing products page.
     public boolean updateBuyer(int buyerID, String name, String email, String password, String phone, String address) {
         return buyerLedger.updateBuyer(buyerID, name, email, password, phone, address);
     }
 
-    //To show buyer info on "Edit profile" and "view profile" page.
+    // To show buyer info on "Edit profile" and "view profile" page.
     public LinkedList<String> getBuyerInfo(int buyerID) {
         LinkedList<String> retList = new LinkedList<String>();
         Buyer b = buyerLedger.getBuyerByID(buyerID);
@@ -45,7 +47,7 @@ public class BuyerController {
         return retList;
     }
 
-    //To show order summary on viewing profile page
+    // To show order summary on viewing profile page
     public LinkedList<Order> getOrderHistory(int buyerID) {
         return buyerLedger.getBuyerByID(buyerID).getOrderHistory();
     }
@@ -57,13 +59,14 @@ public class BuyerController {
         return buyerLedger.deleteBuyer(buyerID);
     }
 
-    // ------------------------------Functions related to browsing products----------------------------------
+    // ------------------------------Functions related to browsing
+    // products----------------------------------
 
     public LinkedList<Product> searchProduct(String text) {
         return productLedger.search(text);
     }
 
-    //When browse products button is clicked
+    // When browse products button is clicked
     public LinkedList<Product> getProducts(String filter, LinkedList<String> categories) {
         // this will return the productlist inside the ledger, aswell as set the current
         // product ledger
@@ -76,7 +79,7 @@ public class BuyerController {
         return productLedger.getAverageRating(id);
     }
 
-    //When viewing product detail, this function will be used
+    // When viewing product detail, this function will be used
     public LinkedList<String> getProductInformation(int productID) {
         Product p = productLedger.getProductByProductID(productID);
         LinkedList<String> returnList = new LinkedList<String>();
@@ -91,8 +94,8 @@ public class BuyerController {
         return returnList;
     }
 
-      // When browsing products, buyer may want to get reviews
-      public LinkedList<Review> getReviews(int id) {
+    // When browsing products, buyer may want to get reviews
+    public LinkedList<Review> getReviews(int id) {
         return productLedger.getReviews(id);
     }
 
@@ -100,8 +103,18 @@ public class BuyerController {
         return reviewLedger.createNewReview(reviewText, rating, userID, productID);
     }
 
-    // ----------------------------------Functions related to placing order---------------------------------
+    // ----------------------------------Functions related to placing
+    // order---------------------------------
     public int buyNow(int buyerID) {
+        int orderID = buyerLedger.getBuyerByID(buyerID).buyNow(getCartList(buyerID));
+        return orderID;
+    }
+
+    public int buyNow(int buyerID, int productID, int quantity) {
+        LinkedList<SalesLineItem> s = new LinkedList<SalesLineItem>();
+        Product p = productLedger.getProductByProductID(productID);
+        SalesLineItem s1 = new SalesLineItem(p, quantity);
+        s.add(s1);
         int orderID = buyerLedger.getBuyerByID(buyerID).buyNow(getCartList(buyerID));
         return orderID;
     }
@@ -136,7 +149,6 @@ public class BuyerController {
         return retList;
     }
 
-    
     public LinkedList<String> getOrderSummary(int buyerID, int orderID) {
         LinkedList<String> result = new LinkedList<String>();
         float returnedTotal = buyerLedger.getBuyerByID(buyerID).getOrderTotal(orderID);
@@ -147,7 +159,8 @@ public class BuyerController {
         return result;
     }
 
-    // -------------------------Functions related to cart management--------------------------------------------
+    // -------------------------Functions related to cart
+    // management--------------------------------------------
     public LinkedList<SalesLineItem> getCartList(int buyerID) {
         return buyerLedger.getCartList(buyerID);
     }
@@ -162,7 +175,8 @@ public class BuyerController {
         return buyerLedger.getBuyerByID(buyerID).updateCartQuantity(productID, updateType);
     }
 
-    //-----------------------Functions related to FAQS----------------------------------------------------
+    // -----------------------Functions related to
+    // FAQS----------------------------------------------------
     // Will refresh (repopulate) the faqs from db and then return
     public LinkedList<FAQ> refreshFAQs() {
         return faqLedger.populateFAQs();
@@ -178,8 +192,6 @@ public class BuyerController {
         return faqLedger.findInFAQs(text);
     }
 
-
-
     // public Buyer getCurrentUser() {
     // return buyerLedger.getCurrentBuyer();
     // }
@@ -187,6 +199,5 @@ public class BuyerController {
     // public void setCurrentUser(Buyer u) {
     // // buyerLedger.setCurrentUser(u);
     // }
-
 
 }
