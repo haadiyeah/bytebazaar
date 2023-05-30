@@ -22,14 +22,14 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class ViewingProdDetailController implements Initializable {
-    //Product currentprod;
+    // Product currentprod;
 
     int currentProdID;
     int currentBuyerID;
 
     public void setData(int buyerid, int productid) {
         this.currentProdID = productid;
-        this.currentBuyerID=buyerid;
+        this.currentBuyerID = buyerid;
     }
 
     @FXML
@@ -91,7 +91,7 @@ public class ViewingProdDetailController implements Initializable {
 
     @FXML
     private Button viewReviewsBtn;
-    
+
     @FXML
     private Button buyNowBtn;
 
@@ -100,22 +100,23 @@ public class ViewingProdDetailController implements Initializable {
 
     @FXML
     void addToCart(ActionEvent event) {
-        BusinessControllerFactory.getBuyerControllerInst().addToCart(currentBuyerID, currentProdID); 
-       
-        Alert alert=new Alert(AlertType.INFORMATION);
+        BusinessControllerFactory.getBuyerControllerInst().addToCart(currentBuyerID, currentProdID);
+
+        Alert alert = new Alert(AlertType.INFORMATION);
         alert.setHeaderText("Added to cart successfully");
         alert.setContentText("You have added to cart");
         alert.showAndWait();
     }
 
     @FXML
-    void buyNow(ActionEvent event) {
-
+    void buyNow(ActionEvent event) throws IOException {
+        BusinessControllerFactory.getBuyerControllerInst().buyNow(currentBuyerID, currentProdID, 1);
+        App.setRoot("selectPaymentMethod");
     }
 
     @FXML
     void goBack(ActionEvent event) throws IOException {
-        
+
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(new URL("file:src/main/resources/bytebazaar/homepage.fxml"));
         HomepageController homepageCtrl = new HomepageController();
@@ -190,11 +191,12 @@ public class ViewingProdDetailController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        LinkedList<String> info =BusinessControllerFactory.getBuyerControllerInst().getProductInformation(currentProdID);
+        LinkedList<String> info = BusinessControllerFactory.getBuyerControllerInst()
+                .getProductInformation(currentProdID);
         productName.setText(info.get(0));
         productDesc.setText(info.get(1));
         mainImage.imageProperty().set(new Image(info.get(2)));
-        productPrice.setText( info.get(3) );
+        productPrice.setText(info.get(3));
         companyName.setText(info.get(4));
         reviewsSummary.setText(info.get(5));
     }

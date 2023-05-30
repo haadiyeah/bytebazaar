@@ -182,7 +182,7 @@ public class DBHandler {
 
     public int shipmentAPI(int orderID) {
         String insertQuery = "INSERT INTO ShipmentAPI (OrderID) VALUES (?)";
-        String selectQuery = "SELECT MAX(TrackID) AS MaxTrackID FROM ShipmentAPI;";
+        String selectQuery = "SELECT MAX(TrackID) AS MaxTrackID FROM ShipmentAPI";
 
         try (Connection connection = DriverManager.getConnection(connectionURL);
                 PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
@@ -531,11 +531,12 @@ public class DBHandler {
                             resultSet.getInt(4)));
                 } while (resultSet.next());
 
-                    
                 for (int i = 0; i < returnList.size(); i++) {
-                    ResultSet rs2 = stmt.executeQuery("SELECT * FROM Shipment WHERE OrderID=" + returnList.get(i).getOrderID());
-                    if(rs2.next()) {
-                        returnList.get(i).setShip( new Shipment( rs2.getInt(2), rs2.getString(4),rs2.getString(5),rs2.getString(6),rs2.getString(7) ) );
+                    ResultSet rs2 = stmt
+                            .executeQuery("SELECT * FROM Shipment WHERE OrderID=" + returnList.get(i).getOrderID());
+                    if (rs2.next()) {
+                        returnList.get(i).setShip(new Shipment(rs2.getInt(2), rs2.getString(4), rs2.getString(5),
+                                rs2.getString(6), rs2.getString(7)));
                     }
                 }
 
