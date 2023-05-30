@@ -191,6 +191,7 @@ SELECT* FROM products;
 SELECT* FROM sellers;
 SELECT* FROM orders;
 SELECT* FROM orderHasProduct;
+SELECT* FROM Shipment;
 SELECT* FROM Faqs;
 SELECT * FROM reviews;
 

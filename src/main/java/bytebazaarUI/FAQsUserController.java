@@ -5,13 +5,15 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
-import bytebazaar.App;
 import bytebazaar.BusinessControllerFactory;
 import bytebazaar.FAQ;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -22,9 +24,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Stage;
 
 public class FAQsUserController implements Initializable{
+    int currentBuyerID;
 
+    public void setData(int id) {
+        this.currentBuyerID = id;
+    }
     @FXML
     private Button backBtn1;
 
@@ -54,12 +61,34 @@ public class FAQsUserController implements Initializable{
 
     @FXML
     void goBack(ActionEvent event) throws IOException {
-        App.setRoot("homepage");
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:src/main/resources/bytebazaar/homepage.fxml"));
+        HomepageController homepageCtrl = new HomepageController();
+        homepageCtrl.setData(currentBuyerID);
+        loader.setController(homepageCtrl);
+
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+        backBtn1.getScene().getWindow().hide();
     }
 
     @FXML
     void openCart(ActionEvent event) throws IOException {
-        App.setRoot("cart");
+        cartBtn1.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:src/main/resources/bytebazaar/cart.fxml"));
+        CartController cartCtrl = new CartController();
+        cartCtrl.setData(currentBuyerID);
+        loader.setController(cartCtrl);
+
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
     }
 
     public void setFAQs(LinkedList<FAQ> faqs) {

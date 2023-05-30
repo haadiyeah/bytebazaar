@@ -41,21 +41,22 @@ public class BuyerLedger {
         return -1;
     }
 
-    public boolean loginRequest(String email, String password) {
+    public int loginRequest(String email, String password) {
         int check=checkInLedger(email, password);
         if (check!=-1) {
             //Set current buyer as the one who returned
             //TODO After fixing this and adding the get-through id func, this line should be removed
             buyerAccounts.addFirst (buyerAccounts.remove(check));
+            return buyerAccounts.getFirst().getID();
         }
 
         Buyer b = DBHandler.getInstance().authenticateBuyerLogin(email, password);
         if (b != null) {
             b.setDetails();// will call the buyer's setdetails func, to create cart and orderlog
             buyerAccounts.addFirst(b);
-            return true;
+            return b.getID();
         } else {
-            return false;
+            return -1;
         }
     }
 
@@ -63,12 +64,28 @@ public class BuyerLedger {
         return buyerAccounts.getFirst();
     }
 
-    public void addToCurrentUsersCart(Product p) {
-        buyerAccounts.getFirst().addToCart(p);
+    // public void addToCurrentUsersCart(Product p) {
+    //     buyerAccounts.getFirst().addToCart(p);
+    // }
+
+    //Find the buyer with the given ID and adds the product passed to their cart.
+    public void addToCart(int buyerID, Product prod) {
+        buyerAccounts.forEach(buyer -> {
+            if(buyer.getID()==buyerID) {
+                buyer.addToCart(prod, 1);
+                return;
+            }
+        });
     }
-    public boolean updateCurrentBuyer(String name, String email, String password, String phone, String address) {
-        
-        if (DBHandler.getInstance().updateBuyer(buyerAccounts.get(0).getID(), name, email, password, phone, address)) {
+
+    public LinkedList<SalesLineItem> getCartList(int buyerID) {
+        if(getBuyerByID(buyerID)!=null)
+            return getBuyerByID(buyerID).getCartList();
+        else 
+            return new LinkedList<SalesLineItem>();//returning empty list
+    }
+    public boolean updateBuyer(int buyerID, String name, String email, String password, String phone, String address) {
+        if (DBHandler.getInstance().updateBuyer(buyerID, name, email, password, phone, address)) {
             buyerAccounts.get(0).setName(name);
             buyerAccounts.get(0).setEmail(email);
             buyerAccounts.get(0).setPassword(password);
@@ -82,7 +99,7 @@ public class BuyerLedger {
 
     public boolean deleteBuyer(int buyerID){
         boolean ret= DBHandler.getInstance().deleteUser(buyerID);
-        buyerAccounts.remove(getBuyer(buyerID));
+        buyerAccounts.remove(getBuyerByID(buyerID));
         return ret;
     }
 
@@ -91,7 +108,7 @@ public class BuyerLedger {
     // }
 
     //Find buyer with the given ID and return its object
-    public Buyer getBuyer(int ID) {
+    public Buyer getBuyerByID(int ID) {
         for(int i=0;i<buyerAccounts.size();i++) {
             if(buyerAccounts.get(i).getID() == ID) {
                 return buyerAccounts.get(i);

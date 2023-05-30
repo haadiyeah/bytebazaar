@@ -2,14 +2,16 @@ package bytebazaarUI;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 
-import bytebazaar.App;
 import bytebazaar.BusinessControllerFactory;
-import bytebazaar.Product;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
@@ -19,9 +21,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 public class WritingReviewController implements Initializable  {
+    int currentBuyerID;
+    int currentProductID;
 
+    public void setData(int buyerID, int productID) {
+        this.currentBuyerID=buyerID;
+        this.currentProductID=productID;
+    }
     @FXML
     private Button backBtn;
 
@@ -48,22 +57,56 @@ public class WritingReviewController implements Initializable  {
 
     @FXML
     private Button wishlistBtn;
-    @FXML
-    private ImageView productImage;
     
     @FXML
+    private ImageView productImage;
+
+    @FXML
     void goBack(ActionEvent event) throws IOException {
-        App.setRoot("viewingreviews");
+        backBtn.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:src/main/resources/bytebazaar/viewingreviews.fxml"));
+        ViewingReviewsController viewingReviewsCtrl = new ViewingReviewsController();
+        viewingReviewsCtrl.setData(currentBuyerID, currentProductID);
+        loader.setController(viewingReviewsCtrl);
+
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
     void openCart(MouseEvent event) throws IOException {
-        App.setRoot("cart");
+        cartBtn.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:src/main/resources/bytebazaar/cart.fxml"));
+        CartController cartCtrl = new CartController();
+        cartCtrl.setData(currentBuyerID);
+        loader.setController(cartCtrl);
+
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
     void openProfile(ActionEvent event) throws IOException {
-        App.setRoot("viewingprofile");
+        profileBtn.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:src/main/resources/bytebazaar/viewingprofile.fxml"));
+        ViewingProfileController viewingProfileCtrl = new ViewingProfileController();
+        viewingProfileCtrl.setData(currentBuyerID);
+        loader.setController(viewingProfileCtrl);
+
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
@@ -74,7 +117,7 @@ public class WritingReviewController implements Initializable  {
     @FXML
     void submitReview(ActionEvent event) {
         //Submit review sending text, rating slider amount, currentUser ID and currentProductID
-       if ( BusinessControllerFactory.getBuyerControllerInst().submitReview(reviewfield.getText(), (int)ratingSlider.getValue(), BusinessControllerFactory.getBuyerControllerInst().getCurrentUser().getID(), BusinessControllerFactory.getBuyerControllerInst().getCurrentProduct().getProductID()) ) {
+       if ( BusinessControllerFactory.getBuyerControllerInst().submitReview(reviewfield.getText(), (int)ratingSlider.getValue(), currentBuyerID, currentProductID) ) {
             Alert alert=new Alert(AlertType.INFORMATION);
             alert.setHeaderText("Review added successfully");
             alert.setHeaderText("You have the review");
@@ -95,11 +138,12 @@ public class WritingReviewController implements Initializable  {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        Product currentprod=BusinessControllerFactory.getBuyerControllerInst().getCurrentProduct();
-        String sellerName = BusinessControllerFactory.getBuyerControllerInst().getCurrentProductSeller();
-        productImage.imageProperty().set(new Image(currentprod.getImageURL()));
-        productName.setText(currentprod.getName());
-        prodSeller.setText(sellerName);
+        LinkedList<String> info = BusinessControllerFactory.getBuyerControllerInst().getProductInformation(currentProductID);
+        productName.setText(info.get(0));
+       //productImage=new ImageView(new Image(info.get(2)));
+        //prodSeller=new Label();
+        productImage.imageProperty().set(new Image(info.get(2)));
+        prodSeller.setText(info.get(4));
     }
 
 }

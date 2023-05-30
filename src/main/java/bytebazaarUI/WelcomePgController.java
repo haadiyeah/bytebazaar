@@ -8,9 +8,13 @@ import bytebazaar.App;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class WelcomePgController implements Initializable {
@@ -37,12 +41,32 @@ public class WelcomePgController implements Initializable {
 
     @FXML
     void openLogin(ActionEvent event) throws IOException {
-        App.setRoot("login");
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:src/main/resources/bytebazaar/login.fxml"));
+        LoginController loginCtrl = new  LoginController();
+        loader.setController(loginCtrl);
+
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+        loginBtn.getScene().getWindow().hide();
     }
 
     @FXML
     void openSignup(ActionEvent event) throws IOException {
-        App.setRoot("signup");
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:src/main/resources/bytebazaar/signup.fxml"));
+        SignupController signupCtrl = new  SignupController();
+        loader.setController(signupCtrl);
+
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+        loginBtn.getScene().getWindow().hide();
     }
 
 }

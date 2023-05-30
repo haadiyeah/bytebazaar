@@ -5,23 +5,31 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
-import bytebazaar.App;
 import bytebazaar.BusinessControllerFactory;
 import bytebazaar.SalesLineItem;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 public class CartController implements Initializable {
+    int currentBuyerID;
+
+    public void setData(int id) {
+        this.currentBuyerID=id;
+    }
     @FXML
     private Label CartItem1;
 
@@ -88,52 +96,95 @@ public class CartController implements Initializable {
     @FXML
     private Button wishlistBtn;
 
-    private LinkedList<SalesLineItem> cartList;
+    //private LinkedList<SalesLineItem> cartList;
     private LinkedList<Label> quantities;
     private LinkedList<Label> amounts;
     private LinkedList<HBox> boxes;
+    private LinkedList<Integer> cartItemsIDs;
 
     @FXML
     void decreaseQty(ActionEvent event) {
         //Checking which button was pressed
         Button numberButton = (Button) event.getTarget();
-        int id = Integer.parseInt(numberButton.getId().split("-")[1]);
-        
-        cartList.get(id).setQuantity( cartList.get(id).getQuantity() -1 );
-        if(cartList.get(id).getQuantity() == 0) {
-            cartList.remove(id); 
-            //boxes.get(id).setVisible(false);
-            //cartVbox.getChildren().remove(id);
-            //ORRRR 
-            cartVbox.getChildren().remove(boxes.get(id));
+        int index = Integer.parseInt(numberButton.getId().split("-")[1]);
+        int productID= cartItemsIDs.get(index);
+        LinkedList<SalesLineItem> cartList;
+
+        //Update the qty in the backend:
+        //If this returns true it means the product still exists in the cart i.e. not 0
+        boolean returnStatus=BusinessControllerFactory.getBuyerControllerInst().updateCartItemQty(currentBuyerID, productID, '-');
+        //Getting the update cart
+        cartList = BusinessControllerFactory.getBuyerControllerInst().getCartList(currentBuyerID);
+
+        if (returnStatus==false ){//Product is no longer in the cart
+            cartVbox.getChildren().remove(boxes.get(index));
         } else {
-            quantities.get(id).setText("" + cartList.get(id).getQuantity());
-            amounts.get(id).setText("" + cartList.get(id).getPrice() * cartList.get(id).getQuantity());
+            //getting the updated value from the cart list
+            quantities.get(index).setText(""+cartList.get(index).getQuantity());
+            amounts.get(index).setText(""+cartList.get(index).getSubTotal());
         }
-        updateTotal();
-        
+
+        //Updating the 'total' label at the bottom
+        totalAmount.setText("Rs. " + updateTotal(cartList) + "/-");
     }
 
     @FXML
     void increaseQty(ActionEvent event) {
+        //This code will give the index,  (0,1,2,3...) NOT productid, 
+        //of the product in the cart, whose button is clicked.
         Button numberButton = (Button) event.getTarget();
-        int id = Integer.parseInt(numberButton.getId().split("-")[1]);
-        cartList.get(id).setQuantity( cartList.get(id).getQuantity() +1 );
-        quantities.get(id).setText(""+cartList.get(id).getQuantity());
-        amounts.get(id).setText(""+cartList.get(id).getPrice()*cartList.get(id).getQuantity());
-        updateTotal();
+        int index = Integer.parseInt(numberButton.getId().split("-")[1]);
+        int productID= cartItemsIDs.get(index);
+        
+        //Update the qty in the backend:
+        BusinessControllerFactory.getBuyerControllerInst().updateCartItemQty(currentBuyerID, productID, '+');
+        LinkedList<SalesLineItem> cartList = BusinessControllerFactory.getBuyerControllerInst().getCartList(currentBuyerID);
+        
+        //getting the updated value from the cart list
+        quantities.get(index).setText(""+cartList.get(index).getQuantity());
+        amounts.get(index).setText(""+cartList.get(index).getSubTotal());
+
+        //Updating the 'total' label at the bottom
+        totalAmount.setText("Rs. " + updateTotal(cartList) + "/-");
     }
 
     @FXML
     void goBack(ActionEvent event) throws IOException {
-        App.setRoot("homepage");
+        
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:src/main/resources/bytebazaar/homepage.fxml"));
+        HomepageController homepageCtrl = new HomepageController();
+        homepageCtrl.setData(currentBuyerID);
+        loader.setController(homepageCtrl);
+
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+        backBtn.getScene().getWindow().hide();
     }
 
     @FXML
     void gotoCheckout(ActionEvent event) throws IOException {
-        int orderID = BusinessControllerFactory.getBuyerControllerInst().buyNow(cartList);
-        //BusinessControllerFactory.getBuyerControllerInst().clearCart();
-        App.setRoot("selectPaymentMethod");
+        //The function below creates an order , clears cart and returns the orderID.
+        //We save it to pass to the next controller.
+        int orderID = BusinessControllerFactory.getBuyerControllerInst().buyNow(currentBuyerID);
+        //BusinessControllerFactory.getBuyerControllerInst().clearCart(); 
+        //passorderid forward
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:src/main/resources/bytebazaar/selectPaymentMethod.fxml"));
+        SelectPaymentMethodController selectPaymentCtrl = new SelectPaymentMethodController();
+        selectPaymentCtrl.setData(orderID, currentBuyerID);
+        loader.setController(selectPaymentCtrl);
+
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+        profileBtn.getScene().getWindow().hide();
+        //App.setRoot("selectPaymentMethod");
     }
 
     @FXML
@@ -142,41 +193,58 @@ public class CartController implements Initializable {
     }
 
     @FXML
-    void openProfile(ActionEvent event) {
+    void openProfile(ActionEvent event) throws IOException {
+        profileBtn.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:src/main/resources/bytebazaar/viewingprofile.fxml"));
+        ViewingProfileController viewingProfileCtrl = new ViewingProfileController();
+        viewingProfileCtrl.setData(currentBuyerID);
+        loader.setController(viewingProfileCtrl);
 
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
     }
 
-    private void updateTotal() {
+    private float updateTotal(LinkedList<SalesLineItem> cartList) {
         float total=0;
         for(int i=0;i<cartList.size();i++) {
-            total+= cartList.get(i).getQuantity()*cartList.get(i).getPrice();
+            total+= cartList.get(i).getSubTotal();
         }
-        totalAmount.setText("Rs. " + total + "/-");
+        return total;
     }
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        this.cartVbox.getChildren().remove(this.cartitemHbox);// removing the dummy data
-
+        this.cartVbox.getChildren().remove(cartitemHbox); //Removing the dummy data
         // Initializing necessary lists;
-        cartList = new LinkedList<SalesLineItem>();
-        cartList = BusinessControllerFactory.getBuyerControllerInst().getCartList();
+        cartItemsIDs = new LinkedList<Integer>();
+        LinkedList<SalesLineItem> cartList = BusinessControllerFactory.getBuyerControllerInst().getCartList(currentBuyerID);
         boxes=new LinkedList<HBox>();
         quantities = new LinkedList<Label>();
         amounts = new LinkedList<Label>();
 
+        setCart(cartList);
+
+    }
+
+    public void setCart(LinkedList<SalesLineItem> cartList) {
+        this.cartVbox.getChildren().removeAll(); //Removes the dummy Data
         float total=0;
         //Setting up the cart and calculating the total alongside.
         if (cartList != null) {
             for (int i = 0; i < cartList.size(); i++) {
-                // Create HBox
+                //Adding to list of productIDs, these will be used for reference later.
+                cartItemsIDs.add(cartList.get(i).getProductID());
+
                 HBox cartitemHbox = new HBox();
                 cartitemHbox.setAlignment(Pos.CENTER);
                 cartitemHbox.setPrefHeight(34.0);
                 cartitemHbox.setPrefWidth(566.0);
                 boxes.add(cartitemHbox);
 
-                // Create Labels
                 Label cartItemName = new Label(cartList.get(i).getProductName());
                 cartItemName.setContentDisplay(ContentDisplay.RIGHT);
                 cartItemName.setPrefHeight(34.0);
@@ -209,29 +277,28 @@ public class CartController implements Initializable {
                 cartItemAmount.setPadding(new Insets(0, 0, 0, 20.0));
                 total+= cartList.get(i).getQuantity()*cartList.get(i).getPrice();
 
-                // Create Buttons
                 Button increaseQtyButton = new Button("+");
-                increaseQtyButton.setId("increaseQtyButton-" + i); // Setting id to access later
+                increaseQtyButton.setId("increaseQtyButton-" + i);
                 increaseQtyButton.setOnAction(e -> increaseQty(e));
                 increaseQtyButton.setMnemonicParsing(false);
                 increaseQtyButton.setPrefHeight(25.0);
                 increaseQtyButton.setPrefWidth(27.0);
 
                 Button decreaseQtyButton = new Button("-");
-                decreaseQtyButton.setId("decreaseQtyButton-" + i); // Setting id to access later
+                decreaseQtyButton.setId("decreaseQtyButton-" + i); 
                 decreaseQtyButton.setOnAction(e -> decreaseQty(e));
                 decreaseQtyButton.setMnemonicParsing(false);
                 decreaseQtyButton.setPrefHeight(25.0);
                 decreaseQtyButton.setPrefWidth(26.0);
 
-                // Add components to HBox
+                //Adding to the hbox
                 cartitemHbox.getChildren().addAll(cartItemName, cartItemPrice, increaseQtyButton, cartItemQuantity,
                         decreaseQtyButton, cartItemAmount);
 
-                // Add to external-most vbox
+                //adding ot the container(vbox scrollpane) 
                 cartVbox.getChildren().add(cartitemHbox);
 
-                total += cartList.get(i).getPrice()*cartList.get(i).getQuantity();
+                total += cartList.get(i).getSubTotal();
 
             }
 
@@ -239,7 +306,6 @@ public class CartController implements Initializable {
         } else {
             totalAmount.setText("Rs. 0.00/-");
         }
-
     }
 
 }

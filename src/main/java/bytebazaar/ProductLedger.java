@@ -4,12 +4,9 @@ import java.util.LinkedList;
 
 public class ProductLedger {
     private LinkedList<Product> productLedger;
-    private Product currentProduct; //to view prod detail
-    
    
     public ProductLedger() {
         productLedger=new LinkedList<Product>();
-        currentProduct=new Product();
     }
 
     public LinkedList<Product> getProducts(String filter, LinkedList<String> categories) {
@@ -25,12 +22,13 @@ public class ProductLedger {
         this.productLedger = productLedger;
     }
 
-    public Product getCurrentProduct() {
-        return currentProduct;
-    }
 
-    public void setCurrentProduct(Product currentProduct) {
-        this.currentProduct = currentProduct;
+    public Product getProductByProductID(int ID) {
+        for(int i=0;i<productLedger.size();i++) {
+            if(productLedger.get(i).getProductID() ==ID)
+                return productLedger.get(i);
+        }
+        return null;
     }
 
     public String getProductSeller(Product prod) {
@@ -45,5 +43,8 @@ public class ProductLedger {
         return DBHandler.getInstance().getReviews(id);
     }
 
+    public void addProduct(Product p) {
+        productLedger.add(p);
+    }
 
 }

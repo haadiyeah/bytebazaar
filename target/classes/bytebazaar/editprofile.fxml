@@ -20,7 +20,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" prefHeight="430.0" prefWidth="600.0" style="-fx-background-image: url(&quot;https://t4.ftcdn.net/jpg/01/84/15/05/360_F_184150518_n7nMgXVC3hwqj15DCT2cc6cx94oT9K4n.jpg&quot;); -fx-background-size: cover;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bytebazaarUI.EditProfileController">
+<VBox alignment="TOP_CENTER" prefHeight="430.0" prefWidth="600.0" style="-fx-background-image: url(&quot;https://t4.ftcdn.net/jpg/01/84/15/05/360_F_184150518_n7nMgXVC3hwqj15DCT2cc6cx94oT9K4n.jpg&quot;); -fx-background-size: cover;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" >
    <children>
       <StackPane alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="41.0" prefWidth="606.0">
          <children>

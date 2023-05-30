@@ -9,6 +9,17 @@ public class SellerLedger {
         sellerAccounts = new LinkedList<Seller>();
     }
 
+    public LinkedList<Order> getOrdersOf(int sellerID) {
+        //This condition must be met if he is logged in.
+        if(getSeller(sellerID) !=null ) { //Indicates already present in ledger
+            return getSeller(sellerID).getOrders();
+        } else { //Find in db
+            return null;
+        }
+
+    }
+
+    //The belwo function returns the index of the seller if currently present in ledger, else returns -1
     public int checkInLedger(String email, String password) {
         for (int i = 0; i < sellerAccounts.size(); i++) {
             if (sellerAccounts.get(i).getEmail().equals(email) && sellerAccounts.get(i).getPassword().equals(password)) {
@@ -18,23 +29,23 @@ public class SellerLedger {
         return -1;
     }
 
-    public boolean loginRequest(String email, String password) {
+    public int loginRequest(String email, String password) {
+        //Check if the account is already present in the ledger
         int check=checkInLedger(email, password);
         if (check!=-1) {
-            //Set current seller as the one who returned
-            //TODO After fixing this and adding the get-through id func, this line should be removed
-            sellerAccounts.addFirst (sellerAccounts.remove(check));
+            //sellerAccounts.addFirst (sellerAccounts.remove(check));
+            return sellerAccounts.get(check).getID();
         }
 
-        Seller s = DBHandler.getInstance().authenticateSellerLogin(email, password);
+        Seller s = DBHandler.getInstance().getSeller(email, password);
         if (s != null) {
             s.setDetails();// will call the seller's setdetails func, to add order-recieved log and
                            // product catalog
             sellerAccounts.add(s);
-            return true;
+            return s.getID();
         } else {
             System.out.println("authenticate login returned null for seller");
-            return false;
+            return -1;
         }
     }
 

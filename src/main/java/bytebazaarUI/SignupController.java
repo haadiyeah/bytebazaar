@@ -1,18 +1,21 @@
 package bytebazaarUI;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Optional;
-
-import bytebazaar.App;
 import bytebazaar.BusinessControllerFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import javafx.scene.control.Alert.AlertType;
 
 public class SignupController {
@@ -113,10 +116,11 @@ public class SignupController {
             if (!result.isPresent()) {
                 // alert is exited, no button has been pressed. do nothing
             } else if (result.get() == ButtonType.OK) {
-                //The below function call will return the newly created userID
-                //Can be used to pass
-                if (BusinessControllerFactory.getBuyerControllerInst().signup("", phoneTextBox.getText(),
-                        emailTextBox.getText(), passTextBox.getText()) > 0) {
+                // The below function call will return the newly created userID
+                int signupReturnedID = BusinessControllerFactory.getBuyerControllerInst().signup("",
+                        phoneTextBox.getText(),
+                        emailTextBox.getText(), passTextBox.getText());
+                if (signupReturnedID > 0) {
                     Alert yay = new Alert(AlertType.INFORMATION);
                     yay.setTitle("Success");
                     yay.setHeaderText("Congratulations, your account has been created successfully.");
@@ -124,13 +128,24 @@ public class SignupController {
                             "You will now be directed to the login screen, please enter your email and password there to login.");
                     yay.showAndWait();
                     // LoginController li = new LoginController("Buyer");
-                    App.setRoot("login");
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(new URL("file:src/main/resources/bytebazaar/login.fxml"));
+                    LoginController loginCtrl = new LoginController();
+                    loader.setController(loginCtrl);
+
+                    Parent root = loader.load();
+                    Scene scene = new Scene(root);
+                    Stage stage = new Stage();
+                    stage.setScene(scene);
+                    stage.show();
+                    signUpButton.getScene().getWindow().hide();
 
                 } else {
                     Alert warn = new Alert(AlertType.WARNING);
                     warn.setTitle("Error");
                     warn.setHeaderText("Signup unsuccessful");
-                    warn.setHeaderText("An account with this information already exists. Please use new credentials, or go back to login");
+                    warn.setHeaderText(
+                            "An account with this information already exists. Please use new credentials, or go back to login");
                     warn.showAndWait();
                 }
             } else if (result.get() == ButtonType.CANCEL) {
@@ -146,17 +161,27 @@ public class SignupController {
     void termsConditionsRead(ActionEvent event) {
         if (termsConditionsCheckBox.isSelected()) {
             Alert tnc = new Alert(AlertType.INFORMATION);
-            tnc.setTitle("Terms and Conditions of TMMS");
+            tnc.setTitle("Terms and Conditions of ByteBazaar");
             tnc.setHeaderText("Please read the following Terms and Conditions");
             tnc.setContentText(
-                    "1. Personal use only \n2. Sell your soul to us 2 \n3. Condition the terms \n4. Term the conditions ");
+                    "1. Personal use only, do not sell harmful products \n2. Sell your soul to us 2 \n3. Be respectful \n4. Term the conditions ");
             tnc.showAndWait();
         }
     }
 
     @FXML
     void goBack(ActionEvent event) throws IOException {
-        App.setRoot("welcomepg");
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:src/main/resources/bytebazaar/welcomepg.fxml"));
+        WelcomePgController welcomePgCtrl = new WelcomePgController();
+        loader.setController(welcomePgCtrl);
+
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+        signUpButton.getScene().getWindow().hide();
     }
 
 }

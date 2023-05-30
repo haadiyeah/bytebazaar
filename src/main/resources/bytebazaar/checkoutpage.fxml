@@ -21,9 +21,9 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bytebazaarUI.checkoutpage">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <left>
-      <VBox prefHeight="214.0" prefWidth="384.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="388.0" prefWidth="379.0" BorderPane.alignment="CENTER">
          <children>
             <HBox alignment="CENTER" prefHeight="60.0" prefWidth="324.0">
                <children>
@@ -33,7 +33,7 @@
                      </font>
                   </Label>
                </children></HBox>
-            <HBox prefHeight="159.0" prefWidth="423.0">
+            <HBox prefHeight="159.0" prefWidth="345.0">
                <children>
                   <VBox prefHeight="159.0" prefWidth="142.0" spacing="26.0" style="-fx-background-color: light blue;">
                      <children>
@@ -72,7 +72,7 @@
       </VBox>
    </left>
    <right>
-      <VBox prefHeight="365.0" prefWidth="229.0" spacing="10.0" style="-fx-background-color: #cbe2ff;" BorderPane.alignment="CENTER">
+      <VBox prefHeight="388.0" prefWidth="206.0" spacing="10.0" style="-fx-background-color: #cbe2ff;" BorderPane.alignment="CENTER">
          <children>
             <VBox alignment="CENTER" prefHeight="48.0" prefWidth="216.0" style="-fx-background-color: light grey;">
                <children>

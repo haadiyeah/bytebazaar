@@ -10,10 +10,13 @@ import bytebazaar.BusinessControllerFactory;
 import bytebazaar.Buyer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
@@ -22,6 +25,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 public class EditProfileController implements Initializable {
+    int currentBuyerID;
+    public void setData(int buyerID) {
+        this.currentBuyerID=buyerID;
+    }
     @FXML
     private Button deleteAccButton;
 
@@ -81,14 +88,13 @@ public class EditProfileController implements Initializable {
         confirm.setTitle("Delete account?");
         confirm.setHeaderText("Do you really want to delete your account?");
         confirm.setContentText("All your data will be permanently removed. This cannot be undone. Are you sure?");
-        confirm.showAndWait();
 
         Optional<ButtonType> result = confirm.showAndWait();
         if (!result.isPresent() || result.get() == ButtonType.CANCEL) {
             // Not logged out, show message?
         } else if (result.get() == ButtonType.OK) {
             if (BusinessControllerFactory.getBuyerControllerInst()
-                    .deleteBuyer()) { //will automatically select current User to delete. 
+                    .deleteBuyer(currentBuyerID)) { 
                 
                 //BusinessControllerFactory.getLoginControllerInst().logout();
                 Alert yay = new Alert(AlertType.INFORMATION);
@@ -96,6 +102,7 @@ public class EditProfileController implements Initializable {
                 yay.setHeaderText("Your account has been deleted");
                 yay.setContentText("You will be redirected shortly");
                 yay.showAndWait();
+                //Redirecting to homescreen
                 App.setRoot("welcomepg");
             } else {
                 Alert ohno = new Alert(AlertType.ERROR);
@@ -113,7 +120,6 @@ public class EditProfileController implements Initializable {
         Alert confirm = new Alert(AlertType.CONFIRMATION);
         confirm.setTitle("Log out?");
         confirm.setHeaderText("Do you want to log out?");
-        confirm.showAndWait();
 
         Optional<ButtonType> result = confirm.showAndWait();
         if (!result.isPresent() || result.get() == ButtonType.CANCEL) {
@@ -176,7 +182,6 @@ public class EditProfileController implements Initializable {
             Alert confirm = new Alert(AlertType.CONFIRMATION);
             confirm.setTitle("Profile changes!");
             confirm.setHeaderText("Do you want to save the changes?");
-            confirm.showAndWait();
 
             Optional<ButtonType> result = confirm.showAndWait();
             if (!result.isPresent()) {
@@ -189,14 +194,27 @@ public class EditProfileController implements Initializable {
                 String newDeliveryDeets = addressText.getText();
                 String newPassword = passwordText.getText();
 
-                if (BusinessControllerFactory.getBuyerControllerInst().updateCurrentUser(newName, newEmail, newPassword,
+                if (BusinessControllerFactory.getBuyerControllerInst().updateBuyer(currentBuyerID, newName, newEmail, newPassword,
                         newPhone, newDeliveryDeets)) {
                     Alert yay = new Alert(AlertType.INFORMATION);
                     yay.setTitle("Profile changes!");
                     yay.setHeaderText("The changes were made successfully");
                     yay.showAndWait();
                 }
-                App.setRoot("viewingprofile");
+
+                //Going back to the viewing profile screen
+                backBtn.getScene().getWindow().hide();
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(new URL("file:src/main/resources/bytebazaar/viewingprofile.fxml"));
+                ViewingProfileController viewingProfileCtrl = new ViewingProfileController();
+                viewingProfileCtrl.setData(currentBuyerID);
+                loader.setController(viewingProfileCtrl);
+
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.show();
             } else if (result.get() == ButtonType.CANCEL) {
                 Alert warn = new Alert(AlertType.WARNING);
                 warn.setTitle("Changes not saved");
@@ -208,19 +226,52 @@ public class EditProfileController implements Initializable {
 
     @FXML
     void goBack(ActionEvent event) throws IOException {
-        App.setRoot("viewingprofile");
+        backBtn.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:src/main/resources/bytebazaar/viewingprofile.fxml"));
+        ViewingProfileController viewingProfileCtrl = new ViewingProfileController();
+        viewingProfileCtrl.setData(currentBuyerID);
+        loader.setController(viewingProfileCtrl);
+
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
     }
 
    
 
     @FXML
     void openCart(ActionEvent event) throws IOException {
-        App.setRoot("cart");
+        cartBtn.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:src/main/resources/bytebazaar/cart.fxml"));
+        CartController cartCtrl = new CartController();
+        cartCtrl.setData(currentBuyerID);
+        loader.setController(cartCtrl);
+
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
     void openProfile(ActionEvent event) throws IOException {
-        App.setRoot("viewingprofile");
+        profileBtn.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:src/main/resources/bytebazaar/viewingprofile.fxml"));
+        ViewingProfileController viewingProfileCtrl = new ViewingProfileController();
+        viewingProfileCtrl.setData(currentBuyerID);
+        loader.setController(viewingProfileCtrl);
+
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML

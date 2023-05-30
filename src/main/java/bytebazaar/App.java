@@ -1,11 +1,11 @@
 package bytebazaar;
 
-import bytebazaarUI.*;
 //import bytebazaarUI.*;
 
 import java.io.IOException;
-import java.util.LinkedList;
+import java.net.URL;
 
+import bytebazaarUI.WelcomePgController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,14 +14,25 @@ import javafx.stage.Stage;
 
 public class App extends Application {
     private static Scene scene;
-    // jcnwjncjan
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("track"), 600, 430);
-        stage.setScene(scene);
+        // scene = new Scene(loadFXML("welcomepg"), 600, 430);
+        // stage.setScene(scene);
         stage.setTitle("ByteBazaar - the hardware solution");
+        // stage.show();
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:src/main/resources/bytebazaar/welcomepg.fxml"));
+        WelcomePgController welcomePgCtrl = new WelcomePgController();
+        loader.setController(welcomePgCtrl);
+
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+
+        stage.setScene(scene);
         stage.show();
+
     }
 
     public static void setRoot(String fxml) throws IOException {
@@ -34,10 +45,6 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        // System.out.println("JavaFX Version: " +
-        // System.getProperty("javafx.version"));
-        // System.out.println("JavaFX Runtime Version: " +
-        // System.getProperty("javafx.runtime.version"));
         launch();
     }
 }

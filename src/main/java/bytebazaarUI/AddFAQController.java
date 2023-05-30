@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import bytebazaar.App;
 import bytebazaar.BusinessControllerFactory;
-import bytebazaar.adminController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -14,14 +13,8 @@ import javafx.scene.control.TextArea;
 
 public class AddFAQController {
 
-    adminController adminC;
-
     public AddFAQController() {
         System.out.println("Add faq constructor");
-    }
-
-    public void set(adminController ac) {
-        adminC = ac;
     }
 
     @FXML

@@ -11,7 +11,6 @@ public class Order {
     private int buyerID;
     private LinkedList<SalesLineItem> productsList;
     private Shipment ship;
-    private float totalBill;
     private boolean paid;
 
     // When fetching orders from the DB, this constructor is called, as OrderID is
@@ -31,7 +30,7 @@ public class Order {
         this.orderDate = orderDate;
         this.orderTime = orderTime;
         this.buyerID = buyerID;
-        productsList = listItems;
+        this.productsList = listItems;
         this.orderID = -1;
         this.paid = false;
         // Until set, this will remain -1
@@ -116,10 +115,6 @@ public class Order {
 
     public boolean isPaid() {
         return paid;
-    }
-
-    public void setTotalBill(float totalBill) {
-        this.totalBill = totalBill;
     }
 
     public void setPaid(boolean paid) {

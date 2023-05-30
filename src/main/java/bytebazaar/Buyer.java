@@ -8,7 +8,6 @@ public class Buyer {
     private String phoneNum;
     private String name;
     private int ID;
-    //private LinkedList<Order> orderHistory;
     private OrderLedger orders;
     private Cart cart;
     private String deliveryDetails;
@@ -42,13 +41,27 @@ public class Buyer {
     }
 
     //Buying products; creates an order in orderLedger
-    public int buyNow(LinkedList<SalesLineItem> productsList) {
-        int orderID = orders.makeOrder(productsList, this.getID());
+    public int buyNow(LinkedList<SalesLineItem> itemsList) {
+        int orderID = orders.makeOrder(itemsList, this.getID());
+        System.out.println( "\n\nPEEPOOOOO "+this.cart.itemsList.size());
         return orderID;
     }
 
     public void clearCart() {
         cart.clearCart();
+    }
+
+    public boolean cancelOrder(int orderID) {
+        return orders.removeOrder(orderID);
+    }
+
+
+    public void payForOrder(int orderID) {
+        orders.getOrderByOrderID(orderID).setPaid(true);
+    }
+
+    public float getOrderTotal(int orderID) {
+        return orders.getOrderByOrderID(orderID).getTotalBill();
     }
 
    public int shipment(int oId, String DeliverTo, String Address, String Phone, String Email) {
@@ -64,6 +77,10 @@ public class Buyer {
 
     public LinkedList<Order> getOrderHistory() {
         return orders.getOrderList();
+    }
+
+    public boolean updateCartQuantity(int productID, char updateType){
+        return this.cart.updateItemQty(productID, updateType);
     }
 
     public void setOrderHistory(LinkedList<Order> orderHistory) {
@@ -100,9 +117,9 @@ public class Buyer {
         deliveryDetails = s;
     }
 
-    public float getLastOrderBill() {
-        return orders.getLastOrderBill();
-    }
+    // public float getLastOrderBill() {
+    //     return orders.getLastOrderBill();
+    // }
 
     public String getEmail() {
         return email;

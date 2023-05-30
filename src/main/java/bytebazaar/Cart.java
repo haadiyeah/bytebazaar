@@ -54,17 +54,38 @@ public class Cart {
         return runningTotal;
     }
 
-    public void updateItemQty(int indexNo, char type) {
+    public boolean updateItemQty(int productid, char type) {
+        boolean returnStatus=true;
+        int indexNo= getProductIndexByProductID(productid);
+        if(indexNo==-1) {
+            //Product does not exist in the cart
+            return false;
+        }
         if(type=='+') {
             itemsList.get(indexNo).setQuantity(itemsList.get(indexNo).getQuantity()+1);
         } else if(type=='-') {
             itemsList.get(indexNo).setQuantity(itemsList.get(indexNo).getQuantity()-1);
+            if(itemsList.get(indexNo).getQuantity() == 0) {
+                itemsList.remove(indexNo);
+                returnStatus= false;
+            }
         } else {
-            return;
+            //The type of update is not + or -
+            return false;
         }
         updateTotal();
+        return returnStatus;
+        
     }
 
+    public int getProductIndexByProductID(int productid) {
+        for(int i=0;i< itemsList.size();i++) {
+            if(itemsList.get(i).getProductID() == productid) {
+                return i;
+            }
+        }
+        return -1;
+    }
 
     //Calc running total function
     
