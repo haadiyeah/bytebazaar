@@ -23,7 +23,6 @@ public class SelectViewController {
     //After login it will ask which view to open. (It is buyer by default)
     void openBuyerHomepage(ActionEvent event) throws IOException{
         //LoginController lc = new LoginController("Buyer");
-        // App.setRoot("");
     }
 
     @FXML

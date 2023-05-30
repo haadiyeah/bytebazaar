@@ -196,14 +196,14 @@ INSERT INTO reviews (reviewRating, reviewText, reviewWriterID, reviewProductID) 
 					(5, 'Amazing product,loved it',2, 1),
 					(5, 'Amazing product, highly recommended',5, 1);
 
+INSERT INTO Shipment (OrderID, TrackID, DeliverTo, Address, Phone, Email) VALUES (1,2212, 'Hadi', 'Zolann', '020120102', 'hadi@hadi.hadi');
+INSERT INTO Shipment (OrderID, TrackID, DeliverTo, Address, Phone, Email) VALUES (2,3212, 'Haanaaa', 'ZZz', '020120102', 'hanaa@hadi.hadi');
+
 
 SELECT* FROM buyers;
 SELECT* FROM products;
 SELECT* FROM sellers;
 SELECT* FROM orders;
-
-INSERT INTO Shipment (OrderID, TrackID, DeliverTo, Address, Phone, Email) VALUES (1,2212, 'Hadi', 'Zolann', '020120102', 'hadi@hadi.hadi');
-INSERT INTO Shipment (OrderID, TrackID, DeliverTo, Address, Phone, Email) VALUES (2,3212, 'Haanaaa', 'ZZz', '020120102', 'hanaa@hadi.hadi');
 
 SELECT* FROM orderHasProduct;
 SELECT* FROM Shipment;

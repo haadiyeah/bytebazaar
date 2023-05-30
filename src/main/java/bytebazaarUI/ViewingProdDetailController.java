@@ -5,9 +5,7 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
-import bytebazaar.App;
 import bytebazaar.BusinessControllerFactory;
-import bytebazaar.Product;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

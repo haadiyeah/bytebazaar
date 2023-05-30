@@ -18,14 +18,14 @@ public class BuyerLedger {
         if (DBHandler.getInstance().checkUserExists(email) == false) {
             Buyer b = new Buyer(email, password, phone, name);
 
-            int returnID = DBHandler.getInstance().save(b);
-            if (returnID > 0) { // no error occurred;
-                b.setID(returnID); // Setting the return ID
-
+            int newBuyerID = DBHandler.getInstance().save(b);
+            if (newBuyerID > 0) { // no error occurred;
+                b.setID(newBuyerID); // Setting the return ID
+                buyerAccounts.add(b);
                 // this.userLedger.add(b); // save to the ledger ,for quick reference, as most
                 // will login after signup.
             }
-            return returnID;
+            return newBuyerID;
         } else {
             // An acc already exists with this email
             return -1;
@@ -46,14 +46,14 @@ public class BuyerLedger {
         if (check!=-1) {
             //Set current buyer as the one who returned
             //TODO After fixing this and adding the get-through id func, this line should be removed
-            buyerAccounts.addFirst (buyerAccounts.remove(check));
-            return buyerAccounts.getFirst().getID();
+            //buyerAccounts.addFirst (buyerAccounts.remove(check));
+            return buyerAccounts.get(check).getID();
         }
 
         Buyer b = DBHandler.getInstance().authenticateBuyerLogin(email, password);
         if (b != null) {
             b.setDetails();// will call the buyer's setdetails func, to create cart and orderlog
-            buyerAccounts.addFirst(b);
+            buyerAccounts.add(b);
             return b.getID();
         } else {
             return -1;
@@ -86,11 +86,12 @@ public class BuyerLedger {
     }
     public boolean updateBuyer(int buyerID, String name, String email, String password, String phone, String address) {
         if (DBHandler.getInstance().updateBuyer(buyerID, name, email, password, phone, address)) {
-            buyerAccounts.get(0).setName(name);
-            buyerAccounts.get(0).setEmail(email);
-            buyerAccounts.get(0).setPassword(password);
-            buyerAccounts.get(0).setPhoneNum("" + phone);
-            buyerAccounts.get(0).setDeliveryDetails(address);
+            int index=getBuyerIndex(buyerID);
+            buyerAccounts.get(index).setName(name);
+            buyerAccounts.get(index).setEmail(email);
+            buyerAccounts.get(index).setPassword(password);
+            buyerAccounts.get(index).setPhoneNum("" + phone);
+            buyerAccounts.get(index).setDeliveryDetails(address);
             return true;
         } else {
             return false;
@@ -115,6 +116,15 @@ public class BuyerLedger {
             }
         }
         return null;
+    }
+
+    private int getBuyerIndex(int buyerID) {
+        for(int i=0;i<buyerAccounts.size();i++) {
+            if(buyerAccounts.get(i).getID() == buyerID) {
+                return i;
+            }
+        }
+        return -1;
     }
 
 

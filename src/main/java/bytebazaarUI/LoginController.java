@@ -40,16 +40,16 @@ public class LoginController {
     @FXML
     void goBack(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(new URL("file:src/main/resources/bytebazaar/welcomepg.fxml"));
-            WelcomePgController welcomePgCtrl = new  WelcomePgController();
-            loader.setController(welcomePgCtrl);
+        loader.setLocation(new URL("file:src/main/resources/bytebazaar/welcomepg.fxml"));
+        WelcomePgController welcomePgCtrl = new WelcomePgController();
+        loader.setController(welcomePgCtrl);
 
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.show();
-            loginBtn.getScene().getWindow().hide();
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+        loginBtn.getScene().getWindow().hide();
     }
 
     @FXML
@@ -63,8 +63,6 @@ public class LoginController {
             yay.setTitle("Success");
             yay.setHeaderText("Congratulations, login success");
             yay.showAndWait();
-            //App.setRoot("homepage");
-
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(new URL("file:src/main/resources/bytebazaar/homepage.fxml"));
             HomepageController homepageCtrl = new HomepageController();

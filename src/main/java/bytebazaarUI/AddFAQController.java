@@ -1,15 +1,19 @@
 package bytebazaarUI;
 
 import java.io.IOException;
+import java.net.URL;
 
-import bytebazaar.App;
 import bytebazaar.BusinessControllerFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.stage.Stage;
 
 public class AddFAQController {
 
@@ -40,7 +44,19 @@ public class AddFAQController {
 
     @FXML
     void goBack(ActionEvent event) throws IOException {
-        App.setRoot("admindashboard");
+        //Redirecting to the admin dashboard page.
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:src/main/resources/bytebazaar/admindashboard.fxml"));
+        AdminDashboardController adminDashboardCtrl = new AdminDashboardController();
+        loader.setController(adminDashboardCtrl);
+
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setTitle("ByteBazaar - the hardware Solution");
+        stage.setScene(scene);
+        stage.show();
+        backBtn.getScene().getWindow().hide();
     }
 
     @FXML

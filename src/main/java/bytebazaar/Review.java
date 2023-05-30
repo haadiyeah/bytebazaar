@@ -17,7 +17,6 @@ public class Review {
     public Review(String reviewText, int rating, int personID, int productID) {
         this.reviewText = reviewText;
         this.rating = rating;
-        this.personName = personName;
         this.productID = productID;
         this.personID=personID;
         this.personName=null;

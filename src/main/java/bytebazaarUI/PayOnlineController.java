@@ -87,7 +87,6 @@ public class PayOnlineController implements Initializable {
         //Confirming the payment
         BusinessControllerFactory.getBuyerControllerInst().paymentConfirmed(currentBuyerID, orderID);
         
-        //App.setRoot("checkoutpage");
         //Going to the checkout page.
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(new URL("file:src/main/resources/bytebazaar/checkoutpage.fxml"));
@@ -105,7 +104,6 @@ public class PayOnlineController implements Initializable {
 
     @FXML
     void selectPaymentMethod(MouseEvent event) throws IOException {
-        //App.setRoot("selectPaymentMethod");
     }
 
     @Override

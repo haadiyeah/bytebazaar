@@ -41,7 +41,7 @@ public class Seller {
 
     public void setDetails() {
         ordersRecieved.setOrderList( DBHandler.getInstance().getOrderLog(this.ID) );
-        personalProductsCatalog.setProductLedger(DBHandler.getInstance().getPersonalProductCatalog(this.ID));
+        personalProductsCatalog.setProductsList(DBHandler.getInstance().getPersonalProductCatalog(this.ID));
 
     }
 

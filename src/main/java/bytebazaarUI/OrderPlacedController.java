@@ -116,7 +116,6 @@ public class OrderPlacedController implements Initializable {
 
     @FXML
     void trackOrder(ActionEvent event) throws IOException {
-        //App.setRoot("track");
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(new URL("file:src/main/resources/bytebazaar/track.fxml"));
         trackController trackCtrl = new trackController();

@@ -1,7 +1,6 @@
 package bytebazaar;
 
 import java.sql.SQLException;
-import java.util.LinkedList;
 
 public class adminController {
     AdminLedger adminLedger;

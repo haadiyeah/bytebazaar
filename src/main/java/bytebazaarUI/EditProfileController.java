@@ -2,12 +2,11 @@ package bytebazaarUI;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import bytebazaar.App;
 import bytebazaar.BusinessControllerFactory;
-import bytebazaar.Buyer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,9 +25,11 @@ import javafx.scene.control.TextField;
 
 public class EditProfileController implements Initializable {
     int currentBuyerID;
+
     public void setData(int buyerID) {
-        this.currentBuyerID=buyerID;
+        this.currentBuyerID = buyerID;
     }
+
     @FXML
     private Button deleteAccButton;
 
@@ -94,17 +95,30 @@ public class EditProfileController implements Initializable {
             // Not logged out, show message?
         } else if (result.get() == ButtonType.OK) {
             if (BusinessControllerFactory.getBuyerControllerInst()
-                    .deleteBuyer(currentBuyerID)) { 
-                
-                //BusinessControllerFactory.getLoginControllerInst().logout();
+                    .deleteBuyer(currentBuyerID)) {
+
+                // BusinessControllerFactory.getLoginControllerInst().logout();
                 Alert yay = new Alert(AlertType.INFORMATION);
                 yay.setTitle("Account deleted");
                 yay.setHeaderText("Your account has been deleted");
                 yay.setContentText("You will be redirected shortly");
                 yay.showAndWait();
-                //Redirecting to homescreen
-                App.setRoot("welcomepg");
-            } else {
+                // Redirecting to homescreen
+                // Redirecting to welcome page.
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(new URL("file:src/main/resources/bytebazaar/welcomepg.fxml"));
+                WelcomePgController welcomePgCtrl = new WelcomePgController();
+                loader.setController(welcomePgCtrl);
+
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setTitle("ByteBazaar - the hardware Solution");
+                stage.setScene(scene);
+                stage.show();
+                logoutButton.getScene().getWindow().hide();
+            } 
+            else {
                 Alert ohno = new Alert(AlertType.ERROR);
                 ohno.setTitle("Error");
                 ohno.setHeaderText("There was an error in deleting your account");
@@ -126,14 +140,28 @@ public class EditProfileController implements Initializable {
             // Not logged out, show message?
         } else if (result.get() == ButtonType.OK) {
 
-            //BusinessControllerFactory.getLoginControllerInst().logout(); // this will call logout on buyercontroller
+            // BusinessControllerFactory.getLoginControllerInst().logout(); // this will
+            // call logout on buyercontroller
 
             Alert yay = new Alert(AlertType.INFORMATION);
             yay.setTitle("Logout successfull");
             yay.setHeaderText("You are now logged out");
             yay.setContentText("You will be redirected shortly");
             yay.showAndWait();
-            App.setRoot("welcomepg");
+
+            // Redirecting to welcome page.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(new URL("file:src/main/resources/bytebazaar/welcomepg.fxml"));
+            WelcomePgController welcomePgCtrl = new WelcomePgController();
+            loader.setController(welcomePgCtrl);
+
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("ByteBazaar - the hardware Solution");
+            stage.setScene(scene);
+            stage.show();
+            logoutButton.getScene().getWindow().hide();
         }
     }
 
@@ -194,7 +222,8 @@ public class EditProfileController implements Initializable {
                 String newDeliveryDeets = addressText.getText();
                 String newPassword = passwordText.getText();
 
-                if (BusinessControllerFactory.getBuyerControllerInst().updateBuyer(currentBuyerID, newName, newEmail, newPassword,
+                if (BusinessControllerFactory.getBuyerControllerInst().updateBuyer(currentBuyerID, newName, newEmail,
+                        newPassword,
                         newPhone, newDeliveryDeets)) {
                     Alert yay = new Alert(AlertType.INFORMATION);
                     yay.setTitle("Profile changes!");
@@ -202,7 +231,7 @@ public class EditProfileController implements Initializable {
                     yay.showAndWait();
                 }
 
-                //Going back to the viewing profile screen
+                // Going back to the viewing profile screen
                 backBtn.getScene().getWindow().hide();
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(new URL("file:src/main/resources/bytebazaar/viewingprofile.fxml"));
@@ -239,8 +268,6 @@ public class EditProfileController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-
-   
 
     @FXML
     void openCart(ActionEvent event) throws IOException {
@@ -281,12 +308,12 @@ public class EditProfileController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        Buyer currentBuyer = (Buyer) BusinessControllerFactory.getBuyerControllerInst().getCurrentUser();
-        nameText.setText(currentBuyer.getName());
-        emailText.setText(currentBuyer.getEmail());
-        phoneText.setText(currentBuyer.getPhoneNum());
-        addressText.setText(currentBuyer.getDeliveryDetails());
-        passwordText.setText(currentBuyer.getPassword());
+        LinkedList<String> info = BusinessControllerFactory.getBuyerControllerInst().getBuyerInfo(currentBuyerID);
+        nameText.setText(info.get(0));
+        emailText.setText(info.get(1));
+        phoneText.setText(info.get(2));
+        passwordText.setText(info.get(3));
+        addressText.setText(info.get(4));
     }
 
 }

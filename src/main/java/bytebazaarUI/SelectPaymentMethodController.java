@@ -107,7 +107,6 @@ public class SelectPaymentMethodController implements Initializable {
 
     @FXML
     void payOnline(MouseEvent event) throws IOException {
-        //App.setRoot("payonline");
 
     }
 

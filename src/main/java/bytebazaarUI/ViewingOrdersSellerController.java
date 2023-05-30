@@ -125,6 +125,9 @@ public class ViewingOrdersSellerController implements Initializable {
         LinkedList<LinkedList<String>> returnedInfo = BusinessControllerFactory.getSellerControllerInst()
                 .getOrderDetails(currentSellerID, orderid);
         setOrderDetailsView(returnedInfo);
+        if(returnedInfo.size() == 0 ) {
+            System.out.println("\n\nempty list returned in vuew order detail");
+        }
 
     }
 

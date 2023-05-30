@@ -3,30 +3,40 @@ package bytebazaar;
 import java.util.LinkedList;
 
 public class ProductLedger {
-    private LinkedList<Product> productLedger;
+    private LinkedList<Product> productsList;
    
     public ProductLedger() {
-        productLedger=new LinkedList<Product>();
+        productsList=new LinkedList<Product>();
     }
 
     public LinkedList<Product> getProducts(String filter, LinkedList<String> categories) {
-        productLedger.clear();
-        productLedger = DBHandler.getInstance().getProducts(filter,  categories);
-        return productLedger;
+        productsList.clear();
+        productsList = DBHandler.getInstance().getProducts(filter,  categories);
+        return productsList;
     }
-    public LinkedList<Product> getProductLedger() {
-        return productLedger;
+    public LinkedList<Product> getProductsList() {
+        return productsList;
     }
 
-    public void setProductLedger(LinkedList<Product> productLedger) {
-        this.productLedger = productLedger;
+    public void setProductsList(LinkedList<Product> productLedger) {
+        this.productsList = productLedger;
+    }
+
+    public LinkedList<Product> search(String text){
+        LinkedList<Product> resultsToDisplay = new LinkedList<Product>();
+        productsList.forEach(product -> {
+            if (product.getName().toLowerCase().contains(text.toLowerCase())) {
+                resultsToDisplay.add(product);
+            }
+        });
+        return resultsToDisplay;
     }
 
 
     public Product getProductByProductID(int ID) {
-        for(int i=0;i<productLedger.size();i++) {
-            if(productLedger.get(i).getProductID() ==ID)
-                return productLedger.get(i);
+        for(int i=0;i<productsList.size();i++) {
+            if(productsList.get(i).getProductID() ==ID)
+                return productsList.get(i);
         }
         return null;
     }
@@ -44,7 +54,7 @@ public class ProductLedger {
     }
 
     public void addProduct(Product p) {
-        productLedger.add(p);
+        productsList.add(p);
     }
 
 }

@@ -1,5 +1,4 @@
 package bytebazaar;
-
 //import bytebazaarUI.*;
 
 import java.io.IOException;
@@ -17,11 +16,6 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        // scene = new Scene(loadFXML("welcomepg"), 600, 430);
-        // stage.setScene(scene);
-        stage.setTitle("ByteBazaar - the hardware solution");
-        // stage.show();
-
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(new URL("file:src/main/resources/bytebazaar/welcomepg.fxml"));
         WelcomePgController welcomePgCtrl = new WelcomePgController();
@@ -31,6 +25,7 @@ public class App extends Application {
         Scene scene = new Scene(root);
 
         stage.setScene(scene);
+        stage.setTitle("ByteBazaar - the hardware solution");
         stage.show();
 
     }

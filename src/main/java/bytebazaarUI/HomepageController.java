@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import bytebazaar.App;
 import bytebazaar.BusinessControllerFactory;
 import bytebazaar.Product;
 import javafx.collections.FXCollections;
@@ -18,6 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
@@ -25,7 +25,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -307,7 +306,6 @@ public class HomepageController implements Initializable {
     @FXML
     // Cart button clicked
     void openCart(ActionEvent event) throws IOException {
-        //App.setRoot("cart");
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(new URL("file:src/main/resources/bytebazaar/cart.fxml"));
         CartController cartCtrl = new CartController();
@@ -356,7 +354,6 @@ public class HomepageController implements Initializable {
         stage.setScene(scene);
         stage.show();
         profileBtn.getScene().getWindow().hide();
-        //App.setRoot("viewingprofile");
     }
 
     @FXML
@@ -379,7 +376,20 @@ public class HomepageController implements Initializable {
             yay.setHeaderText("You are now logged out");
             yay.setContentText("You will be redirected shortly");
             yay.showAndWait();
-            App.setRoot("welcomepg");
+            
+            //Redirecting to welcome page.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(new URL("file:src/main/resources/bytebazaar/welcomepg.fxml"));
+            WelcomePgController welcomePgCtrl = new WelcomePgController();
+            loader.setController(welcomePgCtrl);
+
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("ByteBazaar - the hardware Solution");
+            stage.setScene(scene);
+            stage.show();
+            backBtn.getScene().getWindow().hide();
         }
     }
 
@@ -427,16 +437,10 @@ public class HomepageController implements Initializable {
         // Checking which button was clicked
         Button numberButton = (Button) event.getTarget();
         int id = Integer.parseInt(numberButton.getId().split("-")[1]);
-        // if (tracker > 9 && tracker < 18) {
-        //     id += 9;
-        // } 
         int pageNo= (int)Math.ceil( ((double)(tracker/9)) );
         id += (pageNo-1)*9;
 
         int productClickedID = displayedProductsIDs.get(id); //pass this to viewing product controller
-        //BusinessControllerFactory.getBuyerControllerInst().setCurrentProduct(productClickedID);
-        System.out.println("View Id pressed " + id);
-        //App.setRoot("viewingproddetail");
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(new URL("file:src/main/resources/bytebazaar/viewingproddetail.fxml"));
@@ -533,11 +537,9 @@ public class HomepageController implements Initializable {
         LinkedList<Product> productsToDisplay = BusinessControllerFactory.getBuyerControllerInst()
                 .getProducts(selectedFilter, selectedCategories); //keep the old settings
         if (productsToDisplay != null) {
-            if (productsToDisplay.size() > 9 ) {
                 tracker=0; //musa ask formula
                 displayedProductsIDs.clear();
                 setProducts(productsToDisplay); // without making tracker=0 so it will continue where it left off
-            }
         }
     }
 
@@ -550,8 +552,6 @@ public class HomepageController implements Initializable {
         options.addAll("Top Selling", "Price - Low to High", "Price - High to Low", "Name - A-Z", "Name - Z-A");
         filtersComboBox.setItems(options);// Ignore the warning
 
-        //Setting the current user, as this screen will be displaying right adfter buyer logs in
-        BusinessControllerFactory.getBuyerControllerInst().getCurrentUser();
 
         //Initializing UI-related lists for displaying things
         titleLabels = new LinkedList<Label>();

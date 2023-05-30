@@ -6,90 +6,34 @@ public class BuyerController {
     BuyerLedger buyerLedger;
     ProductLedger productLedger;
     FAQLedger faqLedger;
+    ReviewLedger reviewLedger;
 
+    //Constructor, this will only be called once as there will only be 1 instance of buyer (using the businesscontrollerhandler)
     BuyerController() {
         buyerLedger = new BuyerLedger();
         productLedger = new ProductLedger();
         faqLedger = new FAQLedger();
+        reviewLedger = new ReviewLedger();
         faqLedger.populateFAQs();// Will refresh (repopulate) the faqs
     }
 
-    public int buyNow(int buyerID) {
-        int orderID = buyerLedger.getBuyerByID(buyerID).buyNow(getCartList(buyerID));
-        return orderID;
-    }
-
-    public boolean cancelOrder(int buyerID, int orderID) {
-        return buyerLedger.getBuyerByID(buyerID).cancelOrder(orderID);
-    }
-
-    public int loginRequest(String email, String password) {
-        return buyerLedger.loginRequest(email, password);
-    }
-
-    public LinkedList<Product> searchProduct(String text) {
-        LinkedList<Product> resultsToDisplay = new LinkedList<Product>();
-        productLedger.getProductLedger().forEach(product -> {
-            if (product.getName().toLowerCase().contains(text.toLowerCase())) {
-                resultsToDisplay.add(product);
-            }
-        });
-        return resultsToDisplay;
-    }
-
-    public LinkedList<String> getOrderSummary(int buyerID, int orderID) {
-        LinkedList<String> result = new LinkedList<String>();
-        float returnedTotal = buyerLedger.getBuyerByID(buyerID).getOrderTotal(orderID);
-        System.out.println("\n\n\n order first prod: " + buyerLedger.getBuyerByID(buyerID).getOrders().getOrderByOrderID(orderID).getProductsList().getFirst().getProductName() );
-        float delivRate = BusinessControllerFactory.getAdminControllerInst().getDeliveryRate();
-        result.add("Rs. " + returnedTotal + "/-");
-        result.add("Rs. " + delivRate + "/-");
-        result.add("Rs. " + (delivRate + returnedTotal) + "/-");
-        return result;
-    }
-
-    public void paymentConfirmed(int buyerID, int orderID) {
-        buyerLedger.getBuyerByID(buyerID).payForOrder(orderID);
-    }
-
-    // public void clearCart() {
-    // (buyerLedger.getCurrentBuyer()).clearCart();
-    // }
-
-    // public float getLatestOrderBill() {
-    //     return (buyerLedger.getCurrentBuyer()).getLastOrderBill();
-    // }
-
+    // ---------------------------------Functions related to Account/Session Management ------------------------------------
     // Initially the default account will be buyer
     public int signup(String name, String phone, String email, String password) {
         return buyerLedger.createBuyer(name, email, phone, password);
     }
 
-    public LinkedList<Product> getProducts(String filter, LinkedList<String> categories) {
-        return productLedger.getProducts(filter, categories);// will automatically set in itself too
-        // return productLedger.getProductLedger();//will return the set products
+    // Login request of buyer is forwarded to buyerLedger.
+    public int loginRequest(String email, String password) {
+        return buyerLedger.loginRequest(email, password);
     }
 
-    // Function that makes shipment and returns trackID
-    // If an error occurs, it will return -1
-    public int shipment(int buyerID, int orderID, String DeliverTo, String Address, String Phone, String Email) {
-        // Buyer currBuyer = (Buyer)getCurrentUser();
-        return buyerLedger.getBuyerByID(buyerID).shipment(orderID, DeliverTo, Address, Phone, Email);
-        // int OId = ((Buyer)getCurrentUser()).getOrders().getLastOrder().getOrderID();
-        // if(OId >0)
-        // return ((Buyer)getCurrentUser()).shipment(OId, DeliverTo, Address, Phone,
-        // Email);
-        // else
-        // return -1;
-        // } else {
-        // return -1;
-        // }
+    //If user makes edit to their profile on viewing products page.
+    public boolean updateBuyer(int buyerID, String name, String email, String password, String phone, String address) {
+        return buyerLedger.updateBuyer(buyerID, name, email, password, phone, address);
     }
 
-    public void cancelLatestOrder() {
-
-    }
-
+    //To show buyer info on "Edit profile" and "view profile" page.
     public LinkedList<String> getBuyerInfo(int buyerID) {
         LinkedList<String> retList = new LinkedList<String>();
         Buyer b = buyerLedger.getBuyerByID(buyerID);
@@ -101,8 +45,80 @@ public class BuyerController {
         return retList;
     }
 
+    //To show order summary on viewing profile page
     public LinkedList<Order> getOrderHistory(int buyerID) {
         return buyerLedger.getBuyerByID(buyerID).getOrderHistory();
+    }
+
+    public void logout() {
+    }
+
+    public boolean deleteBuyer(int buyerID) {
+        return buyerLedger.deleteBuyer(buyerID);
+    }
+
+    // ------------------------------Functions related to browsing products----------------------------------
+
+    public LinkedList<Product> searchProduct(String text) {
+        return productLedger.search(text);
+    }
+
+    //When browse products button is clicked
+    public LinkedList<Product> getProducts(String filter, LinkedList<String> categories) {
+        // this will return the productlist inside the ledger, aswell as set the current
+        // product ledger
+        // according to the filter and categories.
+        return productLedger.getProducts(filter, categories);
+    }
+
+    // When browsing products, buyer may want to see average rating
+    public float getAverageProductRating(int id) {
+        return productLedger.getAverageRating(id);
+    }
+
+    //When viewing product detail, this function will be used
+    public LinkedList<String> getProductInformation(int productID) {
+        Product p = productLedger.getProductByProductID(productID);
+        LinkedList<String> returnList = new LinkedList<String>();
+        if (p != null) {
+            returnList.add(p.getName());
+            returnList.add(p.getDescription());
+            returnList.add(p.getImageURL());
+            returnList.add("Rs. " + p.getPrice() + "/-");
+            returnList.add(productLedger.getProductSeller(p));
+            returnList.add("Average: " + productLedger.getAverageRating(productID) + "/5");
+        }
+        return returnList;
+    }
+
+      // When browsing products, buyer may want to get reviews
+      public LinkedList<Review> getReviews(int id) {
+        return productLedger.getReviews(id);
+    }
+
+    public boolean submitReview(String reviewText, int rating, int userID, int productID) {
+        return reviewLedger.createNewReview(reviewText, rating, userID, productID);
+    }
+
+    // ----------------------------------Functions related to placing order---------------------------------
+    public int buyNow(int buyerID) {
+        int orderID = buyerLedger.getBuyerByID(buyerID).buyNow(getCartList(buyerID));
+        return orderID;
+    }
+
+    public boolean cancelOrder(int buyerID, int orderID) {
+        return buyerLedger.getBuyerByID(buyerID).cancelOrder(orderID);
+    }
+
+    public void paymentConfirmed(int buyerID, int orderID) {
+        buyerLedger.getBuyerByID(buyerID).payForOrder(orderID);
+    }
+
+    // Function that makes shipment and returns trackID
+    // If an error occurs, it will return -1
+    public int shipment(int buyerID, int orderID,
+            String DeliverTo, String Address, String Phone, String Email) {
+        return buyerLedger.getBuyerByID(buyerID).shipment(orderID, DeliverTo, Address, Phone, Email);
     }
 
     public LinkedList<String> getOrderDeliveryDetails(int buyerID, int orderID) {
@@ -119,80 +135,36 @@ public class BuyerController {
         }
         return retList;
     }
-    // public void setCurrentProduct(int productID) {
-    // productLedger.setCurrentProduct(productID);
-    // }
 
-    // public Product getCurrentProduct() {
-    // return productLedger.getCurrentProduct();
-    // }
-
-    // public String getCurrentProductSeller() {
-    // return productLedger.getProductSeller(productLedger.getCurrentProduct());
-    // }
-
-    public Buyer getCurrentUser() {
-        return buyerLedger.getCurrentBuyer();
+    
+    public LinkedList<String> getOrderSummary(int buyerID, int orderID) {
+        LinkedList<String> result = new LinkedList<String>();
+        float returnedTotal = buyerLedger.getBuyerByID(buyerID).getOrderTotal(orderID);
+        System.out.println("\n\n\n order first prod: " + buyerLedger.getBuyerByID(buyerID).getOrders()
+                .getOrderByOrderID(orderID).getProductsList().getFirst().getProductName());
+        float delivRate = BusinessControllerFactory.getAdminControllerInst().getDeliveryRate();
+        result.add("Rs. " + returnedTotal + "/-");
+        result.add("Rs. " + delivRate + "/-");
+        result.add("Rs. " + (delivRate + returnedTotal) + "/-");
+        return result;
     }
 
-    public void setCurrentUser(Buyer u) {
-        // buyerLedger.setCurrentUser(u);
-    }
-
+    // -------------------------Functions related to cart management--------------------------------------------
     public LinkedList<SalesLineItem> getCartList(int buyerID) {
         return buyerLedger.getCartList(buyerID);
     }
 
     public void addToCart(int buyerID, int productID) {
-        // userLedger.getCurrentUser().addToCart(p);
-        // buyerLedger.addToCurrentUsersCart(productLedger.getProductByProductID(productID));
         buyerLedger.addToCart(buyerID, productLedger.getProductByProductID(productID));
     }
 
-    public boolean updateBuyer(int buyerID, String name, String email, String password, String phone, String address) {
-        return buyerLedger.updateBuyer(buyerID, name, email, password, phone, address);
+    // function returns true if the product is still in the cart after updating
+    // and returns false if the product has been removed, i.e. quantity is now 0.
+    public boolean updateCartItemQty(int buyerID, int productID, char updateType) {
+        return buyerLedger.getBuyerByID(buyerID).updateCartQuantity(productID, updateType);
     }
 
-    public void logout() {
-        // buyerLedger.setCurrentBuyer(null);
-    }
-
-    // public boolean deleteBuyer() {
-    // return buyerLedger.deleteBuyer(getCurrentUser().getID());
-    // }
-
-    public boolean deleteBuyer(int buyerID) {
-        return buyerLedger.deleteBuyer(buyerID);
-    }
-
-    // When browsing products, buyer may want to see average rating
-    public float getAverageProductRating(int id) {
-        return productLedger.getAverageRating(id);
-    }
-
-    public LinkedList<String> getProductInformation(int productID) {
-        LinkedList<String> returnList = new LinkedList<String>();
-        Product p = productLedger.getProductByProductID(productID);
-        if (p != null) {
-            returnList.add(p.getName());
-            returnList.add(p.getDescription());
-            returnList.add(p.getImageURL());
-            returnList.add("Rs. " + p.getPrice() + "/-");
-            returnList.add(productLedger.getProductSeller(p));
-            returnList.add("Average: " + productLedger.getAverageRating(productID) + "/5");
-        }
-        return returnList;
-    }
-
-    // When browsing products, buyer may want to get reviews
-    public LinkedList<Review> getReviews(int id) {
-        return productLedger.getReviews(id);
-    }
-
-    public boolean submitReview(String reviewText, int rating, int userID, int productID) {
-        return ReviewLedger.createNewReview(reviewText, rating, userID, productID);
-    }
-
+    //-----------------------Functions related to FAQS----------------------------------------------------
     // Will refresh (repopulate) the faqs from db and then return
     public LinkedList<FAQ> refreshFAQs() {
         return faqLedger.populateFAQs();
@@ -208,14 +180,15 @@ public class BuyerController {
         return faqLedger.findInFAQs(text);
     }
 
-    public float getCartTotal() {
-        return 0;// TODO
-    }
 
-    // function returns true if the product is still in the cart after updating
-    // and returns false if the product has been removed, i.e. quantity is now 0.
-    public boolean updateCartItemQty(int buyerID, int productID, char updateType) {
-        return buyerLedger.getBuyerByID(buyerID).updateCartQuantity(productID, updateType);
-    }
+
+    // public Buyer getCurrentUser() {
+    // return buyerLedger.getCurrentBuyer();
+    // }
+
+    // public void setCurrentUser(Buyer u) {
+    // // buyerLedger.setCurrentUser(u);
+    // }
+
 
 }

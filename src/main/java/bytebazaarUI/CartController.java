@@ -184,7 +184,7 @@ public class CartController implements Initializable {
         stage.setScene(scene);
         stage.show();
         profileBtn.getScene().getWindow().hide();
-        //App.setRoot("selectPaymentMethod");
+       
     }
 
     @FXML
