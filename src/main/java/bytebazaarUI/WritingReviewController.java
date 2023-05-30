@@ -115,16 +115,30 @@ public class WritingReviewController implements Initializable  {
     }
 
     @FXML
-    void submitReview(ActionEvent event) {
+    void submitReview(ActionEvent event) throws IOException {
         //Submit review sending text, rating slider amount, currentUser ID and currentProductID
        if ( BusinessControllerFactory.getBuyerControllerInst().submitReview(reviewfield.getText(), (int)ratingSlider.getValue(), currentBuyerID, currentProductID) ) {
             Alert alert=new Alert(AlertType.INFORMATION);
             alert.setHeaderText("Review added successfully");
-            alert.setHeaderText("You have the review");
+            alert.setHeaderText("You have submitted the review");
             alert.showAndWait();
 
             reviewfield.setText("");
             ratingSlider.setValue(0);
+
+            //Going back
+            backBtn.getScene().getWindow().hide();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(new URL("file:src/main/resources/bytebazaar/viewingreviews.fxml"));
+            ViewingReviewsController viewingReviewsCtrl = new ViewingReviewsController();
+            viewingReviewsCtrl.setData(currentBuyerID, currentProductID);
+            loader.setController(viewingReviewsCtrl);
+
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
        } else {
         Alert alert=new Alert(AlertType.ERROR);
             alert.setHeaderText("Review wasn't added! Sorry");

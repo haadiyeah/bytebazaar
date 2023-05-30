@@ -72,7 +72,7 @@ public class BuyerLedger {
     public void addToCart(int buyerID, Product prod) {
         buyerAccounts.forEach(buyer -> {
             if(buyer.getID()==buyerID) {
-                buyer.addToCart(prod, 1);
+                buyer.addToCart(prod);
                 return;
             }
         });

@@ -170,8 +170,8 @@ public class CartController implements Initializable {
         //The function below creates an order , clears cart and returns the orderID.
         //We save it to pass to the next controller.
         int orderID = BusinessControllerFactory.getBuyerControllerInst().buyNow(currentBuyerID);
-        //BusinessControllerFactory.getBuyerControllerInst().clearCart(); 
-        //passorderid forward
+        
+        //pass orderid forward
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(new URL("file:src/main/resources/bytebazaar/selectPaymentMethod.fxml"));
         SelectPaymentMethodController selectPaymentCtrl = new SelectPaymentMethodController();

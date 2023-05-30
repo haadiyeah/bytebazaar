@@ -119,7 +119,7 @@ public class OrderPlacedController implements Initializable {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(new URL("file:src/main/resources/bytebazaar/track.fxml"));
         trackController trackCtrl = new trackController();
-        trackCtrl.setData(currentBuyerID, orderID);
+        trackCtrl.setData( orderID, currentBuyerID);
         loader.setController(trackCtrl);
 
         Parent root = loader.load();

@@ -43,7 +43,7 @@ public class Buyer {
     //Buying products; creates an order in orderLedger
     public int buyNow(LinkedList<SalesLineItem> itemsList) {
         int orderID = orders.makeOrder(itemsList, this.getID());
-        System.out.println( "\n\nPEEPOOOOO "+this.cart.itemsList.size());
+        
         return orderID;
     }
 
@@ -73,6 +73,7 @@ public class Buyer {
         //orderHistory = DBHandler.getInstance().getOrderHistory(getID());
         orders.setOrderList( DBHandler.getInstance().getOrderHistory(getID()));
         this.cart = new Cart();
+        System.out.println("SETTING DETAISL");
     }
 
     public LinkedList<Order> getOrderHistory() {

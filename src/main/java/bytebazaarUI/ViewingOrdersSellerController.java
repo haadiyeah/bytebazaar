@@ -180,6 +180,7 @@ public class ViewingOrdersSellerController implements Initializable {
             orderDetailitemHbox.getChildren().addAll(orderDetailProductName, orderDetailProductQty,
                     orderDetailProductPrice, orderDetailProductAmount);
 
+            orderDetailContainerVbox.getChildren().add(orderDetailitemHbox);
         }
     }
 

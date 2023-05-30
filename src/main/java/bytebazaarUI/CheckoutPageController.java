@@ -96,6 +96,7 @@ public class CheckoutPageController implements Initializable {
             err.showAndWait();
         }
 
+        
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(new URL("file:src/main/resources/bytebazaar/orderPlaced.fxml"));
         OrderPlacedController orderPlacedCtrl = new OrderPlacedController();

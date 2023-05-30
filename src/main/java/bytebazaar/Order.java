@@ -110,6 +110,9 @@ public class Order {
     }
 
     public LinkedList<SalesLineItem> getProductsList() {
+        for (int i = 0; i < productsList.size(); i++) {
+            System.out.println(productsList.get(i).getProductName());
+        }
         return productsList;
     }
 
