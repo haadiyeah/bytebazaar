@@ -24,6 +24,10 @@ public class Cart {
         updateTotal(); //makes it 0
     }
 
+    public void addToCart(Product p) {
+        itemsList.add(new SalesLineItem(p));
+    }
+
     public Cart(LinkedList<SalesLineItem> itemsList) {
         this.itemsList = itemsList;
         updateTotal();

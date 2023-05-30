@@ -9,7 +9,7 @@ public class BuyerController {
     ReviewLedger reviewLedger;
 
     //Constructor, this will only be called once as there will only be 1 instance of buyer (using the businesscontrollerhandler)
-    BuyerController() {
+    public BuyerController() {
         buyerLedger = new BuyerLedger();
         productLedger = new ProductLedger();
         faqLedger = new FAQLedger();
@@ -103,6 +103,16 @@ public class BuyerController {
     // ----------------------------------Functions related to placing order---------------------------------
     public int buyNow(int buyerID) {
         int orderID = buyerLedger.getBuyerByID(buyerID).buyNow(getCartList(buyerID));
+        return orderID;
+    }
+
+    public int buyNow(int buyerID, int productID, int quantity) {
+        // LinkedList<SalesLineItem> s = new LinkedList<SalesLineItem>();
+        Product p = productLedger.getProductByProductID(productID);
+        // SalesLineItem s1 = new SalesLineItem(p, quantity);
+        // s.add(s1);
+        // int orderID = buyerLedger.getBuyerByID(buyerID).buyNow(s);
+        int orderID = buyerLedger.getBuyerByID(buyerID).buyNow(p);
         return orderID;
     }
 

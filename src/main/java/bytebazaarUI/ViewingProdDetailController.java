@@ -110,8 +110,19 @@ public class ViewingProdDetailController implements Initializable {
 
     @FXML
     void buyNow(ActionEvent event) throws IOException {
-        BusinessControllerFactory.getBuyerControllerInst().buyNow(currentBuyerID, currentProdID, 1);
-        App.setRoot("selectPaymentMethod");
+        int orderID = BusinessControllerFactory.getBuyerControllerInst().buyNow(currentBuyerID, currentProdID, 1);
+        FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(new URL("file:src/main/resources/bytebazaar/selectPaymentMethod.fxml"));
+            SelectPaymentMethodController selectPaymentCtrl = new SelectPaymentMethodController();
+            selectPaymentCtrl.setData(orderID, currentBuyerID);
+            loader.setController(selectPaymentCtrl);
+
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+            buyNowBtn.getScene().getWindow().hide();
     }
 
     @FXML

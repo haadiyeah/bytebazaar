@@ -43,7 +43,14 @@ public class Buyer {
     //Buying products; creates an order in orderLedger
     public int buyNow(LinkedList<SalesLineItem> itemsList) {
         int orderID = orders.makeOrder(itemsList, this.getID());
-        
+        return orderID;
+    }
+
+    //Buying one product
+    public int buyNow(Product p) {
+        this.cart.clearCart();
+        this.cart.addToCart(p);
+        int orderID= orders.makeOrder(cart.getItemsList(), this.getID());
         return orderID;
     }
 

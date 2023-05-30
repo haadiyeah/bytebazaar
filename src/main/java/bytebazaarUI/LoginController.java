@@ -15,7 +15,6 @@ import javafx.scene.control.Alert.AlertType;
 import java.io.IOException;
 import java.net.URL;
 
-import bytebazaar.App;
 import bytebazaar.BusinessControllerFactory;
 
 public class LoginController {
@@ -125,7 +124,17 @@ public class LoginController {
             yay.setTitle("Success");
             yay.setHeaderText("Congratulations, login success");
             yay.showAndWait();
-            App.setRoot("admindashboard");
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(new URL("file:src/main/resources/bytebazaar/admindashboard.fxml"));
+            AdminDashboardController adminDashboardCtrl = new AdminDashboardController();
+            loader.setController(adminDashboardCtrl);
+
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+            loginBtn.getScene().getWindow().hide();
         } else {
             Alert warn = new Alert(AlertType.WARNING);
             warn.setTitle("Error");
