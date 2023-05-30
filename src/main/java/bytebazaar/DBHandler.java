@@ -182,7 +182,7 @@ public class DBHandler {
 
     public int shipmentAPI(int orderID) {
         String insertQuery = "INSERT INTO ShipmentAPI (OrderID) VALUES (?)";
-        String selectQuery = "SELECT MAX(TrackID) AS MaxTrackID FROM ShipmentAPID";
+        String selectQuery = "SELECT MAX(TrackID) AS MaxTrackID FROM ShipmentAPI";
 
         try (Connection connection = DriverManager.getConnection(connectionURL);
                 PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
