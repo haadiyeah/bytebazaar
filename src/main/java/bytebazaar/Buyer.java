@@ -36,10 +36,7 @@ public class Buyer {
     public OrderLedger getOrders() {
         return orders;
     }
-    public void setOrders(OrderLedger order) {
-        this.orders = order;
-    }
-
+    
     //Buying products; creates an order in orderLedger
     public int buyNow(LinkedList<SalesLineItem> itemsList) {
         int orderID = orders.makeOrder(itemsList, this.getID());
@@ -71,7 +68,7 @@ public class Buyer {
         return orders.getOrderByOrderID(orderID).getTotalBill();
     }
 
-   public int shipment(int oId, String DeliverTo, String Address, String Phone, String Email) {
+   public int saveShipmentDetails(int oId, String DeliverTo, String Address, String Phone, String Email) {
         int trackId = orders.makeShipment(oId, DeliverTo, Address, Phone, Email);
         return trackId;
     }
@@ -91,30 +88,18 @@ public class Buyer {
         return this.cart.updateItemQty(productID, updateType);
     }
 
-    public void setOrderHistory(LinkedList<Order> orderHistory) {
-       orders.setOrderList(orderHistory);
-    }
-
-    public Cart getCart() {
-        return cart;
-    }
-
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
-
     // Assumed qty:1
     public void addToCart(Product prod) {
-        cart.add(new SalesLineItem(prod));
+        cart.addToCart(prod);
     }
 
-    // Add with given qty
-    public void addToCart(Product prod, int qty) {
-        cart.add(new SalesLineItem(prod, qty));
-    }
-
+    // // Add with given qty
+    // public void addToCart(Product prod, int qty) {
+    //     cart.add(new SalesLineItem(prod, qty));
+    // }
+    
     public LinkedList<SalesLineItem> getCartList() {
-        return cart.itemsList;
+        return cart.getItemsList();
     }
 
     public String getDeliveryDetails() {
@@ -125,9 +110,7 @@ public class Buyer {
         deliveryDetails = s;
     }
 
-    // public float getLastOrderBill() {
-    //     return orders.getLastOrderBill();
-    // }
+    //General setters and getters..
 
     public String getEmail() {
         return email;

@@ -37,18 +37,6 @@ public class Order {
         // If orderID!= -1, it means it has been stored in DB
     }
 
-    public void setProductsList(LinkedList<SalesLineItem> productsList) {
-        this.productsList = productsList;
-    }
-
-    public Shipment getShip() {
-        return ship;
-    }
-
-    public void setShip(Shipment ship) {
-        this.ship = ship;
-    }
-
     public int createShipment(String DeliverTo, String Address, String Phone, String Email) {
         ship = new Shipment(this.orderID, DeliverTo, Address, Phone, Email);
         // s.setAddress(Address);
@@ -61,10 +49,19 @@ public class Order {
         productsList.add(s);
     }
 
-    public void removeSaleItemFromProduct(SalesLineItem s) {
-        productsList.remove(s);
+    public float getTotalBill() {
+        float ret = 0;
+        for (int i = 0; i < productsList.size(); i++) {
+            ret += productsList.get(i).getSubTotal();
+        }
+        return ret;
+    }
+    public void setPaid(boolean paid) {
+        DBHandler.getInstance().updateOrderPaidStatus(orderID, paid);
+        this.paid = paid;
     }
 
+    //General getters and setters are below
     public int getOrderID() {
         return orderID;
     }
@@ -72,6 +69,20 @@ public class Order {
     public void setOrderID(int orderID) {
         this.orderID = orderID;
     }
+
+    public LinkedList<SalesLineItem> getProductsList() {
+        return productsList;
+    }
+
+
+    public Shipment getShipment() {
+        return ship;
+    }
+
+    public void setShipment(Shipment ship) {
+        this.ship = ship;
+    }
+
 
     public Date getOrderDate() {
         return orderDate;
@@ -101,28 +112,10 @@ public class Order {
         return productsList.size();
     }
 
-    public float getTotalBill() {
-        float ret = 0;
-        for (int i = 0; i < productsList.size(); i++) {
-            ret += productsList.get(i).getSubTotal();
-        }
-        return ret;
-    }
-
-    public LinkedList<SalesLineItem> getProductsList() {
-        for (int i = 0; i < productsList.size(); i++) {
-            System.out.println(productsList.get(i).getProductName());
-        }
-        return productsList;
-    }
-
     public boolean isPaid() {
         return paid;
     }
 
-    public void setPaid(boolean paid) {
-        DBHandler.getInstance().updateOrderPaidStatus(orderID, paid);
-        this.paid = paid;
-    }
+
 
 }

@@ -17,8 +17,7 @@ public class BuyerController {
         faqLedger.populateFAQs();// Will refresh (repopulate) the faqs
     }
 
-    // ---------------------------------Functions related to Account/Session
-    // Management ------------------------------------
+    // ---------------------------------Functions related to Account/Session Management ------------------------------------
     // Initially the default account will be buyer
     public int signup(String name, String phone, String email, String password) {
         return buyerLedger.createBuyer(name, email, phone, password);
@@ -27,6 +26,10 @@ public class BuyerController {
     // Login request of buyer is forwarded to buyerLedger.
     public int loginRequest(String email, String password) {
         return buyerLedger.loginRequest(email, password);
+        // if(buyerLedger.findIDInLedger(email, password) != -1)
+        //     return buyerLedger.getBuyerByID( buyerLedger.findIDInLedger(email, password) ).getID();
+        // else 
+        // return -1;
     }
 
     // If user makes edit to their profile on viewing products page.
@@ -87,7 +90,7 @@ public class BuyerController {
             returnList.add(p.getDescription());
             returnList.add(p.getImageURL());
             returnList.add("Rs. " + p.getPrice() + "/-");
-            returnList.add(productLedger.getProductSeller(p));
+            returnList.add(productLedger.getProductSellerName(p));
             returnList.add("Average: " + productLedger.getAverageRating(productID) + "/5");
         }
         return returnList;
@@ -123,15 +126,15 @@ public class BuyerController {
         return buyerLedger.getBuyerByID(buyerID).cancelOrder(orderID);
     }
 
-    public void paymentConfirmed(int buyerID, int orderID) {
+    public void confirmPayment(int buyerID, int orderID) {
         buyerLedger.getBuyerByID(buyerID).payForOrder(orderID);
     }
 
     // Function that makes shipment and returns trackID
     // If an error occurs, it will return -1
-    public int shipment(int buyerID, int orderID,
+    public int addShipment(int buyerID, int orderID,
             String DeliverTo, String Address, String Phone, String Email) {
-        return buyerLedger.getBuyerByID(buyerID).shipment(orderID, DeliverTo, Address, Phone, Email);
+        return buyerLedger.getBuyerByID(buyerID).saveShipmentDetails(orderID, DeliverTo, Address, Phone, Email);
     }
 
     public LinkedList<String> getOrderDeliveryDetails(int buyerID, int orderID) {
@@ -141,10 +144,10 @@ public class BuyerController {
             // Returns a list of required info in this order: ID, Name, Address, Phone,
             // Email
             retList.add(o.getOrderID() + "");
-            retList.add(o.getShip().getDeliverTo());
-            retList.add(o.getShip().getAddress());
-            retList.add(o.getShip().getPhone());
-            retList.add(o.getShip().getEmail());
+            retList.add(o.getShipment().getDeliverTo());
+            retList.add(o.getShipment().getAddress());
+            retList.add(o.getShipment().getPhone());
+            retList.add(o.getShipment().getEmail());
         }
         return retList;
     }

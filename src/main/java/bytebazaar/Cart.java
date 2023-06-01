@@ -3,15 +3,22 @@ package bytebazaar;
 import java.util.LinkedList;
 
 public class Cart {
-    LinkedList<SalesLineItem> itemsList;
-    float runningTotal;
+    private LinkedList<SalesLineItem> itemsList;
+    private float runningTotal;
 
+    //Constructor for creating an empty cart.
     public Cart(){
         itemsList=new LinkedList<SalesLineItem>();
         runningTotal=0;
     }
+    //Constructor for creating cart, given a list of items.
+    public Cart(LinkedList<SalesLineItem> itemsList) {
+        this.itemsList = itemsList;
+        updateTotal();
+    }
 
-    public float updateTotal() {
+
+    private float updateTotal() {
         runningTotal=0;
         for(int i=0;i<itemsList.size();i++) {
             runningTotal+= itemsList.get(i).getSubTotal();
@@ -25,22 +32,7 @@ public class Cart {
     }
 
     public void addToCart(Product p) {
-        itemsList.add(new SalesLineItem(p));
-    }
-
-    public Cart(LinkedList<SalesLineItem> itemsList) {
-        this.itemsList = itemsList;
-        updateTotal();
-    }
-    public LinkedList<SalesLineItem> getItemsList() {
-        return itemsList;
-    }
-    public void setItemsList(LinkedList<SalesLineItem> itemsList) {
-        this.itemsList = itemsList;
-        updateTotal();
-    }
-
-    public void add(SalesLineItem p) {
+        //itemsList.add(new SalesLineItem(p));
         for(int i=0;i<itemsList.size();i++) {
             //If exists in the list, just update its quantity
             if (itemsList.get(i).getProductID() == p.getProductID()) {
@@ -48,11 +40,27 @@ public class Cart {
                 return;
             }
         }
-       
         //Doesnt exist in the list==add it
-        itemsList.add(p);
+        itemsList.add(new SalesLineItem(p));
         updateTotal();
     }
+
+    public LinkedList<SalesLineItem> getItemsList() {
+        return itemsList;
+    }
+
+    // public void add(SalesLineItem p) {
+    //     for(int i=0;i<itemsList.size();i++) {
+    //         //If exists in the list, just update its quantity
+    //         if (itemsList.get(i).getProductID() == p.getProductID()) {
+    //             itemsList.get(i).setQuantity(itemsList.get(i).getQuantity() +1);
+    //             return;
+    //         }
+    //     }
+    //     //Doesnt exist in the list==add it
+    //     itemsList.add(p);
+    //     updateTotal();
+    // }
 
     public float getRunningTotal() {
         return runningTotal;
@@ -82,7 +90,7 @@ public class Cart {
         
     }
 
-    public int getProductIndexByProductID(int productid) {
+    private int getProductIndexByProductID(int productid) {
         for(int i=0;i< itemsList.size();i++) {
             if(itemsList.get(i).getProductID() == productid) {
                 return i;

@@ -97,7 +97,7 @@ public class OrderLedger {
             if (oId == order.getOrderID()) {
                 o = order;
                 trackId = o.createShipment(DeliverTo, Address, Phone, Email);
-                DBHandler.getInstance().saveShipment(o.getShip());
+                DBHandler.getInstance().saveShipment(o.getShipment());
                 return trackId;
             }
         }

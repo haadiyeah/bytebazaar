@@ -90,7 +90,7 @@ public class CheckoutPageController implements Initializable {
         String A4 = emailTextField.getText();
 
         //Function that returns tracking ID, if returns -1 it means an erorr
-        if (BusinessControllerFactory.getBuyerControllerInst().shipment(currentBuyerID, orderID, A1, A2, A3, A4) == -1) {
+        if (BusinessControllerFactory.getBuyerControllerInst().addShipment(currentBuyerID, orderID, A1, A2, A3, A4) == -1) {
             Alert err = new Alert(AlertType.ERROR);
             err.setHeaderText("An error occurred");
             err.showAndWait();

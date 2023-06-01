@@ -48,24 +48,19 @@ public class SellerLedger {
             return -1;
         }
     }
-
-    public Seller getCurrentSeller() {
-        return sellerAccounts.getFirst();
-    }
-
    
-    public boolean updateCurrentSeller(String name, String email, String password, String phone, String address) {
-        if (DBHandler.getInstance().updateBuyer(sellerAccounts.get(0).getID(), name, email, password, phone, address)) {
-            sellerAccounts.get(0).setName(name);
-            sellerAccounts.get(0).setEmail(email);
-            sellerAccounts.get(0).setPassword(password);
-            sellerAccounts.get(0).setPhoneNum(phone.toString());
-            //sellerAccounts.get(0).setDeliveryDetails(address);
-            return true;
-        } else {
-            return false;
-        }
-    }
+    // public boolean updateCurrentSeller(String name, String email, String password, String phone, String address) {
+    //     if (DBHandler.getInstance().updateBuyer(sellerAccounts.get(0).getID(), name, email, password, phone, address)) {
+    //         sellerAccounts.get(0).setName(name);
+    //         sellerAccounts.get(0).setEmail(email);
+    //         sellerAccounts.get(0).setPassword(password);
+    //         sellerAccounts.get(0).setPhoneNum(phone.toString());
+    //         //sellerAccounts.get(0).setDeliveryDetails(address);
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
 
     public boolean deleteSeller(int sellerID){
         boolean ret= DBHandler.getInstance().deleteUser(sellerID);

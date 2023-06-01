@@ -85,7 +85,7 @@ public class PayOnlineController implements Initializable {
             return;
         }
         //Confirming the payment
-        BusinessControllerFactory.getBuyerControllerInst().paymentConfirmed(currentBuyerID, orderID);
+        BusinessControllerFactory.getBuyerControllerInst().confirmPayment(currentBuyerID, orderID);
         
         //Going to the checkout page.
         FXMLLoader loader = new FXMLLoader();

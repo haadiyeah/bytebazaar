@@ -14,9 +14,6 @@ public class ProductLedger {
         productsList = DBHandler.getInstance().getProducts(filter,  categories);
         return productsList;
     }
-    public LinkedList<Product> getProductsList() {
-        return productsList;
-    }
 
     public void setProductsList(LinkedList<Product> productLedger) {
         this.productsList = productLedger;
@@ -41,7 +38,7 @@ public class ProductLedger {
         return null;
     }
 
-    public String getProductSeller(Product prod) {
+    public String getProductSellerName(Product prod) {
        return DBHandler.getInstance().getProductSeller(prod.getSellerID());
     }
 

@@ -16,14 +16,14 @@ import java.util.LinkedList;
 public class DBHandler {
 
     private static DBHandler instance;
-    String connectionURL;
+    private  String connectionURL;
 
-    Connection myconn = null;
-    Statement mystmt = null;
-    String sql = null;
-    ResultSet myRs = null;
+    private Connection myconn = null;
+    private  Statement mystmt = null;
+    private  String sql = null;
+    private  ResultSet myRs = null;
 
-    HashMap<String, Integer> mapCategories;
+    private  HashMap<String, Integer> mapCategories;
 
     private DBHandler() {
         mapCategories = new HashMap<String, Integer>();
@@ -248,36 +248,6 @@ public class DBHandler {
         }
     }
 
-    public void runSelectQuery(String query) {
-        try (
-                Connection con = DriverManager.getConnection(connectionURL);
-                Statement stmt = con.createStatement())
-
-        {
-
-            ResultSet resultSet = stmt.executeQuery(query);
-            // Print result sets
-            ResultSetMetaData metaData = resultSet.getMetaData();
-            int numColumns = metaData.getColumnCount();
-
-            // Print the column names
-            for (int i = 1; i <= numColumns; i++) {
-                System.out.print(metaData.getColumnName(i) + "\t\t");
-            }
-            System.out.println();
-
-            // Print the rows
-            while (resultSet.next()) {
-                for (int i = 1; i <= numColumns; i++) {
-                    System.out.print(resultSet.getString(i) + "\t\t");
-                }
-                System.out.println();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     // Authenticate login.
     // Returns a BUYER object
     // returns null if an account with the email doesnt exist OR if password doesnot
@@ -406,7 +376,7 @@ public class DBHandler {
 
     // The below function returns the newly assigned buyerID after saving
     // If an error occurs it returns -1
-    public int save(Buyer b) {
+    public int saveBuyer(Buyer b) {
         try (
                 Connection con = DriverManager.getConnection(connectionURL);
                 Statement stmt = con.createStatement())
@@ -437,7 +407,7 @@ public class DBHandler {
 
     }
 
-    public boolean save(Review r) {
+    public boolean saveReview(Review r) {
         try (
                 Connection con = DriverManager.getConnection(connectionURL);
                 Statement stmt = con.createStatement())
@@ -535,7 +505,7 @@ public class DBHandler {
                     ResultSet rs2 = stmt
                             .executeQuery("SELECT * FROM Shipment WHERE OrderID=" + returnList.get(i).getOrderID());
                     if (rs2.next()) {
-                        returnList.get(i).setShip(new Shipment(rs2.getInt(2), rs2.getString(4), rs2.getString(5),
+                        returnList.get(i).setShipment(new Shipment(rs2.getInt(2), rs2.getString(4), rs2.getString(5),
                                 rs2.getString(6), rs2.getString(7)));
                     }
                 }

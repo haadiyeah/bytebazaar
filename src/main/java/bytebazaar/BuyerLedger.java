@@ -18,7 +18,7 @@ public class BuyerLedger {
         if (DBHandler.getInstance().checkUserExists(email) == false) {
             Buyer b = new Buyer(email, password, phone, name);
 
-            int newBuyerID = DBHandler.getInstance().save(b);
+            int newBuyerID = DBHandler.getInstance().saveBuyer(b);
             if (newBuyerID > 0) { // no error occurred;
                 b.setID(newBuyerID); // Setting the return ID
                 buyerAccounts.add(b);
@@ -32,7 +32,7 @@ public class BuyerLedger {
         }
     }
 
-    public int checkInLedger(String email, String password) {
+    public int findInLedger(String email, String password) {
         for (int i = 0; i < buyerAccounts.size(); i++) {
             if (buyerAccounts.get(i).getEmail().equals(email) && buyerAccounts.get(i).getPassword().equals(password)) {
                 return i;
@@ -41,12 +41,10 @@ public class BuyerLedger {
         return -1;
     }
 
+
     public int loginRequest(String email, String password) {
-        int check=checkInLedger(email, password);
+        int check=findInLedger(email, password);
         if (check!=-1) {
-            //Set current buyer as the one who returned
-            //TODO After fixing this and adding the get-through id func, this line should be removed
-            //buyerAccounts.addFirst (buyerAccounts.remove(check));
             return buyerAccounts.get(check).getID();
         }
 
@@ -59,14 +57,6 @@ public class BuyerLedger {
             return -1;
         }
     }
-
-    public Buyer getCurrentBuyer() {
-        return buyerAccounts.getFirst();
-    }
-
-    // public void addToCurrentUsersCart(Product p) {
-    //     buyerAccounts.getFirst().addToCart(p);
-    // }
 
     //Find the buyer with the given ID and adds the product passed to their cart.
     public void addToCart(int buyerID, Product prod) {
@@ -84,6 +74,7 @@ public class BuyerLedger {
         else 
             return new LinkedList<SalesLineItem>();//returning empty list
     }
+
     public boolean updateBuyer(int buyerID, String name, String email, String password, String phone, String address) {
         if (DBHandler.getInstance().updateBuyer(buyerID, name, email, password, phone, address)) {
             int index=getBuyerIndex(buyerID);
@@ -104,10 +95,6 @@ public class BuyerLedger {
         return ret;
     }
 
-    // public void setCurrentBuyer(Buyer currentBuyer) {
-    //     //buyerAccounts.add(currentBuyer);
-    // }
-
     //Find buyer with the given ID and return its object
     public Buyer getBuyerByID(int ID) {
         for(int i=0;i<buyerAccounts.size();i++) {
@@ -127,5 +114,23 @@ public class BuyerLedger {
         return -1;
     }
 
+    // public void setCurrentBuyer(Buyer currentBuyer) {
+    //     //buyerAccounts.add(currentBuyer);
+    // }
+
+        // public void addToCurrentUsersCart(Product p) {
+    //     buyerAccounts.getFirst().addToCart(p);
+    // }
+
+    
+    // public int findIDInLedger(String email, String password) {
+    //     for (int i = 0; i < buyerAccounts.size(); i++) {
+    //         if (buyerAccounts.get(i).getEmail().equals(email) && buyerAccounts.get(i).getPassword().equals(password)) {
+    //             buyerAccounts.get(i).getID();
+    //         }
+    //     }
+    //     return -1;
+    // }
+    
 
 }

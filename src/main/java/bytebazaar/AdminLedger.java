@@ -10,7 +10,7 @@ public class AdminLedger {
     }
 
 
-    public int checkInLedger(String email, String password) {
+    public int findInLedger(String email, String password) {
         for (int i = 0; i < adminAccounts.size(); i++) {
             if (adminAccounts.get(i).getEmail().equals(email) && adminAccounts.get(i).getPassword().equals(password)) {
                 return i;
@@ -20,7 +20,7 @@ public class AdminLedger {
     }
 
     public int loginRequest(String email, String password) {
-        int check=checkInLedger(email, password);
+        int check=findInLedger(email, password);
         if (check!=-1) {
             //adminAccounts.addFirst (adminAccounts.remove(check));
             return adminAccounts.get(check).getID();
@@ -36,22 +36,18 @@ public class AdminLedger {
         }
     }
 
-    public Admin getCurrentAdmin() {
-        return adminAccounts.getFirst();
-    }
-
-    public boolean updateCurrentAdmin(String name, String email, String password, String phone, String address) {
-        //if (DBHandler.getInstance().updateAdmin(adminAccounts.get(0).getID(), name, email, password, phone, address)) {
-            adminAccounts.get(0).setName(name);
-            adminAccounts.get(0).setEmail(email);
-            adminAccounts.get(0).setPassword(password);
-            adminAccounts.get(0).setPhoneNum("" + phone);
-            //adminAccounts.get(0).setDeliveryDetails(address);
-            return true;
-        // } else {
-        //     return false;
-        // }
-    }
+    // public boolean updateCurrentAdmin(String name, String email, String password, String phone, String address) {
+    //     if (DBHandler.getInstance().updateAdmin(adminAccounts.get(0).getID(), name, email, password, phone, address)) {
+    //         adminAccounts.get(0).setName(name);
+    //         adminAccounts.get(0).setEmail(email);
+    //         adminAccounts.get(0).setPassword(password);
+    //         adminAccounts.get(0).setPhoneNum("" + phone);
+    //         //adminAccounts.get(0).setDeliveryDetails(address);
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
 
     public boolean deleteAdmin(int adminID){
         boolean ret= DBHandler.getInstance().deleteUser(adminID);

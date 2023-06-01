@@ -42,8 +42,8 @@ public class SellerController {
         recievedData.forEach(order -> {
             LinkedList<String> orderData = new LinkedList<String>();
             orderData.add(order.getOrderID()+"");
-            if(order.getShip()!=null)
-                orderData.add(order.getShip().getDeliverTo());
+            if(order.getShipment()!=null)
+                orderData.add(order.getShipment().getDeliverTo());
             else 
                 orderData.add("Unspecified");
             orderData.add(order.getTotalBill()+"");
