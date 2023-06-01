@@ -35,10 +35,31 @@ public class SellerController {
         return returnDetails;
     }
 
+    //Getting delivery details of specific order
+    public LinkedList<String> getShipmentDetails(int sellerID, int orderID) {
+        //Initializing the list to return
+        LinkedList<String> returnDetails = new LinkedList<String>();
+        
+        //Getting the required order.
+        Order requiredOrder= sellerLedger.getSeller(sellerID).getOrderByOrderID(orderID);
+        
+        //Adding the shipment info
+        returnDetails.add(requiredOrder.getShipment().getDeliverTo());
+        returnDetails.add(requiredOrder.getShipment().getAddress());
+        returnDetails.add(requiredOrder.getShipment().getEmail());
+        returnDetails.add(requiredOrder.getShipment().getPhone());
+        return returnDetails;
+    }
+
+
+    //Getting orders summary
     public LinkedList<LinkedList<String>> getOrdersData(int sellerID) {
         LinkedList<LinkedList<String>> returnData = new LinkedList<LinkedList<String>>();
         //bismillah
+        //Getting all orders of the seller whose id was passed
         LinkedList<Order> recievedData = sellerLedger.getOrdersOf(sellerID);
+
+        //Creating a linkedlist with info about each order
         recievedData.forEach(order -> {
             LinkedList<String> orderData = new LinkedList<String>();
             orderData.add(order.getOrderID()+"");

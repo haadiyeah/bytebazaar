@@ -162,18 +162,19 @@ public class ViewingProfileController implements Initializable{
         phoneNumber.setText(info.get(2));
         address.setText(info.get(4));
 
-        LinkedList<Order> orderHist =  BusinessControllerFactory.getBuyerControllerInst().getOrderHistory(currentBuyerID);
+        LinkedList<LinkedList<String>> orderHist =  BusinessControllerFactory.getBuyerControllerInst().getOrderHistory(currentBuyerID);
         int maxloops;
-        if(orderHist.size()>=3) {
-            maxloops=3;
+        //Since we are showing summary we will only display top 3
+        if (orderHist.size() >= 3) {
+            maxloops = 3;
         } else {
-            maxloops=orderHist.size();
+            maxloops = orderHist.size();
         }
         int i;
-        for(i=0;i<maxloops;i++) {
-            orderDates.get(i).setText( orderHist.get(i).getOrderDate().toString() );
-            orderItems.get(i).setText(""+orderHist.get(i).getTotalItems());
-            orderTotals.get(i).setText(""+orderHist.get(i).getTotalBill());
+        for (i = 0; i < maxloops; i++) {
+            orderDates.get(i).setText(orderHist.get(i).get(1));
+            orderItems.get(i).setText(orderHist.get(i).get(4));
+            orderTotals.get(i).setText(orderHist.get(i).get(3));
         }
 
         //clearing the rest

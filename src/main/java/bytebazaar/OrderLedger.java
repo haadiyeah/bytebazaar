@@ -44,6 +44,16 @@ public class OrderLedger {
         return returningOrderID;
     }
 
+    //Checks 
+    public boolean containsProduct(int productID) {
+        for (int i = 0; i < orderList.size(); i++) {
+            if (orderList.get(i).hasProduct(productID)) {
+                return true;
+            }
+        }
+        return false;
+    }  
+
     public boolean removeOrder(int orderID) {
         for (Order order : orderList) {
             if (order.getOrderID() == orderID) {

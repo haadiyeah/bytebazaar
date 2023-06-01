@@ -16,9 +16,11 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -118,6 +120,9 @@ public class CartController implements Initializable {
 
         if (returnStatus==false ){//Product is no longer in the cart
             cartVbox.getChildren().remove(boxes.get(index));
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setHeaderText("You have removed the item from cart");
+            alert.showAndWait();
         } else {
             //getting the updated value from the cart list
             quantities.get(index).setText(""+cartList.get(index).getQuantity());

@@ -8,13 +8,14 @@ public class BuyerController {
     FAQLedger faqLedger;
     ReviewLedger reviewLedger;
 
-    //Constructor, this will only be called once as there will only be 1 instance of buyer (using the businesscontrollerhandler)
+    //Constructor, this will only be called once as there
+    // will only be 1 instance of buyercontroller (using the businesscontrollerhandler)
     public BuyerController() {
         buyerLedger = new BuyerLedger();
         productLedger = new ProductLedger();
         faqLedger = new FAQLedger();
         reviewLedger = new ReviewLedger();
-        faqLedger.populateFAQs();// Will refresh (repopulate) the faqs
+        faqLedger.populateFAQs();// Will refresh (repopulate) the faqs from db.
     }
 
     // ---------------------------------Functions related to Account/Session Management ------------------------------------
@@ -50,8 +51,23 @@ public class BuyerController {
     }
 
     // To show order summary on viewing profile page
-    public LinkedList<Order> getOrderHistory(int buyerID) {
-        return buyerLedger.getBuyerByID(buyerID).getOrderHistory();
+    // public LinkedList<Order> getOrderHistory(int buyerID) {
+    //     return buyerLedger.getBuyerByID(buyerID).getOrderHistory();
+    // }
+
+    public LinkedList<LinkedList<String>> getOrderHistory(int buyerID) {
+        LinkedList<Order> orders = buyerLedger.getBuyerByID(buyerID).getOrderHistory();
+        LinkedList<LinkedList<String>> returnData=new LinkedList<LinkedList<String>>();
+        orders.forEach(order -> {
+            LinkedList<String> orderInfo = new LinkedList<String>();
+            orderInfo.add("#" + order.getOrderID());
+            orderInfo.add(order.getOrderDate().toString());
+            orderInfo.add(order.getOrderTime().toString());
+            orderInfo.add("Rs."+ order.getTotalBill() + "/-");    
+            orderInfo.add(order.getTotalItems()+"");
+            returnData.add(orderInfo);    
+        });
+        return returnData;
     }
 
     public void logout() {
@@ -61,8 +77,7 @@ public class BuyerController {
         return buyerLedger.deleteBuyer(buyerID);
     }
 
-    // ------------------------------Functions related to browsing
-    // products----------------------------------
+    // ------------------------------Functions related to browsing products----------------------------------
 
     public LinkedList<Product> searchProduct(String text) {
         return productLedger.search(text);
@@ -105,8 +120,12 @@ public class BuyerController {
         return reviewLedger.createNewReview(reviewText, rating, userID, productID);
     }
 
-    // ----------------------------------Functions related to placing
-    // order---------------------------------
+    //While browsing product, buyer may attempt to give a review
+    public boolean hasOrderedProduct(int buyerID, int prodID){
+        return buyerLedger.getBuyerByID(buyerID).hasOrderedProduct(prodID);
+    }
+
+    // ----------------------------------Functions related to placing  order---------------------------------
     public int buyNow(int buyerID) {
         int orderID = buyerLedger.getBuyerByID(buyerID).buyNow(getCartList(buyerID));
         return orderID;
@@ -163,8 +182,7 @@ public class BuyerController {
         return result;
     }
 
-    // -------------------------Functions related to cart
-    // management--------------------------------------------
+    // -------------------------Functions related to cart management--------------------------------------------
     public LinkedList<SalesLineItem> getCartList(int buyerID) {
         return buyerLedger.getCartList(buyerID);
     }
@@ -179,8 +197,7 @@ public class BuyerController {
         return buyerLedger.getBuyerByID(buyerID).updateCartQuantity(productID, updateType);
     }
 
-    // -----------------------Functions related to
-    // FAQS----------------------------------------------------
+    // -----------------------Functions related to  FAQS----------------------------------------------------
     // Will refresh (repopulate) the faqs from db and then return
     public LinkedList<FAQ> refreshFAQs() {
         return faqLedger.populateFAQs();

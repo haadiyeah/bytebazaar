@@ -15,6 +15,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -126,6 +128,13 @@ public class ViewingReviewsController implements Initializable {
 
     @FXML
     void submitReview(ActionEvent event) throws IOException {
+        if (!BusinessControllerFactory.getBuyerControllerInst().hasOrderedProduct(currentBuyerID, currentProductID)){
+            Alert err = new Alert(AlertType.ERROR);
+            err.setHeaderText("Sorry, you are not eligible to write a review");
+            err.setContentText("You must have purchased a product to be eligible to write a review.");
+            err.showAndWait();
+            return;
+        }
         submitbtn.getScene().getWindow().hide();
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(new URL("file:src/main/resources/bytebazaar/writereview.fxml"));

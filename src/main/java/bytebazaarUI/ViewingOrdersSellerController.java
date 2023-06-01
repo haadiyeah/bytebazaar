@@ -122,9 +122,22 @@ public class ViewingOrdersSellerController implements Initializable {
         Button buttonClicked = (Button) event.getTarget();
         int orderid = Integer.parseInt(buttonClicked.getId().split("-")[1]);
 
+        //Setting the header
+        infoAboutOrderHeaderLabel.setText("Info about order # "+orderid);
+
+        //Setting the info in the detailed orders view
         LinkedList<LinkedList<String>> returnedInfo = BusinessControllerFactory.getSellerControllerInst()
                 .getOrderDetails(currentSellerID, orderid);
         setOrderDetailsView(returnedInfo);
+
+        //Setting the info in the delivery details
+        LinkedList<String> deliveryInfo = BusinessControllerFactory.getSellerControllerInst().getShipmentDetails(currentSellerID, orderid);
+        deliveryInfoName.setText(deliveryInfo.get(0));
+        deliveryInfoAddress.setText(deliveryInfo.get(1));
+        deliveryInfoEmail.setText(deliveryInfo.get(2));
+        deliveryInfoPhone.setText(deliveryInfo.get(3));
+        
+        
         if(returnedInfo.size() == 0 ) {
             System.out.println("\n\nempty list returned in vuew order detail");
         }

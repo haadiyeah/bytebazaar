@@ -102,6 +102,11 @@ public class Buyer {
         return cart.getItemsList();
     }
 
+    public boolean hasOrderedProduct(int productID){
+        return orders.containsProduct(productID);
+        //return DBHandler.getInstance().hasBoughtProduct(this.ID,productID );
+    }
+
     public String getDeliveryDetails() {
         return deliveryDetails;
     }

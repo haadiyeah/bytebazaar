@@ -61,6 +61,16 @@ public class Order {
         this.paid = paid;
     }
 
+    //Checking if a product exists in the order
+    public boolean hasProduct(int ProductID) {
+        for(int i=0;i< productsList.size();i++) {
+            if(productsList.get(i).getProductID()==ProductID ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     //General getters and setters are below
     public int getOrderID() {
         return orderID;

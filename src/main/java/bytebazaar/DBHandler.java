@@ -304,9 +304,24 @@ public class DBHandler {
                 Statement stmt = con.createStatement())
 
         {
-            String query = "SELECT sellers.userID, userEmail, userPassword, userPhone, userName FROM sellers JOIN buyers ON buyers.userID=sellers.userID WHERE userEmail='"
+           
+            //Checking if user exists.
+            String query = "SELECT * FROM buyers WHERE userEmail='" + email + "';";
+            ResultSet rs = stmt.executeQuery(query);
+
+            if (!rs.next()) {
+                return null;
+            }
+
+            //If you are here, the person is registered as a buyer, and possibly also as a seller.
+            //This function adds them to the sellers if they aren't already added.
+            String initQuery ="EXEC registerSellerIfNotRegistered '"+email+"';";
+            stmt.executeUpdate(initQuery);
+
+            //Now select the info.
+            String query2 = "SELECT sellers.userID, userEmail, userPassword, userPhone, userName FROM sellers JOIN buyers ON buyers.userID=sellers.userID WHERE userEmail='"
                     + email + "' AND userPassword='" + password + "';";
-            ResultSet resultSet = stmt.executeQuery(query);
+            ResultSet resultSet = stmt.executeQuery(query2);
 
             if (!resultSet.next()) {
                 return null;
@@ -439,7 +454,7 @@ public class DBHandler {
 
         {
             System.out.println("getting order history");
-            ResultSet resultSet = stmt.executeQuery("SELECT * FROM orders WHERE orders.buyerID=" + userID + ";");
+            ResultSet resultSet = stmt.executeQuery("SELECT * FROM orders WHERE orders.buyerID=" + userID + "  ORDER BY orders.orderDate DESC;");
 
             if (resultSet.next() == false) {
                 System.out.println("returning empty order list");
@@ -748,4 +763,28 @@ public class DBHandler {
         }
     }
 
+
+
+    // public boolean hasBoughtProduct(int buyerID, int productID) {
+    //     try (
+    //             Connection con = DriverManager.getConnection(connectionURL);
+    //             Statement stmt = con.createStatement())
+
+    //     {
+    //         String query = "SELECT p.productID FROM products p WHERE p.productID=" + productID + " AND p.productID IN (" +
+    //                 "SELECT products.productID FROM products  WHERE products.productID IN (" +
+    //                 "SELECT orderHasProduct.productID FROM orderHasProduct WHERE orderHasProduct.orderID IN (" +
+    //                 "SELECT orders.orderID from orders WHERE orders.buyerID = " + buyerID + "	)) );";
+    //         ResultSet resultSet = stmt.executeQuery(query);
+    //         if(resultSet.next()) {
+    //             return true;
+    //         } else {
+    //             return false;
+    //         }
+
+    //     } catch (SQLException e) {
+    //         e.printStackTrace();
+    //         return false;
+    //     }
+    // }
 }
