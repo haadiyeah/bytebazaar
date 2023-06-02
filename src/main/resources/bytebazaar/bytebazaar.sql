@@ -137,6 +137,18 @@ INSERT INTO sellers(userID) VALUES (dbo.getPersonID(@email));
 END 
 GO
 
+-- IF the person is not registered as a seller it will log him/her in.
+DROP PROCEDURE IF EXISTS registerSellerIfNotRegistered;
+GO
+CREATE PROCEDURE registerSellerIfNotRegistered(@email VARCHAR(100))
+AS
+BEGIN
+IF( (SELECT sellers.userID FROM sellers WHERE sellers.userID=(dbo.getPersonID(@email))) IS NULL)
+EXEC addSeller @email;
+END
+GO
+
+
 
 EXEC addBuyer 'Haadi','haaadi@pk.com', '0336-5285764', 'iamdumb';
 EXEC addBuyer 'Mama','mamasajid@pk.com', '0336-19191991', 'iamsmart';
@@ -153,6 +165,11 @@ INSERT INTO admins(userEmail,  userPassword) VALUES ('admin1@bytebazaar.com', 'i
 INSERT INTO admins(userEmail,  userPassword) VALUES ('admin2@bytebazaar.com', 'iamadmin2');
 
 INSERT INTO categories(categoryName) VALUES ('Keyboards'),('Mice'),('Monitors'),('Graphic cards'), ('Controllers'), ('Laptops'),('PCs');
+
+--(int sellerID, String name,float price, int qty,String imgUrl,String desc, int category) 
+--
+
+
 
 INSERT INTO products(productName,productDescription,productPrice,productQuantity,productSeller,productCategory,productImageURL)
 VALUES ('Laptop Vaio TouchScreen', 'Amazing laptop,sleek and smooth,100GB ram', 199999, 23, 3, 6, 'https://icon-library.com/images/icon-laptops/icon-laptops-6.jpg' ),
@@ -201,9 +218,11 @@ INSERT INTO Shipment (OrderID, TrackID, DeliverTo, Address, Phone, Email) VALUES
 
 
 SELECT* FROM buyers;
-SELECT* FROM products;
 SELECT* FROM sellers;
 SELECT* FROM orders;
+SELECT* FROM products;
+
+EXEC registerSellerIfNotRegistered 'mamasajid@pk.com'
 
 SELECT* FROM orderHasProduct;
 SELECT* FROM Shipment;
@@ -247,11 +266,24 @@ ORDER BY productName ASC; --A-Z
 --Selecting products in a specific order, of a specific seller (To make sales line item)
 SELECT orderHasProduct.productID, productName, productPrice, quantity FROM orderHasProduct JOIN products ON (products.productID=orderHasProduct.productID AND productSeller=1) WHERE orderID=1;
 
-select* from sellers;
 --Getting admin
 SELECT sellers.userID, userEmail, userPassword, userPhone, userName FROM sellers JOIN buyers ON buyers.userID=sellers.userID WHERE userEmail='najam@pk.com' AND userPassword='iamfunny'
 
 --DELETE FROM orders WHERE orderID=;
 --DELETE FROM orderHasProduct WHERE orderHasProduct.orderID=;
 
+
+SELECT sellers.userID, userEmail, userPassword, userPhone, userName FROM sellers JOIN buyers ON buyers.userID=sellers.userID WHERE userEmail='"
+                    + email + "' AND userPassword='" + password + "'
+
+
 SELECT * FROM buyers WHERE userEmail='' AND userID NOT IN (SELECT buyers.userID FROM buyers) AND userID NOT IN (SELECT sellers.userID FROM sellers)
+
+SELECT p.productID FROM products p WHERE p.productID=2 AND p.productID IN (
+SELECT products.productID, products.productName FROM products  WHERE products.productID IN (
+	SELECT orderHasProduct.productID FROM orderHasProduct WHERE orderHasProduct.orderID IN (
+		SELECT orders.orderID from orders WHERE orders.buyerID = 1	)) )
+
+select orderHasProduct.orderID, orderHasProduct.productID, orders.buyerID from orderHasProduct JOIN orders ON orders.orderID=orderHasProduct.orderID
+
+SELECT* FROM ORDERS

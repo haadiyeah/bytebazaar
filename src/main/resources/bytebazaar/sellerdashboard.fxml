@@ -99,9 +99,9 @@
             </HBox>
          </children>
       </StackPane>
-      <HBox prefHeight="390.0" prefWidth="606.0">
+      <HBox prefHeight="390.0" prefWidth="606.0" style="-fx-background-image: url(&quot;https://t4.ftcdn.net/jpg/01/84/15/05/360_F_184150518_n7nMgXVC3hwqj15DCT2cc6cx94oT9K4n.jpg&quot;); -fx-background-size: cover;">
          <children>
-            <VBox alignment="TOP_CENTER" prefHeight="330.0" prefWidth="606.0" style="-fx-background-color: #e6e7e8;">
+            <VBox alignment="TOP_CENTER" prefHeight="330.0" prefWidth="606.0" style="-fx-background-color: null;">
                <padding>
                   <Insets left="13.0" right="13.0" top="25.0" />
                </padding>

@@ -106,7 +106,7 @@
       </StackPane>
       <HBox prefHeight="390.0" prefWidth="606.0">
          <children>
-            <VBox alignment="TOP_CENTER" prefHeight="353.0" prefWidth="613.0" style="-fx-background-color: #e6e7e8;">
+            <VBox alignment="TOP_CENTER" prefHeight="353.0" prefWidth="613.0" style="-fx-background-image: url(&quot;https://t4.ftcdn.net/jpg/01/84/15/05/360_F_184150518_n7nMgXVC3hwqj15DCT2cc6cx94oT9K4n.jpg&quot;); -fx-background-size: cover;">
                <padding>
                   <Insets left="13.0" right="13.0" top="10.0" />
                </padding>
@@ -125,7 +125,7 @@
                            <children>
                               <HBox alignment="CENTER" prefHeight="47.0" prefWidth="574.0">
                                  <children>
-                                    <Label prefHeight="39.0" prefWidth="100.0" text="Product name">
+                                    <Label prefHeight="39.0" prefWidth="100.0" text="Product name*">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -135,13 +135,13 @@
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="47.0" prefWidth="574.0">
                                  <children>
-                                    <Label prefHeight="39.0" prefWidth="100.0" text="Price (Rs.)">
+                                    <Label prefHeight="39.0" prefWidth="100.0" text="Price (Rs.)*">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
                                     <TextField fx:id="newProductPrice" prefHeight="28.0" prefWidth="221.0" />
-                                    <Label prefHeight="39.0" prefWidth="113.0" text="Quantity in stock">
+                                    <Label prefHeight="39.0" prefWidth="113.0" text="Quantity in stock*">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -164,7 +164,7 @@
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="54.0" prefWidth="574.0">
                                  <children>
-                                    <Label prefHeight="39.0" prefWidth="100.0" text="Description">
+                                    <Label prefHeight="39.0" prefWidth="100.0" text="Description*">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -174,7 +174,7 @@
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="63.0" prefWidth="574.0">
                                  <children>
-                                    <Label prefHeight="39.0" prefWidth="100.0" text="Category">
+                                    <Label prefHeight="39.0" prefWidth="100.0" text="Category*">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -212,6 +212,14 @@
                               </HBox>
                            </children>
                         </VBox>
+                        <Label prefHeight="16.0" prefWidth="95.0" text="*Required" textFill="RED">
+                           <font>
+                              <Font size="11.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
+                        </Label>
                      </children>
                   </VBox>
                </children>

@@ -77,7 +77,7 @@ public class AddNewProductController implements Initializable {
         
         if (newProductName.getText().trim().equals("") || newProductPrice.getText().trim().equals("")
                 || newProductQuantity.getText().trim().equals("")
-                || newProductImageURL.getText().trim().equals("") || newProductDesc.getText().trim().equals("")
+                || newProductDesc.getText().trim().equals("")
                 || ((String) newProductCategory.getValue() == null))
         {    
             errorMessage += "Some required fields are empty\n";
@@ -102,6 +102,13 @@ public class AddNewProductController implements Initializable {
             yay.setHeaderText("The product was added successfully");
             yay.setContentText("Congratulations on adding a new product. Happy selling!");
             yay.showAndWait();
+
+            newProductName.clear();
+            newProductDesc.clear();
+            newProductImageURL.clear();
+            newProductPrice.clear();
+            newProductQuantity.clear();
+            //newProductCategory.setValue(null);
         } else {
             Alert err = new Alert(AlertType.WARNING);
             err.setTitle("Error!");
