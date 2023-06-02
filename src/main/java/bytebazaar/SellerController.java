@@ -14,6 +14,12 @@ public class SellerController {
         return sellerLedger.loginRequest(email, password);
     }
 
+    public boolean addNewProduct(int sellerID, String name, float price, int qty, String url, String desc, String category) {
+        return sellerLedger.getSeller(sellerID).addNewProduct(name, price, qty, url, desc, category);
+    }
+
+    //sellerid, name, price, productqty, imageurl, desc, category
+
     public LinkedList<LinkedList<String>> getOrderDetails(int sellerID, int orderID) {
         //Initializing the list to return
         LinkedList<LinkedList<String>> returnDetails = new LinkedList<LinkedList<String>>();

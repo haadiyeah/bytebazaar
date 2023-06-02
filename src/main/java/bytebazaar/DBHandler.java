@@ -50,6 +50,7 @@ public class DBHandler {
         return instance;
     }
 
+
     public void save_faq(FAQ faq) {
         try (
                 Connection con = DriverManager.getConnection(connectionURL);
@@ -127,6 +128,34 @@ public class DBHandler {
         }
     }
 
+    //Will return the newly created product id
+    //if failed will return -1
+    public int saveProduct(int sellerID, String name, float price, int qty, String imgUrl, String desc, int category) {
+        try (
+                Connection con = DriverManager.getConnection(connectionURL);
+                Statement stmt = con.createStatement())
+
+        {
+            String query = "INSERT INTO products(productSeller, productName, productPrice, productQuantity, productImageURL, productDescription, productCategory) "
+                    +
+                    "VALUES (" + sellerID + ",'" + name + "'," + price + "," + qty + ",'" + imgUrl + "','" + desc + "',"
+                    + category + ");";
+            System.out.println("========================\n\n\n\n" + query + "\n\n\n\n");
+            stmt.executeUpdate(query);
+
+            String query2 = "SELECT MAX(productID) FROM  products;";
+            ResultSet rs = stmt.executeQuery(query2);
+            if (!rs.next()) {
+                return -1;
+            } else {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
+
+    }
     public void updateOrderPaidStatus(int orderID, boolean paid) {
 
         try (Connection connection = DriverManager.getConnection(connectionURL);
@@ -621,7 +650,7 @@ public class DBHandler {
 
             if (resultSet.next() == false) {
                 System.out.println("returning empty product list");
-                return new LinkedList<Product>();// Sending back an empty list as no products exist in db
+                return new LinkedList<Product>();// Sending back an empty list as no products to match the reqs exist in db
             } else {
 
                 LinkedList<Product> returnList = new LinkedList<Product>();

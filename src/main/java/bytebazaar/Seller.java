@@ -38,6 +38,10 @@ public class Seller {
     public void setStoreInformation(String storeInformation) {
         this.storeInformation = storeInformation;
     }
+    
+    public boolean addNewProduct(String name,float price, int qty, String url,String desc, String category) {
+        return personalProductsCatalog.addNewProduct(this.getID(), name, price, qty, url, desc, category);
+    }
 
     public void setDetails() {
         ordersRecieved.setOrderList( DBHandler.getInstance().getOrderLog(this.ID) );

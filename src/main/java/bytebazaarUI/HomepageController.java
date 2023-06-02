@@ -33,7 +33,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class HomepageController implements Initializable {
-    int currentBuyerID;
+    private int currentBuyerID;
+    private String selectedFilter;
+    private LinkedList<String> selectedCategories;
+
 
     public void setData(int id) {
         this.currentBuyerID = id;
@@ -416,6 +419,7 @@ public class HomepageController implements Initializable {
         Button numberButton = (Button) event.getTarget();
         int id = Integer.parseInt(numberButton.getId().split("-")[1]);
         int pageNo= (int)Math.ceil( ((double)(tracker/9)) );
+        if(pageNo>1)
         id += (pageNo-1)*9;
 
         System.out.println("Add to cart clicked " + id +" on page no " + pageNo);
@@ -438,7 +442,12 @@ public class HomepageController implements Initializable {
         Button numberButton = (Button) event.getTarget();
         int id = Integer.parseInt(numberButton.getId().split("-")[1]);
         int pageNo= (int)Math.ceil( ((double)(tracker/9)) );
+        if(pageNo>1)
         id += (pageNo-1)*9;
+
+        // Alert al=new Alert(AlertType.WARNING);
+        // al.setHeaderText(pageNo + " page ... id pressed " + id);
+        // al.showAndWait();
 
         int productClickedID = displayedProductsIDs.get(id); //pass this to viewing product controller
 
@@ -491,9 +500,7 @@ public class HomepageController implements Initializable {
         }
     }
 
-    private String selectedFilter;
-    private LinkedList<String> selectedCategories;
-
+   
     @FXML
     void browseProductsClicked(ActionEvent event) {
         selectedFilter = (String) filtersComboBox.getValue();
