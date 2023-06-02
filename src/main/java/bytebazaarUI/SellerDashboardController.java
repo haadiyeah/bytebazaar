@@ -29,8 +29,20 @@ public class SellerDashboardController {
     private Label productName;
 
     @FXML
-    void addNewProduct(ActionEvent event) {
+    void addNewProduct(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:src/main/resources/bytebazaar/addnewproduct.fxml"));
+        AddNewProductController addNewProductCtrl = new AddNewProductController();
+        addNewProductCtrl.setData(currentSellerID);
+        loader.setController(addNewProductCtrl);
 
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setTitle("ByteBazaar - the hardware Solution");
+        stage.setScene(scene);
+        stage.show();
+        backBtn.getScene().getWindow().hide();
     }
 
     @FXML
