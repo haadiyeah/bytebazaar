@@ -114,8 +114,21 @@ public class ViewingProfileController implements Initializable{
     }
 
     @FXML
-    void openOrderHistory(ActionEvent event) {
-        //Redirect to a page showing complete order history
+    void openOrderHistory(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:src/main/resources/bytebazaar/viewingordersbuyer.fxml"));
+        // WelcomePgController welcomePgCtrl = new WelcomePgController();
+        ViewingOrdersBuyerController viewingOrdersCtrl = new ViewingOrdersBuyerController();
+        viewingOrdersCtrl.setData(currentBuyerID);
+        loader.setController(viewingOrdersCtrl);
+
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage= new Stage();
+        stage.setScene(scene);
+        stage.setTitle("ByteBazaar - the hardware solution");
+        stage.show();
+        cartBtn1.getScene().getWindow().hide();
     }
     @FXML
     void openCart(ActionEvent event) throws IOException {

@@ -20,10 +20,10 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(new URL("file:src/main/resources/bytebazaar/viewingordersbuyer.fxml"));
-        // WelcomePgController welcomePgCtrl = new WelcomePgController();
-        ViewingOrdersBuyerController welcomePgCtrl = new ViewingOrdersBuyerController();
-        welcomePgCtrl.setData(2);
+        loader.setLocation(new URL("file:src/main/resources/bytebazaar/welcomepg.fxml"));
+        WelcomePgController welcomePgCtrl = new WelcomePgController();
+        //ViewingOrdersBuyerController welcomePgCtrl = new ViewingOrdersBuyerController();
+        //welcomePgCtrl.setData(1);
         loader.setController(welcomePgCtrl);
 
         Parent root = loader.load();
