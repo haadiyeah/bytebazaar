@@ -8,7 +8,6 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
@@ -17,360 +16,167 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane prefHeight="561.0" prefWidth="625.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
-   <content>
-      <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" prefHeight="610.0" prefWidth="606.0">
+
+<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" prefHeight="430.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <StackPane alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="41.0" prefWidth="606.0">
          <children>
-            <StackPane alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="41.0" prefWidth="606.0">
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="42.0" stroke="TRANSPARENT" strokeType="INSIDE" width="606.0">
+               <fill>
+                  <LinearGradient endX="0.12796208530805686" endY="1.0" startX="1.0" startY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.3326023519039154" green="0.6366350054740906" blue="0.9210526347160339" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.006711409395973154">
+                           <color>
+                              <Color red="0.3326023519039154" green="0.6366350054740906" blue="0.9210526347160339" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.1912751677852349">
+                           <color>
+                              <Color red="0.6064814925193787" green="0.8163580298423767" blue="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.4697986577181208">
+                           <color>
+                              <Color red="0.8101851940155029" green="0.9493827223777771" blue="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.6409395973154363">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.8154362416107382">
+                           <color>
+                              <Color red="0.4399999976158142" green="0.7200000286102295" blue="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.5277777910232544" green="0.7717592716217041" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </fill>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Rectangle>
+            <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="606.0">
                <children>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" height="42.0" stroke="TRANSPARENT" strokeType="INSIDE" width="606.0">
-                     <fill>
-                        <LinearGradient endX="0.12796208530805686" endY="1.0" startX="1.0" startY="1.0">
+                  <Button fx:id="backBtn" ellipsisString="" minHeight="-Infinity" mnemonicParsing="false" onAction="#goBack" prefHeight="29.0" prefWidth="29.0" style="-fx-background-image: url(&quot;https://icon-library.com/images/android-back-icon/android-back-icon-15.jpg&quot;); -fx-background-size: cover; -fx-background-color: null;" />
+                  <ImageView fitHeight="41.0" fitWidth="138.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@topbanner.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="200.0" right="170.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <Button fx:id="profileBtn" ellipsisString="" mnemonicParsing="false" onAction="#openProfile" prefHeight="26.0" prefWidth="26.0" style="-fx-background-size: cover; -fx-background-image: url(&quot;https://icon-library.com/images/profile-icon-white/profile-icon-white-3.jpg&quot;); -fx-background-color: null;">
+                     <HBox.margin>
+                        <Insets right="7.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </StackPane>
+      <HBox prefHeight="540.0" prefWidth="619.0">
+         <children>
+            <VBox alignment="TOP_CENTER" prefHeight="517.0" prefWidth="606.0" style="-fx-background-color: #e6e7e8;">
+               <padding>
+                  <Insets left="13.0" right="13.0" top="15.0" />
+               </padding>
+               <HBox.margin>
+                  <Insets top="5.0" />
+               </HBox.margin>
+               <children>
+                  <Label alignment="CENTER" prefHeight="31.0" prefWidth="244.0" text="Orders Placed" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="21.0" />
+                     </font>
+                     <textFill>
+                        <LinearGradient endX="1.0" endY="1.0" startX="1.0">
                            <stops>
                               <Stop>
                                  <color>
-                                    <Color red="0.3326023519039154" green="0.6366350054740906" blue="0.9210526347160339" />
+                                    <Color green="0.21578946709632874" blue="0.5394737124443054" />
                                  </color>
                               </Stop>
-                              <Stop offset="0.006711409395973154">
+                              <Stop offset="0.48170731707317066">
                                  <color>
-                                    <Color red="0.3326023519039154" green="0.6366350054740906" blue="0.9210526347160339" />
+                                    <Color red="0.5506213307380676" green="0.7888035774230957" blue="0.9078947305679321" />
                                  </color>
                               </Stop>
-                              <Stop offset="0.1912751677852349">
+                              <Stop offset="0.9832214765100671">
                                  <color>
-                                    <Color red="0.6064814925193787" green="0.8163580298423767" blue="1.0" />
-                                 </color>
-                              </Stop>
-                              <Stop offset="0.4697986577181208">
-                                 <color>
-                                    <Color red="0.8101851940155029" green="0.9493827223777771" blue="1.0" />
-                                 </color>
-                              </Stop>
-                              <Stop offset="0.6409395973154363">
-                                 <color>
-                                    <Color red="1.0" green="1.0" blue="1.0" />
-                                 </color>
-                              </Stop>
-                              <Stop offset="0.8154362416107382">
-                                 <color>
-                                    <Color red="0.4399999976158142" green="0.7200000286102295" blue="1.0" />
+                                    <Color red="0.039290934801101685" green="0.3815149962902069" blue="0.5657894611358643" />
                                  </color>
                               </Stop>
                               <Stop offset="1.0">
                                  <color>
-                                    <Color red="0.5277777910232544" green="0.7717592716217041" blue="1.0" />
+                                    <Color red="0.039290934801101685" green="0.3815149962902069" blue="0.5657894611358643" />
                                  </color>
                               </Stop>
                            </stops>
                         </LinearGradient>
-                     </fill>
-                     <effect>
-                        <DropShadow />
-                     </effect>
-                  </Rectangle>
-                  <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="606.0">
-                     <children>
-                        <Button fx:id="backBtn" ellipsisString="" minHeight="-Infinity" mnemonicParsing="false" onAction="#goBack" prefHeight="29.0" prefWidth="29.0" style="-fx-background-image: url(&quot;https://icon-library.com/images/android-back-icon/android-back-icon-15.jpg&quot;); -fx-background-size: cover; -fx-background-color: null;" />
-                        <ImageView fitHeight="41.0" fitWidth="138.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@topbanner.png" />
-                           </image>
-                           <HBox.margin>
-                              <Insets left="200.0" right="170.0" />
-                           </HBox.margin>
-                        </ImageView>
-                        <Button fx:id="profileBtn" ellipsisString="" mnemonicParsing="false" onAction="#openProfile" prefHeight="26.0" prefWidth="26.0" style="-fx-background-size: cover; -fx-background-image: url(&quot;https://icon-library.com/images/profile-icon-white/profile-icon-white-3.jpg&quot;); -fx-background-color: null;">
-                           <HBox.margin>
-                              <Insets right="7.0" />
-                           </HBox.margin>
-                        </Button>
-                     </children>
-                  </HBox>
-               </children>
-            </StackPane>
-            <HBox prefHeight="540.0" prefWidth="606.0">
-               <children>
-                  <VBox alignment="TOP_CENTER" prefHeight="517.0" prefWidth="606.0" style="-fx-background-color: #e6e7e8;">
-                     <padding>
-                        <Insets left="13.0" right="13.0" top="15.0" />
-                     </padding>
-                     <HBox.margin>
-                        <Insets top="5.0" />
-                     </HBox.margin>
-                     <children>
-                        <Label alignment="CENTER" prefHeight="31.0" prefWidth="244.0" text="Orders Placed" textAlignment="CENTER">
-                           <font>
-                              <Font name="System Bold" size="21.0" />
-                           </font>
-                           <textFill>
-                              <LinearGradient endX="1.0" endY="1.0" startX="1.0">
-                                 <stops>
-                                    <Stop>
-                                       <color>
-                                          <Color green="0.21578946709632874" blue="0.5394737124443054" />
-                                       </color>
-                                    </Stop>
-                                    <Stop offset="0.48170731707317066">
-                                       <color>
-                                          <Color red="0.5506213307380676" green="0.7888035774230957" blue="0.9078947305679321" />
-                                       </color>
-                                    </Stop>
-                                    <Stop offset="0.9832214765100671">
-                                       <color>
-                                          <Color red="0.039290934801101685" green="0.3815149962902069" blue="0.5657894611358643" />
-                                       </color>
-                                    </Stop>
-                                    <Stop offset="1.0">
-                                       <color>
-                                          <Color red="0.039290934801101685" green="0.3815149962902069" blue="0.5657894611358643" />
-                                       </color>
-                                    </Stop>
-                                 </stops>
-                              </LinearGradient>
-                           </textFill>
-                        </Label>
-                        <ScrollPane prefHeight="256.0" prefWidth="498.0">
-                           <content>
-                              <VBox fx:id="ordersPlacedContainerVbox" prefHeight="469.0" prefWidth="564.0">
-                                 <children>
-                                    <HBox fx:id="headerHbox1" prefHeight="34.0" prefWidth="240.0" style="-fx-background-color: #d7d7d7;">
-                                       <children>
-                                          <Label contentDisplay="RIGHT" prefHeight="34.0" prefWidth="73.0" text="OrderID">
-                                             <font>
-                                                <Font name="System Bold" size="14.0" />
-                                             </font>
-                                             <padding>
-                                                <Insets left="20.0" />
-                                             </padding>
-                                          </Label>
-                                          <Label contentDisplay="RIGHT" prefHeight="34.0" prefWidth="141.0" text="Buyer">
-                                             <font>
-                                                <Font name="System Bold" size="14.0" />
-                                             </font>
-                                             <padding>
-                                                <Insets left="20.0" />
-                                             </padding>
-                                          </Label>
-                                          <Label contentDisplay="RIGHT" prefHeight="34.0" prefWidth="125.0" text="Total Bill">
-                                             <font>
-                                                <Font name="System Bold" size="14.0" />
-                                             </font>
-                                             <padding>
-                                                <Insets left="20.0" />
-                                             </padding>
-                                          </Label>
-                                          <Label contentDisplay="RIGHT" prefHeight="34.0" prefWidth="162.0" text="Order Date">
-                                             <font>
-                                                <Font name="System Bold" size="14.0" />
-                                             </font>
-                                             <padding>
-                                                <Insets left="20.0" />
-                                             </padding>
-                                          </Label>
-                                       </children>
-                                       <effect>
-                                          <DropShadow>
-                                             <color>
-                                                <Color red="0.843137264251709" green="0.843137264251709" blue="0.843137264251709" />
-                                             </color>
-                                          </DropShadow>
-                                       </effect>
-                                    </HBox>
-                                    <HBox fx:id="orderPlacedHBox" alignment="CENTER_LEFT" prefHeight="34.0" prefWidth="566.0">
-                                       <children>
-                                          <Label fx:id="orderPlacedID" contentDisplay="RIGHT" prefHeight="34.0" prefWidth="71.0" text="OrderID">
-                                             <font>
-                                                <Font size="14.0" />
-                                             </font>
-                                             <padding>
-                                                <Insets left="20.0" />
-                                             </padding>
-                                          </Label>
-                                          <Label fx:id="orderPlacedBuyer" contentDisplay="RIGHT" prefHeight="34.0" prefWidth="141.0" text="Buyer">
-                                             <font>
-                                                <Font size="14.0" />
-                                             </font>
-                                             <padding>
-                                                <Insets left="20.0" />
-                                             </padding>
-                                          </Label>
-                                          <Label fx:id="orderPlacedAmount" contentDisplay="RIGHT" prefHeight="34.0" prefWidth="131.0" text="Amount">
-                                             <font>
-                                                <Font size="14.0" />
-                                             </font>
-                                             <padding>
-                                                <Insets left="20.0" />
-                                             </padding>
-                                          </Label>
-                                          <Label fx:id="orderPlacedDate" contentDisplay="RIGHT" prefHeight="34.0" prefWidth="158.0" text="Date">
-                                             <font>
-                                                <Font size="14.0" />
-                                             </font>
-                                             <padding>
-                                                <Insets left="20.0" />
-                                             </padding>
-                                          </Label>
-                                          <Button fx:id="orderPlacedDetailButton" mnemonicParsing="false" onAction="#viewOrderDetails" prefHeight="25.0" prefWidth="61.0" text="Details" />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </VBox>
-                           </content>
-                           <VBox.margin>
-                              <Insets bottom="10.0" />
-                           </VBox.margin>
-                        </ScrollPane>
-                        <Label fx:id="infoAboutOrderHeaderLabel" alignment="CENTER" prefHeight="28.0" prefWidth="592.0" text="Select an Order to view Details" textAlignment="CENTER">
-                           <font>
-                              <Font size="19.0" />
-                           </font>
-                        </Label>
-                        <HBox>
+                     </textFill>
+                  </Label>
+                  <ScrollPane prefHeight="444.0" prefWidth="560.0">
+                     <content>
+                        <VBox fx:id="ordersPlacedContainerVbox" prefHeight="469.0" prefWidth="564.0">
                            <children>
-                              <ScrollPane prefHeight="213.0" prefWidth="611.0">
-                                 <content>
-                                    <VBox fx:id="orderDetailContainerVbox" prefHeight="793.0" prefWidth="347.0">
-                                       <children>
-                                          <HBox fx:id="headerHbox" prefHeight="34.0" prefWidth="240.0" style="-fx-background-color: #d7d7d7;">
-                                             <children>
-                                                <Label contentDisplay="RIGHT" prefHeight="34.0" prefWidth="133.0" text="Product">
-                                                   <font>
-                                                      <Font name="System Bold" size="14.0" />
-                                                   </font>
-                                                   <padding>
-                                                      <Insets left="20.0" />
-                                                   </padding>
-                                                </Label>
-                                                <Label contentDisplay="RIGHT" prefHeight="34.0" prefWidth="60.0" text="Qty.">
-                                                   <font>
-                                                      <Font name="System Bold" size="14.0" />
-                                                   </font>
-                                                   <padding>
-                                                      <Insets left="20.0" />
-                                                   </padding>
-                                                </Label>
-                                                <Label contentDisplay="RIGHT" prefHeight="34.0" prefWidth="82.0" text="Price">
-                                                   <font>
-                                                      <Font name="System Bold" size="14.0" />
-                                                   </font>
-                                                   <padding>
-                                                      <Insets left="20.0" />
-                                                   </padding>
-                                                </Label>
-                                                <Label contentDisplay="RIGHT" prefHeight="34.0" prefWidth="86.0" text="Total">
-                                                   <font>
-                                                      <Font name="System Bold" size="14.0" />
-                                                   </font>
-                                                   <padding>
-                                                      <Insets left="20.0" />
-                                                   </padding>
-                                                </Label>
-                                             </children>
-                                             <effect>
-                                                <DropShadow>
-                                                   <color>
-                                                      <Color red="0.843137264251709" green="0.843137264251709" blue="0.843137264251709" />
-                                                   </color>
-                                                </DropShadow>
-                                             </effect>
-                                          </HBox>
-                                          <HBox fx:id="orderDetailitemHbox" alignment="CENTER_LEFT" prefHeight="34.0" prefWidth="566.0">
-                                             <children>
-                                                <Label fx:id="orderDetailProductName" contentDisplay="RIGHT" prefHeight="34.0" prefWidth="132.0" text="Product" wrapText="true">
-                                                   <font>
-                                                      <Font size="11.0" />
-                                                   </font>
-                                                   <padding>
-                                                      <Insets left="20.0" />
-                                                   </padding>
-                                                </Label>
-                                                <Label fx:id="orderDetailProductQty" contentDisplay="RIGHT" prefHeight="34.0" prefWidth="60.0" text="Qty" wrapText="true">
-                                                   <font>
-                                                      <Font size="11.0" />
-                                                   </font>
-                                                   <padding>
-                                                      <Insets left="20.0" />
-                                                   </padding>
-                                                </Label>
-                                                <Label fx:id="orderDetailProductPrice" contentDisplay="RIGHT" prefHeight="34.0" prefWidth="81.0" text="Price" wrapText="true">
-                                                   <font>
-                                                      <Font size="11.0" />
-                                                   </font>
-                                                   <padding>
-                                                      <Insets left="20.0" />
-                                                   </padding>
-                                                </Label>
-                                                <Label fx:id="orderDetailProductAmount" contentDisplay="RIGHT" prefHeight="34.0" prefWidth="89.0" text="TotalAmnt" wrapText="true">
-                                                   <font>
-                                                      <Font size="11.0" />
-                                                   </font>
-                                                   <padding>
-                                                      <Insets left="20.0" />
-                                                   </padding>
-                                                </Label>
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                    </VBox>
-                                 </content>
-                              </ScrollPane>
-                              <Pane prefHeight="237.0" prefWidth="465.0" style="-fx-background-image: url(&quot;https://t4.ftcdn.net/jpg/01/84/15/05/360_F_184150518_n7nMgXVC3hwqj15DCT2cc6cx94oT9K4n.jpg&quot;);">
+                              <HBox fx:id="headerHbox1" alignment="CENTER_LEFT" prefHeight="34.0" prefWidth="240.0" style="-fx-background-color: #d7d7d7;">
                                  <children>
-                                    <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="28.0" prefWidth="189.0" text="Delivery Info" textAlignment="CENTER" textFill="#0f64b9">
+                                    <Label contentDisplay="RIGHT" prefHeight="34.0" prefWidth="73.0" text="OrderID">
                                        <font>
-                                          <Font name="System Bold" size="13.0" />
+                                          <Font name="System Bold" size="14.0" />
                                        </font>
+                                       <padding>
+                                          <Insets left="20.0" />
+                                       </padding>
                                     </Label>
-                                    <Label alignment="CENTER" layoutX="16.0" layoutY="42.0" prefHeight="28.0" prefWidth="42.0" text="Name" textAlignment="CENTER">
+                                    <Label contentDisplay="RIGHT" prefHeight="34.0" prefWidth="125.0" text="Order Time">
                                        <font>
-                                          <Font name="System Bold" size="13.0" />
+                                          <Font name="System Bold" size="14.0" />
                                        </font>
+                                       <padding>
+                                          <Insets left="20.0" />
+                                       </padding>
                                     </Label>
-                                    <Label alignment="CENTER" layoutX="16.0" layoutY="84.0" prefHeight="28.0" prefWidth="54.0" text="Address" textAlignment="CENTER">
+                                    <Label contentDisplay="RIGHT" prefHeight="34.0" prefWidth="162.0" text="Order Date">
                                        <font>
-                                          <Font name="System Bold" size="13.0" />
+                                          <Font name="System Bold" size="14.0" />
                                        </font>
-                                    </Label>
-                                    <Label alignment="CENTER" layoutX="16.0" layoutY="143.0" prefHeight="28.0" prefWidth="39.0" text="Phone" textAlignment="CENTER">
-                                       <font>
-                                          <Font name="System Bold" size="13.0" />
-                                       </font>
-                                    </Label>
-                                    <Label layoutX="16.0" layoutY="171.0" prefHeight="28.0" prefWidth="38.0" text="Email" textAlignment="CENTER">
-                                       <font>
-                                          <Font name="System Bold" size="13.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="deliveryInfoName" alignment="TOP_LEFT" layoutX="73.0" layoutY="46.0" prefHeight="40.0" prefWidth="140.0" wrapText="true">
-                                       <font>
-                                          <Font size="13.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="deliveryInfoAddress" alignment="TOP_LEFT" layoutX="76.0" layoutY="87.0" prefHeight="56.0" prefWidth="136.0" wrapText="true">
-                                       <font>
-                                          <Font size="13.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="deliveryInfoPhone" alignment="TOP_LEFT" layoutX="74.0" layoutY="147.0" prefHeight="24.0" prefWidth="138.0" wrapText="true">
-                                       <font>
-                                          <Font size="13.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="deliveryInfoEmail" alignment="TOP_LEFT" layoutX="74.0" layoutY="176.0" prefHeight="23.0" prefWidth="138.0" wrapText="true">
-                                       <font>
-                                          <Font size="13.0" />
-                                       </font>
+                                       <padding>
+                                          <Insets left="20.0" />
+                                       </padding>
                                     </Label>
                                  </children>
-                              </Pane>
+                                 <effect>
+                                    <DropShadow>
+                                       <color>
+                                          <Color red="0.843137264251709" green="0.843137264251709" blue="0.843137264251709" />
+                                       </color>
+                                    </DropShadow>
+                                 </effect>
+                              </HBox>
                            </children>
-                        </HBox>
-                     </children>
-                  </VBox>
+                        </VBox>
+                     </content>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </ScrollPane>
                </children>
-            </HBox>
+            </VBox>
          </children>
-      </VBox>
-   </content>
-</ScrollPane>
+      </HBox>
+   </children>
+</VBox>
