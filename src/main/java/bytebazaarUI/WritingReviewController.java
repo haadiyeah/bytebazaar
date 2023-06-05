@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
-import bytebazaar.BusinessControllerFactory;
+import bytebazaar.BusinessControllerManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -117,7 +117,7 @@ public class WritingReviewController implements Initializable  {
     @FXML
     void submitReview(ActionEvent event) throws IOException {
         //Submit review sending text, rating slider amount, currentUser ID and currentProductID
-       if ( BusinessControllerFactory.getBuyerControllerInst().submitReview(reviewfield.getText(), (int)ratingSlider.getValue(), currentBuyerID, currentProductID) ) {
+       if ( BusinessControllerManager.getBuyerControllerInst().submitReview(reviewfield.getText(), (int)ratingSlider.getValue(), currentBuyerID, currentProductID) ) {
             Alert alert=new Alert(AlertType.INFORMATION);
             alert.setHeaderText("Review added successfully");
             alert.setHeaderText("You have submitted the review");
@@ -152,7 +152,7 @@ public class WritingReviewController implements Initializable  {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        LinkedList<String> info = BusinessControllerFactory.getBuyerControllerInst().getProductInformation(currentProductID);
+        LinkedList<String> info = BusinessControllerManager.getBuyerControllerInst().getProductInformation(currentProductID);
         productName.setText(info.get(0));
        //productImage=new ImageView(new Image(info.get(2)));
         //prodSeller=new Label();

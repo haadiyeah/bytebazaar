@@ -183,7 +183,7 @@ public class BuyerController {
     public LinkedList<String> getOrderSummary(int buyerID, int orderID) {
         LinkedList<String> result = new LinkedList<String>();
         float returnedTotal = buyerLedger.getBuyerByID(buyerID).getOrderTotal(orderID);
-        float delivRate = BusinessControllerFactory.getAdminControllerInst().getDeliveryRate();
+        float delivRate = BusinessControllerManager.getAdminControllerInst().getDeliveryRate();
         result.add("Rs. " + returnedTotal + "/-");
         result.add("Rs. " + delivRate + "/-");
         result.add("Rs. " + (delivRate + returnedTotal) + "/-");

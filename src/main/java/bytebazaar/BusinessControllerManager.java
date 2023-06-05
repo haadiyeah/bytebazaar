@@ -2,12 +2,12 @@ package bytebazaar;
 
 //A class that contains singleton instances of different business controllers.
 
-public class BusinessControllerFactory {
+public class BusinessControllerManager {
     private static adminController adminController=null;
     private static BuyerController buyerController=null;
     private static SellerController sellerController=null;
 
-    private BusinessControllerFactory(){
+    private BusinessControllerManager(){
     }
 
     public static adminController getAdminControllerInst(){

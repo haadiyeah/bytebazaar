@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
-import bytebazaar.BusinessControllerFactory;
+import bytebazaar.BusinessControllerManager;
 import bytebazaar.Review;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -128,7 +128,7 @@ public class ViewingReviewsController implements Initializable {
 
     @FXML
     void submitReview(ActionEvent event) throws IOException {
-        if (!BusinessControllerFactory.getBuyerControllerInst().hasOrderedProduct(currentBuyerID, currentProductID)){
+        if (!BusinessControllerManager.getBuyerControllerInst().hasOrderedProduct(currentBuyerID, currentProductID)){
             Alert err = new Alert(AlertType.ERROR);
             err.setHeaderText("Sorry, you are not eligible to write a review");
             err.setContentText("You must have purchased a product to be eligible to write a review.");
@@ -154,16 +154,16 @@ public class ViewingReviewsController implements Initializable {
 
         this.reviewsContainer.getChildren().remove(this.reviewBox);// removing the dummy data
 
-        LinkedList<String> info = BusinessControllerFactory.getBuyerControllerInst()
+        LinkedList<String> info = BusinessControllerManager.getBuyerControllerInst()
                 .getProductInformation(currentProductID);
         productName.setText(info.get(0));
         productImage.imageProperty().set(new Image(info.get(2)));
 
-        float avgRating = BusinessControllerFactory.getBuyerControllerInst()
+        float avgRating = BusinessControllerManager.getBuyerControllerInst()
                 .getAverageProductRating(currentProductID);
         this.averageRating.setText("Average:" + avgRating);
 
-        LinkedList<Review> reviewsToDisp = BusinessControllerFactory.getBuyerControllerInst()
+        LinkedList<Review> reviewsToDisp = BusinessControllerManager.getBuyerControllerInst()
                 .getReviews(currentProductID);
 
         if (reviewsToDisp == null) {

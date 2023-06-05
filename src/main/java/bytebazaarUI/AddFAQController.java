@@ -3,7 +3,7 @@ package bytebazaarUI;
 import java.io.IOException;
 import java.net.URL;
 
-import bytebazaar.BusinessControllerFactory;
+import bytebazaar.BusinessControllerManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -69,7 +69,7 @@ public class AddFAQController {
             err.showAndWait();
         } else {
             if (
-            BusinessControllerFactory.getAdminControllerInst().addFAQ(quesfield.getText(), answerfield.getText())
+            BusinessControllerManager.getAdminControllerInst().addFAQ(quesfield.getText(), answerfield.getText())
             ) {
                 Alert err = new Alert(AlertType.INFORMATION);
                 err.setTitle("Uploaded!");

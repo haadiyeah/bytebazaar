@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import bytebazaar.BusinessControllerFactory;
+import bytebazaar.BusinessControllerManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -94,7 +94,7 @@ public class EditProfileController implements Initializable {
         if (!result.isPresent() || result.get() == ButtonType.CANCEL) {
             // Not logged out, show message?
         } else if (result.get() == ButtonType.OK) {
-            if (BusinessControllerFactory.getBuyerControllerInst()
+            if (BusinessControllerManager.getBuyerControllerInst()
                     .deleteBuyer(currentBuyerID)) {
 
                 // BusinessControllerFactory.getLoginControllerInst().logout();
@@ -222,7 +222,7 @@ public class EditProfileController implements Initializable {
                 String newDeliveryDeets = addressText.getText();
                 String newPassword = passwordText.getText();
 
-                if (BusinessControllerFactory.getBuyerControllerInst().updateBuyer(currentBuyerID, newName, newEmail,
+                if (BusinessControllerManager.getBuyerControllerInst().updateBuyer(currentBuyerID, newName, newEmail,
                         newPassword,
                         newPhone, newDeliveryDeets)) {
                     Alert yay = new Alert(AlertType.INFORMATION);
@@ -308,7 +308,7 @@ public class EditProfileController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        LinkedList<String> info = BusinessControllerFactory.getBuyerControllerInst().getBuyerInfo(currentBuyerID);
+        LinkedList<String> info = BusinessControllerManager.getBuyerControllerInst().getBuyerInfo(currentBuyerID);
         nameText.setText(info.get(0));
         emailText.setText(info.get(1));
         phoneText.setText(info.get(2));

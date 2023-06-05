@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
-import bytebazaar.BusinessControllerFactory;
+import bytebazaar.BusinessControllerManager;
 import bytebazaar.Order;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -168,14 +168,14 @@ public class ViewingProfileController implements Initializable{
         orderTotals.add(recentordertotalBill2);
         orderTotals.add(recentordertotalbill3);
 
-        LinkedList<String> info=BusinessControllerFactory.getBuyerControllerInst().getBuyerInfo(currentBuyerID);
+        LinkedList<String> info=BusinessControllerManager.getBuyerControllerInst().getBuyerInfo(currentBuyerID);
         
         name.setText(info.get(0));
         email.setText(info.get(1));
         phoneNumber.setText(info.get(2));
         address.setText(info.get(4));
 
-        LinkedList<LinkedList<String>> orderHist =  BusinessControllerFactory.getBuyerControllerInst().getOrderHistory(currentBuyerID);
+        LinkedList<LinkedList<String>> orderHist =  BusinessControllerManager.getBuyerControllerInst().getOrderHistory(currentBuyerID);
         int maxloops;
         //Since we are showing summary we will only display top 3
         if (orderHist.size() >= 3) {

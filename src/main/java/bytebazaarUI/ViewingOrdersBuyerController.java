@@ -6,7 +6,7 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
-import bytebazaar.BusinessControllerFactory;
+import bytebazaar.BusinessControllerManager;
 import bytebazaar.Order;
 import bytebazaar.OrderLedger;
 import bytebazaar.SalesLineItem;
@@ -27,7 +27,7 @@ public class ViewingOrdersBuyerController implements Initializable {
 
     public void setData(int buyerID) {
         this.currentBuyerID = buyerID;
-        this.o = BusinessControllerFactory.getBuyerControllerInst().getOrders(buyerID);
+        this.o = BusinessControllerManager.getBuyerControllerInst().getOrders(buyerID);
         if(this.o ==null) {
             System.out.println("returned null");
         }
@@ -48,7 +48,7 @@ public class ViewingOrdersBuyerController implements Initializable {
     @FXML
     void goBack(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(new URL("file:src/main/resources/bytebazaar/buyerdashboard.fxml"));
+        loader.setLocation(new URL("file:src/main/resources/bytebazaar/viewingprofile.fxml"));
         // SellerDashboardController sellerDashboardCtrl = new
         // SellerDashboardController();
         // sellerDashboardCtrl.setData(currentBuyerID);
