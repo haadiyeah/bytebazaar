@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
-import bytebazaar.BusinessControllerFactory;
+import bytebazaar.BusinessControllerManager;
 import bytebazaar.SalesLineItem;
 
 import javafx.event.ActionEvent;
@@ -114,9 +114,9 @@ public class CartController implements Initializable {
 
         //Update the qty in the backend:
         //If this returns true it means the product still exists in the cart i.e. not 0
-        boolean returnStatus=BusinessControllerFactory.getBuyerControllerInst().updateCartItemQty(currentBuyerID, productID, '-');
+        boolean returnStatus=BusinessControllerManager.getBuyerControllerInst().updateCartItemQty(currentBuyerID, productID, '-');
         //Getting the update cart
-        cartList = BusinessControllerFactory.getBuyerControllerInst().getCartList(currentBuyerID);
+        cartList = BusinessControllerManager.getBuyerControllerInst().getCartList(currentBuyerID);
 
         if (returnStatus==false ){//Product is no longer in the cart
             cartVbox.getChildren().remove(boxes.get(index));
@@ -142,8 +142,8 @@ public class CartController implements Initializable {
         int productID= cartItemsIDs.get(index);
         
         //Update the qty in the backend:
-        BusinessControllerFactory.getBuyerControllerInst().updateCartItemQty(currentBuyerID, productID, '+');
-        LinkedList<SalesLineItem> cartList = BusinessControllerFactory.getBuyerControllerInst().getCartList(currentBuyerID);
+        BusinessControllerManager.getBuyerControllerInst().updateCartItemQty(currentBuyerID, productID, '+');
+        LinkedList<SalesLineItem> cartList = BusinessControllerManager.getBuyerControllerInst().getCartList(currentBuyerID);
         
         //getting the updated value from the cart list
         quantities.get(index).setText(""+cartList.get(index).getQuantity());
@@ -174,7 +174,7 @@ public class CartController implements Initializable {
     void gotoCheckout(ActionEvent event) throws IOException {
         //The function below creates an order , clears cart and returns the orderID.
         //We save it to pass to the next controller.
-        int orderID = BusinessControllerFactory.getBuyerControllerInst().buyNow(currentBuyerID);
+        int orderID = BusinessControllerManager.getBuyerControllerInst().buyNow(currentBuyerID);
         
         //pass orderid forward
         FXMLLoader loader = new FXMLLoader();
@@ -226,7 +226,7 @@ public class CartController implements Initializable {
         this.cartVbox.getChildren().remove(cartitemHbox); //Removing the dummy data
         // Initializing necessary lists;
         cartItemsIDs = new LinkedList<Integer>();
-        LinkedList<SalesLineItem> cartList = BusinessControllerFactory.getBuyerControllerInst().getCartList(currentBuyerID);
+        LinkedList<SalesLineItem> cartList = BusinessControllerManager.getBuyerControllerInst().getCartList(currentBuyerID);
         boxes=new LinkedList<HBox>();
         quantities = new LinkedList<Label>();
         amounts = new LinkedList<Label>();

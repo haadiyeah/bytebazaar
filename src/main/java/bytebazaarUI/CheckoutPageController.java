@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import bytebazaar.BusinessControllerFactory;
+import bytebazaar.BusinessControllerManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -90,7 +90,7 @@ public class CheckoutPageController implements Initializable {
         String A4 = emailTextField.getText();
 
         //Function that returns tracking ID, if returns -1 it means an erorr
-        if (BusinessControllerFactory.getBuyerControllerInst().addShipment(currentBuyerID, orderID, A1, A2, A3, A4) == -1) {
+        if (BusinessControllerManager.getBuyerControllerInst().addShipment(currentBuyerID, orderID, A1, A2, A3, A4) == -1) {
             Alert err = new Alert(AlertType.ERROR);
             err.setHeaderText("An error occurred");
             err.showAndWait();
@@ -124,7 +124,7 @@ public class CheckoutPageController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        LinkedList<String> info = BusinessControllerFactory.getBuyerControllerInst().getOrderSummary(currentBuyerID, orderID);
+        LinkedList<String> info = BusinessControllerManager.getBuyerControllerInst().getOrderSummary(currentBuyerID, orderID);
         itemsTotalLabel.setText(info.get(0));
         deliveryFeeLabel.setText(info.get(1));
         totalToPayLabel.setText(info.get(2));
@@ -141,7 +141,7 @@ public class CheckoutPageController implements Initializable {
 
         if (result.get() == ButtonType.OK) {
             // Cancelling the order
-            BusinessControllerFactory.getBuyerControllerInst().cancelOrder(currentBuyerID, orderID);
+            BusinessControllerManager.getBuyerControllerInst().cancelOrder(currentBuyerID, orderID);
             return true;
         } else {
             return false;

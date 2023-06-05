@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import bytebazaar.BusinessControllerFactory;
+import bytebazaar.BusinessControllerManager;
 import bytebazaar.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -332,7 +332,7 @@ public class HomepageController implements Initializable {
             return;
 
         // Searching for the products in the existing list
-        LinkedList<Product> resultsToDisplay = BusinessControllerFactory.getBuyerControllerInst()
+        LinkedList<Product> resultsToDisplay = BusinessControllerManager.getBuyerControllerInst()
                 .searchProduct(searched);
 
         if (resultsToDisplay.isEmpty()) {
@@ -426,7 +426,7 @@ public class HomepageController implements Initializable {
 
         // Adding to cart through buyer controller
         int productClickedID = displayedProductsIDs.get(id); //pass this to viewing product controller
-        BusinessControllerFactory.getBuyerControllerInst().addToCart(currentBuyerID, productClickedID);
+        BusinessControllerManager.getBuyerControllerInst().addToCart(currentBuyerID, productClickedID);
 
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setHeaderText("Added to cart successfully");
@@ -482,7 +482,7 @@ public class HomepageController implements Initializable {
             // productsToDisplay.add(products.get(i));
             tracker++;
             System.out.println("Tracker = " + tracker);
-            if (products.get(i).getImageURL() != null)
+            if (products.get(i).getImageURL() != null && !products.get(i).getImageURL().trim().equals(""))
                 productImages.get(j).imageProperty().set(new Image(products.get(i).getImageURL()));
             else // default image
                 productImages.get(j).imageProperty()
@@ -516,7 +516,7 @@ public class HomepageController implements Initializable {
             }
         });
 
-        LinkedList<Product> productsToDisplay = BusinessControllerFactory.getBuyerControllerInst()
+        LinkedList<Product> productsToDisplay = BusinessControllerManager.getBuyerControllerInst()
                 .getProducts(selectedFilter, selectedCategories);
         if (productsToDisplay != null) {
             System.out.println("Productstodisplay not null, setting");
@@ -531,7 +531,7 @@ public class HomepageController implements Initializable {
         System.out.println("Next button clicked-------------\ntrakcer=" + tracker);
         // productsToDisplay.forEach(product -> {
         // System.out.println(product.getName());});
-        LinkedList<Product> productsToDisplay = BusinessControllerFactory.getBuyerControllerInst()
+        LinkedList<Product> productsToDisplay = BusinessControllerManager.getBuyerControllerInst()
                 .getProducts(selectedFilter, selectedCategories); //keep the old settings
         if (productsToDisplay != null) {
             if (productsToDisplay.size() > 9)
@@ -541,7 +541,7 @@ public class HomepageController implements Initializable {
 
     @FXML
     void openBackPage(ActionEvent event) throws IOException {
-        LinkedList<Product> productsToDisplay = BusinessControllerFactory.getBuyerControllerInst()
+        LinkedList<Product> productsToDisplay = BusinessControllerManager.getBuyerControllerInst()
                 .getProducts(selectedFilter, selectedCategories); //keep the old settings
         if (productsToDisplay != null) {
                 tracker=0; //musa ask formula
@@ -661,7 +661,7 @@ public class HomepageController implements Initializable {
 
         // Getting the products to display with the default filter and selected
         // categories
-        LinkedList<Product> productsToDisplay = BusinessControllerFactory.getBuyerControllerInst().getProducts(selectedFilter,
+        LinkedList<Product> productsToDisplay = BusinessControllerManager.getBuyerControllerInst().getProducts(selectedFilter,
                 selectedCategories);
 
         // Displaying the products

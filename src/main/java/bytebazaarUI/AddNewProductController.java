@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import bytebazaar.BusinessControllerFactory;
+import bytebazaar.BusinessControllerManager;
 import bytebazaar.SellerController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -93,7 +93,7 @@ public class AddNewProductController implements Initializable {
         }
 
         //If you are here, the checks have been cleared.
-        if (BusinessControllerFactory.getSellerControllerInst().addNewProduct(currentSellerID, newProductName.getText(),
+        if (BusinessControllerManager.getSellerControllerInst().addNewProduct(currentSellerID, newProductName.getText(),
                 Float.parseFloat(newProductPrice.getText()), Integer.parseInt(newProductQuantity.getText()),
                 newProductImageURL.getText(),
                 newProductDesc.getText(), (String) newProductCategory.getValue())) {

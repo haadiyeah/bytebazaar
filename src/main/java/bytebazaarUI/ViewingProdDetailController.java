@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 import bytebazaar.App;
-import bytebazaar.BusinessControllerFactory;
+import bytebazaar.BusinessControllerManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -101,7 +101,7 @@ public class ViewingProdDetailController implements Initializable {
 
     @FXML
     void addToCart(ActionEvent event) {
-        BusinessControllerFactory.getBuyerControllerInst().addToCart(currentBuyerID, currentProdID);
+        BusinessControllerManager.getBuyerControllerInst().addToCart(currentBuyerID, currentProdID);
 
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setHeaderText("Added to cart successfully");
@@ -111,7 +111,7 @@ public class ViewingProdDetailController implements Initializable {
 
     @FXML
     void buyNow(ActionEvent event) throws IOException {
-        int orderID = BusinessControllerFactory.getBuyerControllerInst().buyNow(currentBuyerID, currentProdID, 1);
+        int orderID = BusinessControllerManager.getBuyerControllerInst().buyNow(currentBuyerID, currentProdID, 1);
         FXMLLoader loader = new FXMLLoader();
             loader.setLocation(new URL("file:src/main/resources/bytebazaar/selectPaymentMethod.fxml"));
             SelectPaymentMethodController selectPaymentCtrl = new SelectPaymentMethodController();
@@ -203,7 +203,7 @@ public class ViewingProdDetailController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        LinkedList<String> info = BusinessControllerFactory.getBuyerControllerInst()
+        LinkedList<String> info = BusinessControllerManager.getBuyerControllerInst()
                 .getProductInformation(currentProdID);
         productName.setText(info.get(0));
         productDesc.setText(info.get(1));

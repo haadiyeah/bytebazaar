@@ -6,7 +6,7 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
-import bytebazaar.BusinessControllerFactory;
+import bytebazaar.BusinessControllerManager;
 import bytebazaar.Order;
 import bytebazaar.OrderLedger;
 import bytebazaar.SalesLineItem;
@@ -17,7 +17,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -28,7 +27,10 @@ public class ViewingOrdersBuyerController implements Initializable {
 
     public void setData(int buyerID) {
         this.currentBuyerID = buyerID;
-        this.o = BusinessControllerFactory.getBuyerControllerInst().getOrders(buyerID);
+        this.o = BusinessControllerManager.getBuyerControllerInst().getOrders(buyerID);
+        if(this.o ==null) {
+            System.out.println("returned null");
+        }
     }
 
     @FXML
@@ -46,7 +48,7 @@ public class ViewingOrdersBuyerController implements Initializable {
     @FXML
     void goBack(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(new URL("file:src/main/resources/bytebazaar/buyerdashboard.fxml"));
+        loader.setLocation(new URL("file:src/main/resources/bytebazaar/viewingprofile.fxml"));
         // SellerDashboardController sellerDashboardCtrl = new
         // SellerDashboardController();
         // sellerDashboardCtrl.setData(currentBuyerID);
@@ -67,29 +69,22 @@ public class ViewingOrdersBuyerController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        for (int i = 0; i < o.size(); i++) {
-            Order oi = o.get(i);
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            try {
-                fxmlLoader.setLocation(new URL("file:src/main/resources/bytebazaar/viewingordersbuyerlist.fxml"));
-            } catch (MalformedURLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+        try {
+            for (int i = 0; i < o.size(); i++) {
+                Order oi = o.get(i);
+                FXMLLoader fxmlLoader = new FXMLLoader();
 
-            try {
-                HBox hBox = fxmlLoader.load();
+                fxmlLoader.setLocation(new URL("file:src/main/resources/bytebazaar/viewingordersbuyerlist.fxml"));
                 ViewingOrdersBuyerListController vobl = new ViewingOrdersBuyerListController();
                 vobl.setData(oi, currentBuyerID);
                 fxmlLoader.setController(vobl);
+                HBox hBox = fxmlLoader.load();
                 ordersPlacedContainerVbox.getChildren().add(hBox);
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
             }
-
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        throw new UnsupportedOperationException("Unimplemented method 'initialize'");
+        // throw new UnsupportedOperationException("Unimplemented method 'initialize'");
     }
 
 }

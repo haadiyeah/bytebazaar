@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
-import bytebazaar.BusinessControllerFactory;
+import bytebazaar.BusinessControllerManager;
 import bytebazaar.FAQ;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -131,7 +131,7 @@ public class FAQsUserController implements Initializable{
     public void initialize(URL arg0, ResourceBundle arg1) {
         //Following function will populate the faqLedger reference present in BuyerController and also
         //return the list of the faqs as populated.
-        LinkedList<FAQ> faqs= BusinessControllerFactory.getBuyerControllerInst().getFAQs();
+        LinkedList<FAQ> faqs= BusinessControllerManager.getBuyerControllerInst().getFAQs();
 
         faqsContainerVbox.getChildren().remove(singleFaqVbox);
 
@@ -145,7 +145,7 @@ public class FAQsUserController implements Initializable{
         if(faqsearch.getText()==null || faqsearch.getText()=="") {
             return;
         }
-        LinkedList<FAQ> faqs = BusinessControllerFactory.getBuyerControllerInst().findInFaq(faqsearch.getText());
+        LinkedList<FAQ> faqs = BusinessControllerManager.getBuyerControllerInst().findInFaq(faqsearch.getText());
         if(faqs==null) {
             Alert err = new Alert(AlertType.ERROR);
             err.setHeaderText("No results found");
@@ -158,7 +158,7 @@ public class FAQsUserController implements Initializable{
 
     @FXML
     void resetButtonClicked(ActionEvent event) {
-        LinkedList<FAQ> faqs=  BusinessControllerFactory.getBuyerControllerInst().refreshFAQs(); //Will load dynamically from db
+        LinkedList<FAQ> faqs=  BusinessControllerManager.getBuyerControllerInst().refreshFAQs(); //Will load dynamically from db
         if(faqs!=null) {
             setFAQs(faqs);
         }

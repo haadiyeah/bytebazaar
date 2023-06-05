@@ -1,7 +1,6 @@
 package bytebazaarUI;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
@@ -53,23 +52,19 @@ public class ViewingOrdersBuyerListController implements Initializable {
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.show();
-        // orderPlacedDetailButton.getScene().getWindow().hide();
+        orderPlacedDetailButton.getScene().getWindow().hide();
     }
 
     public void setData(Order order, int currentBuyerID) {
         this.currentBuyerID = currentBuyerID;
         this.order = order;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        orderPlacedDate.setText(dateFormat.format(order.getOrderDate()));
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        orderPlacedTime.setText(sdf.format(order.getOrderTime()));
-        orderPlacedID.setText(Integer.toString(order.getOrderID()));
+        // SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     }
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'initialize'");
+        orderPlacedDate.setText(order.getOrderDate().toString());
+        orderPlacedTime.setText(order.getOrderTime().toString());
+        orderPlacedID.setText(Integer.toString(order.getOrderID()));
     }
 }

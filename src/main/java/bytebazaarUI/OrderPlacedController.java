@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
-import bytebazaar.BusinessControllerFactory;
+import bytebazaar.BusinessControllerManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -132,13 +132,13 @@ public class OrderPlacedController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        LinkedList<String> info = BusinessControllerFactory.getBuyerControllerInst().getOrderSummary(currentBuyerID,
+        LinkedList<String> info = BusinessControllerManager.getBuyerControllerInst().getOrderSummary(currentBuyerID,
                 orderID);
         itemsTotalLabel.setText(info.get(0));
         deliveryFeeLabel.setText(info.get(1));
         totalToPayLabel.setText(info.get(2));
 
-        LinkedList<String> detail = BusinessControllerFactory.getBuyerControllerInst()
+        LinkedList<String> detail = BusinessControllerManager.getBuyerControllerInst()
                 .getOrderDeliveryDetails(currentBuyerID, orderID);
         orderIDLabel.setText(detail.get(0));
         deliveryNameLabel.setText(detail.get(1));

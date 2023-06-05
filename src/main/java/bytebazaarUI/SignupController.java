@@ -3,7 +3,7 @@ package bytebazaarUI;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
-import bytebazaar.BusinessControllerFactory;
+import bytebazaar.BusinessControllerManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -117,7 +117,7 @@ public class SignupController {
                 // alert is exited, no button has been pressed. do nothing
             } else if (result.get() == ButtonType.OK) {
                 // The below function call will return the newly created userID
-                int signupReturnedID = BusinessControllerFactory.getBuyerControllerInst().signup("",
+                int signupReturnedID = BusinessControllerManager.getBuyerControllerInst().signup("",
                         phoneTextBox.getText(),
                         emailTextBox.getText(), passTextBox.getText());
                 if (signupReturnedID > 0) {

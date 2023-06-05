@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 import bytebazaar.App;
-import bytebazaar.BusinessControllerFactory;
+import bytebazaar.BusinessControllerManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -121,7 +121,7 @@ public class confirmO implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        LinkedList<String> info = BusinessControllerFactory.getBuyerControllerInst().getOrderSummary(currentBuyerID, orderID);
+        LinkedList<String> info = BusinessControllerManager.getBuyerControllerInst().getOrderSummary(currentBuyerID, orderID);
         itemsTotalLabel.setText(info.get(0));
         deliveryFeeLabel.setText(info.get(1));
         totalToPayLabel.setText(info.get(2));

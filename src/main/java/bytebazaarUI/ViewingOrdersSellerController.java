@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
-import bytebazaar.BusinessControllerFactory;
+import bytebazaar.BusinessControllerManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -126,12 +126,12 @@ public class ViewingOrdersSellerController implements Initializable {
         infoAboutOrderHeaderLabel.setText("Info about order # "+orderid);
 
         //Setting the info in the detailed orders view
-        LinkedList<LinkedList<String>> returnedInfo = BusinessControllerFactory.getSellerControllerInst()
+        LinkedList<LinkedList<String>> returnedInfo = BusinessControllerManager.getSellerControllerInst()
                 .getOrderDetails(currentSellerID, orderid);
         setOrderDetailsView(returnedInfo);
 
         //Setting the info in the delivery details
-        LinkedList<String> deliveryInfo = BusinessControllerFactory.getSellerControllerInst().getShipmentDetails(currentSellerID, orderid);
+        LinkedList<String> deliveryInfo = BusinessControllerManager.getSellerControllerInst().getShipmentDetails(currentSellerID, orderid);
         deliveryInfoName.setText(deliveryInfo.get(0));
         deliveryInfoAddress.setText(deliveryInfo.get(1));
         deliveryInfoEmail.setText(deliveryInfo.get(2));
@@ -256,7 +256,7 @@ public class ViewingOrdersSellerController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        setData(BusinessControllerFactory.getSellerControllerInst().getOrdersData(currentSellerID));
+        setData(BusinessControllerManager.getSellerControllerInst().getOrdersData(currentSellerID));
     }
 
 }

@@ -15,7 +15,7 @@ import javafx.scene.control.Alert.AlertType;
 import java.io.IOException;
 import java.net.URL;
 
-import bytebazaar.BusinessControllerFactory;
+import bytebazaar.BusinessControllerManager;
 
 public class LoginController {
     // public LoginController(String usertype) {
@@ -55,7 +55,7 @@ public class LoginController {
     // Login button as BUYER pressed
     void performChecks(ActionEvent event) throws IOException {
         // //check if email and password match.
-        int returningAccountID=BusinessControllerFactory.getBuyerControllerInst().loginRequest(emailText.getText(), passwordText.getText());
+        int returningAccountID=BusinessControllerManager.getBuyerControllerInst().loginRequest(emailText.getText(), passwordText.getText());
         
         if (returningAccountID!=-1) {
             Alert yay = new Alert(AlertType.INFORMATION);
@@ -86,7 +86,7 @@ public class LoginController {
 
     @FXML
     void loginAsSeller(ActionEvent event) throws IOException {
-        int returningAccountID=BusinessControllerFactory.getSellerControllerInst().login(emailText.getText(), passwordText.getText());
+        int returningAccountID=BusinessControllerManager.getSellerControllerInst().login(emailText.getText(), passwordText.getText());
         if (returningAccountID!=-1) {
             Alert yay = new Alert(AlertType.INFORMATION);
             yay.setTitle("Success");
@@ -117,7 +117,7 @@ public class LoginController {
 
     @FXML
     void loginAsAdmin(ActionEvent event) throws IOException {
-        int returningAccountID=BusinessControllerFactory.getAdminControllerInst().login(emailText.getText(), passwordText.getText());
+        int returningAccountID=BusinessControllerManager.getAdminControllerInst().login(emailText.getText(), passwordText.getText());
         
         if (returningAccountID!=-1) {
             Alert yay = new Alert(AlertType.INFORMATION);
