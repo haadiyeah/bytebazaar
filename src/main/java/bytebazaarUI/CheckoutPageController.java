@@ -90,7 +90,8 @@ public class CheckoutPageController implements Initializable {
         String A4 = emailTextField.getText();
 
         //Function that returns tracking ID, if returns -1 it means an erorr
-        if (BusinessControllerManager.getBuyerControllerInst().addShipment(currentBuyerID, orderID, A1, A2, A3, A4) == -1) {
+        int tid = BusinessControllerManager.getBuyerControllerInst().addShipment(currentBuyerID, orderID, A1, A2, A3, A4);
+        if (tid == -1) {
             Alert err = new Alert(AlertType.ERROR);
             err.setHeaderText("An error occurred");
             err.showAndWait();
@@ -100,7 +101,7 @@ public class CheckoutPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(new URL("file:src/main/resources/bytebazaar/orderPlaced.fxml"));
         OrderPlacedController orderPlacedCtrl = new OrderPlacedController();
-        orderPlacedCtrl.setData( orderID,currentBuyerID);
+        orderPlacedCtrl.setData( orderID,tid,currentBuyerID);
         loader.setController(orderPlacedCtrl);
 
         Parent root = loader.load();

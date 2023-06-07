@@ -20,19 +20,21 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import api.shipmentAPI;
 import bytebazaar.BusinessControllerManager;
 import javafx.fxml.Initializable;
 
 public class trackController implements Initializable {
     private int orderID;
+    private int trackID;
     private int currentBuyerID;
 
-    public void setData(int orderID, int buyerID) {
+    public void setData(int orderID, int trackID, int buyerID) {
         this.orderID = orderID;
+        this.trackID = trackID;
         this.currentBuyerID = buyerID;
     }
 
-    
     @FXML
     private HBox Delivered;
 
@@ -49,7 +51,6 @@ public class trackController implements Initializable {
     private Button cancel;
     @FXML
     private Button backBtn;
-
 
     @FXML
     private Button cartBtn1;
@@ -71,8 +72,8 @@ public class trackController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Random random = new Random();
-        int step = random.nextInt(4) + 1;
+
+        int step = BusinessControllerManager.getBuyerControllerInst().trackOrder(trackID);
 
         if (step == 4) {
             PaymentPending.setStyle("-fx-background-color:  #75A81E;");
@@ -91,7 +92,7 @@ public class trackController implements Initializable {
 
     @FXML
     void cancelOrder(ActionEvent event) {
-        //Displaying confirmation message
+        // Displaying confirmation message
         Alert warn = new Alert(AlertType.WARNING);
         warn.setHeaderText("Cancel order?");
         warn.setContentText("If you press OK, your order will be cancelled. Are you sure?");
@@ -126,7 +127,6 @@ public class trackController implements Initializable {
         CartController cartCtrl = new CartController();
         cartCtrl.setData(currentBuyerID);
         loader.setController(cartCtrl);
-
         Parent root = loader.load();
         Scene scene = new Scene(root);
         Stage stage = new Stage();
