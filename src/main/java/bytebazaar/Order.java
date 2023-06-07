@@ -67,6 +67,7 @@ public class Order {
             return true;
         } else {
             this.paid = false;
+            DBHandler.getInstance().updateOrderPaidStatus(orderID, paid);
             return false;
         }
     }
