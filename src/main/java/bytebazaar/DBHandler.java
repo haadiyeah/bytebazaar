@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
@@ -17,11 +16,6 @@ public class DBHandler {
 
     private static DBHandler instance;
     private  String connectionURL;
-
-    private Connection myconn = null;
-    private  Statement mystmt = null;
-    private  String sql = null;
-    private  ResultSet myRs = null;
 
     private  HashMap<String, Integer> mapCategories;
 

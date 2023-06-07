@@ -1,12 +1,9 @@
 package bytebazaar;
 
-import bytebazaarUI.*;
-
 import java.io.IOException;
 import java.net.URL;
 
 import bytebazaarUI.WelcomePgController;
-import bytebazaarUI.ViewingOrdersBuyerController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,8 +19,7 @@ public class App extends Application {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(new URL("file:src/main/resources/bytebazaar/welcomepg.fxml"));
         WelcomePgController welcomePgCtrl = new WelcomePgController();
-        //ViewingOrdersBuyerController welcomePgCtrl = new ViewingOrdersBuyerController();
-        //welcomePgCtrl.setData(1);
+       
         loader.setController(welcomePgCtrl);
 
         Parent root = loader.load();
