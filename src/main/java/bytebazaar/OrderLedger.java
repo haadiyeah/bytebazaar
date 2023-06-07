@@ -106,17 +106,7 @@ public class OrderLedger {
     // }
 
     public int makeShipment(int oId, String DeliverTo, String Address, String Phone, String Email) {
-        int trackId;
-        Order o = null;
-        for (Order order : orderList) {
-            if (oId == order.getOrderID()) {
-                o = order;
-                trackId = o.createShipment(DeliverTo, Address, Phone, Email);
-                DBHandler.getInstance().saveShipment(o.getShipment());
-                return trackId;
-            }
-        }
-        return -1; // Error
-
+        int trackId = getOrderByOrderID(oId).createShipment(DeliverTo, Address, Phone, Email);
+        return trackId;
     }
 }
