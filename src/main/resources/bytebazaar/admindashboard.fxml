@@ -22,32 +22,31 @@
                   <DropShadow />
                </effect>
                <children>
-                  <Button fx:id="logoutBtn" ellipsisString="" mnemonicParsing="false" onAction="#logout" prefHeight="35.0" prefWidth="35.0" style="-fx-background-size: cover; -fx-background-color: null;">
-                     <StackPane.margin>
-                        <Insets left="500.0" />
-                     </StackPane.margin>
-                     <effect>
-                        <DropShadow>
-                           <color>
-                              <Color red="0.03959999978542328" green="0.06629999727010727" blue="0.36000001430511475" opacity="0.805343508720398" />
-                           </color>
-                        </DropShadow>
-                     </effect>
-                     <graphic>
-                        <ImageView fitHeight="32.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@logouticon.jpg" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
                   <VBox alignment="CENTER" prefHeight="58.0" prefWidth="600.0">
                      <children>
                         <Label prefHeight="38.0" prefWidth="215.0" text="Welcome Admin" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="26.0" />
                            </font>
+                           <VBox.margin>
+                              <Insets bottom="-40.0" />
+                           </VBox.margin>
                         </Label>
+                        <Button fx:id="logoutBtn" mnemonicParsing="false" onAction="#logout" prefHeight="40.0" prefWidth="46.0" style="-fx-background-color: null;">
+                           <VBox.margin>
+                              <Insets right="500.0" />
+                           </VBox.margin>
+                           <graphic>
+                              <ImageView fitHeight="32.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@logouticon.jpg" />
+                                 </image>
+                                 <effect>
+                                    <DropShadow />
+                                 </effect>
+                              </ImageView>
+                           </graphic>
+                        </Button>
                      </children>
                   </VBox>
                </children>
