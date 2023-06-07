@@ -2,6 +2,8 @@ package bytebazaar;
 
 import java.util.LinkedList;
 
+import api.shipmentAPI;
+
 public class BuyerController {
     BuyerLedger buyerLedger;
     ProductLedger productLedger;
@@ -154,8 +156,9 @@ public class BuyerController {
         return buyerLedger.getBuyerByID(buyerID).cancelOrder(orderID);
     }
 
-    public void confirmPayment(int buyerID, int orderID) {
-        buyerLedger.getBuyerByID(buyerID).payForOrder(orderID);
+    public boolean confirmPayment(int buyerID, int orderID, String cardNumber, String nameOnCard, String expDate,
+            String cvv, String amount) {
+        return buyerLedger.getBuyerByID(buyerID).payForOrder(orderID, cardNumber, nameOnCard, expDate, cvv, amount);
     }
 
     // Function that makes shipment and returns trackID
@@ -223,12 +226,8 @@ public class BuyerController {
         return faqLedger.findInFAQs(text);
     }
 
-    // public Buyer getCurrentUser() {
-    // return buyerLedger.getCurrentBuyer();
-    // }
-
-    // public void setCurrentUser(Buyer u) {
-    // // buyerLedger.setCurrentUser(u);
-    // }
+    public int trackOrder(int TID) {
+        return shipmentAPI.findOrderStatus(TID);
+    }
 
 }

@@ -19,9 +19,11 @@ import javafx.stage.Stage;
 public class OrderPlacedController implements Initializable {
     private int orderID;
     private int currentBuyerID;
+    private int trackID;
 
-    public void setData(int orderID, int buyerID) {
+    public void setData(int orderID, int trackID, int buyerID) {
         this.orderID = orderID;
+        this.trackID = trackID;
         this.currentBuyerID = buyerID;
     }
 
@@ -119,7 +121,7 @@ public class OrderPlacedController implements Initializable {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(new URL("file:src/main/resources/bytebazaar/track.fxml"));
         trackController trackCtrl = new trackController();
-        trackCtrl.setData( orderID, currentBuyerID);
+        trackCtrl.setData(orderID, trackID, currentBuyerID);
         loader.setController(trackCtrl);
 
         Parent root = loader.load();

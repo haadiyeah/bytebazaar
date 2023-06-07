@@ -43,7 +43,7 @@ public class ViewingOrdersBuyerListController implements Initializable {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(new URL("file:src/main/resources/bytebazaar/track.fxml"));
         trackController trackCtrl = new trackController();
-        trackCtrl.setData(order.getOrderID(), currentBuyerID);
+        trackCtrl.setData(order.getOrderID(), order.getShipment().getTrackID(), currentBuyerID);
         loader.setController(trackCtrl);
 
         Parent root = loader.load();
@@ -57,14 +57,14 @@ public class ViewingOrdersBuyerListController implements Initializable {
     public void setData(Order order, int currentBuyerID) {
         this.currentBuyerID = currentBuyerID;
         this.order = order;
-        //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        // SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     }
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         orderPlacedDate.setText(order.getOrderDate().toString());
-        //SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        // SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         orderPlacedTime.setText(order.getOrderTime().toString());
-        orderPlacedID.setText(Integer.toString( order.getOrderID()));
+        orderPlacedID.setText(Integer.toString(order.getOrderID()));
     }
 }

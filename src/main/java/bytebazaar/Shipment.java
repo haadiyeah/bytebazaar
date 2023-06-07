@@ -1,5 +1,7 @@
 package bytebazaar;
 
+import api.shipmentAPI;
+
 public class Shipment {
     private int shipmentID;
     private int orderID;
@@ -9,7 +11,7 @@ public class Shipment {
     private String phone;
     private String email;
 
-    public Shipment(int orderID,String deliverTo, String address, String phone, String email) {
+    public Shipment(int orderID, String deliverTo, String address, String phone, String email) {
         this.orderID = orderID;
         this.deliverTo = deliverTo;
         this.address = address;
@@ -19,8 +21,7 @@ public class Shipment {
 
     public int Validate() {
         // API Class
-        ShipmentAPI API = new ShipmentAPI();
-        this.trackID = API.Validate(this);
+        this.trackID = shipmentAPI.Validate(this.orderID);
         return trackID;
     }
 
