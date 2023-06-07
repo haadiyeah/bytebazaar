@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.LinkedList;
 
+import api.paymentAPI;
+
 public class Order {
     private int orderID;
     private Date orderDate;
@@ -56,22 +58,30 @@ public class Order {
         }
         return ret;
     }
-    public void setPaid(boolean paid) {
-        DBHandler.getInstance().updateOrderPaidStatus(orderID, paid);
-        this.paid = paid;
+
+    public boolean setPaid(String cardNumber, String nameOnCard, String expDate, String cvv, String amount) {
+        boolean check = paymentAPI.verify(cardNumber, nameOnCard, expDate, cvv, amount);
+        if (check) {
+            this.paid = true;
+            DBHandler.getInstance().updateOrderPaidStatus(orderID, paid);
+            return true;
+        } else {
+            this.paid = false;
+            return false;
+        }
     }
 
-    //Checking if a product exists in the order
+    // Checking if a product exists in the order
     public boolean hasProduct(int ProductID) {
-        for(int i=0;i< productsList.size();i++) {
-            if(productsList.get(i).getProductID()==ProductID ) {
+        for (int i = 0; i < productsList.size(); i++) {
+            if (productsList.get(i).getProductID() == ProductID) {
                 return true;
             }
         }
         return false;
     }
 
-    //General getters and setters are below
+    // General getters and setters are below
     public int getOrderID() {
         return orderID;
     }
@@ -84,7 +94,6 @@ public class Order {
         return productsList;
     }
 
-
     public Shipment getShipment() {
         return ship;
     }
@@ -92,7 +101,6 @@ public class Order {
     public void setShipment(Shipment ship) {
         this.ship = ship;
     }
-
 
     public Date getOrderDate() {
         return orderDate;
@@ -125,7 +133,5 @@ public class Order {
     public boolean isPaid() {
         return paid;
     }
-
-
 
 }

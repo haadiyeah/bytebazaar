@@ -78,16 +78,24 @@ public class PayOnlineController implements Initializable {
 
     @FXML
     void payNow(ActionEvent event) throws IOException {
-        if(datePicker.getValue()==null || nameOnCardTextField.getText().equals("") || cvvTextField.getText().equals("") || cardNumberTextField.getText().equals("")) {
+        if (datePicker.getValue() == null || nameOnCardTextField.getText().equals("")
+                || cvvTextField.getText().equals("") || cardNumberTextField.getText().equals("")) {
             Alert err = new Alert(AlertType.ERROR);
             err.setHeaderText("One or more fields is missing");
             err.showAndWait();
             return;
         }
-        //Confirming the payment
-        BusinessControllerManager.getBuyerControllerInst().confirmPayment(currentBuyerID, orderID);
-        
-        //Going to the checkout page.
+        // Confirming the payment
+        boolean check = BusinessControllerManager.getBuyerControllerInst().confirmPayment(currentBuyerID, orderID,
+                cardNumberTextField.getText(), nameOnCardTextField.getText(), datePicker.getValue().toString(),
+                cvvTextField.getText(),
+                BusinessControllerManager.getBuyerControllerInst().getOrderSummary(currentBuyerID, orderID).get(2));
+        if (!check) {
+            Alert err = new Alert(AlertType.ERROR);
+            err.setHeaderText("One or more fields is missing");
+            err.showAndWait();
+        }
+        // Going to the checkout page.
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(new URL("file:src/main/resources/bytebazaar/checkoutpage.fxml"));
         CheckoutPageController checkoutPageCtrl = new CheckoutPageController();
@@ -108,14 +116,16 @@ public class PayOnlineController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        LinkedList<String> info = BusinessControllerManager.getBuyerControllerInst().getOrderSummary(currentBuyerID, orderID);
+        LinkedList<String> info = BusinessControllerManager.getBuyerControllerInst().getOrderSummary(currentBuyerID,
+                orderID);
         itemsTotalLabel.setText(info.get(0));
         deliveryFeeLabel.setText(info.get(1));
         totalToPayLabel.setText(info.get(2));
     }
 
-    //The below function will first check if the user really wants to exist the process.
-    //If yes, it will cancel the curent order.
+    // The below function will first check if the user really wants to exist the
+    // process.
+    // If yes, it will cancel the curent order.
     private boolean attemptToExit() {
         // Showing a confirmation message.
         Alert warn = new Alert(AlertType.WARNING);
@@ -171,13 +181,13 @@ public class PayOnlineController implements Initializable {
 
     @FXML
     void openProfile(ActionEvent event) throws IOException {
-        if(attemptToExit()){
+        if (attemptToExit()) {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(new URL("file:src/main/resources/bytebazaar/viewingprofile.fxml"));
             ViewingProfileController viewingProfileCtrl = new ViewingProfileController();
             viewingProfileCtrl.setData(currentBuyerID);
             loader.setController(viewingProfileCtrl);
-    
+
             Parent root = loader.load();
             Scene scene = new Scene(root);
             Stage stage = new Stage();
