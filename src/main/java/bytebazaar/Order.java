@@ -41,10 +41,9 @@ public class Order {
 
     public int createShipment(String DeliverTo, String Address, String Phone, String Email) {
         ship = new Shipment(this.orderID, DeliverTo, Address, Phone, Email);
-        // s.setAddress(Address);
-        int trackId = ship.Validate();
-        // ship.setTrackID(trackId);
-        return trackId;
+        ship.setTrackID(ship.Validate());
+        DBHandler.getInstance().saveShipment(this.ship);
+        return ship.getTrackID();
     }
 
     public void addSaleItemToOrder(SalesLineItem s) {
@@ -67,7 +66,6 @@ public class Order {
             return true;
         } else {
             this.paid = false;
-            DBHandler.getInstance().updateOrderPaidStatus(orderID, paid);
             return false;
         }
     }

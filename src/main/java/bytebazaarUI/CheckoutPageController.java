@@ -26,7 +26,7 @@ public class CheckoutPageController implements Initializable {
     private int orderID;
     private int currentBuyerID;
 
-    public void setData(int buyerID,int orderID) {
+    public void setData(int buyerID, int orderID) {
         this.orderID = orderID;
         this.currentBuyerID = buyerID;
     }
@@ -77,31 +77,32 @@ public class CheckoutPageController implements Initializable {
 
     @FXML
     void placeOrder(ActionEvent event) throws IOException {
-        if(nameTextField.getText().equals("") || addressTextField.getText().equals("") || phoneTextField.getText().equals("") || emailTextField.getText().equals("")) {
+        if (nameTextField.getText().equals("") || addressTextField.getText().equals("")
+                || phoneTextField.getText().equals("") || emailTextField.getText().equals("")) {
             Alert err = new Alert(AlertType.ERROR);
             err.setHeaderText("One or more fields is missing");
             err.showAndWait();
             return;
         }
-        
-        String A1 = nameTextField.getText();
-        String A2 = addressTextField.getText();
-        String A3 = phoneTextField.getText();
-        String A4 = emailTextField.getText();
 
-        //Function that returns tracking ID, if returns -1 it means an erorr
-        int tid = BusinessControllerManager.getBuyerControllerInst().addShipment(currentBuyerID, orderID, A1, A2, A3, A4);
+        String DeliverTo = nameTextField.getText();
+        String address = addressTextField.getText();
+        String phone = phoneTextField.getText();
+        String email = emailTextField.getText();
+
+        // Function that returns tracking ID, if returns -1 it means an erorr
+        int tid = BusinessControllerManager.getBuyerControllerInst().addShipment(currentBuyerID, orderID, DeliverTo,
+                address, phone, email);
         if (tid == -1) {
             Alert err = new Alert(AlertType.ERROR);
             err.setHeaderText("An error occurred");
             err.showAndWait();
         }
 
-        
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(new URL("file:src/main/resources/bytebazaar/orderPlaced.fxml"));
         OrderPlacedController orderPlacedCtrl = new OrderPlacedController();
-        orderPlacedCtrl.setData( orderID,tid,currentBuyerID);
+        orderPlacedCtrl.setData(orderID, tid, currentBuyerID);
         loader.setController(orderPlacedCtrl);
 
         Parent root = loader.load();
@@ -122,17 +123,18 @@ public class CheckoutPageController implements Initializable {
 
     }
 
-
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        LinkedList<String> info = BusinessControllerManager.getBuyerControllerInst().getOrderSummary(currentBuyerID, orderID);
+        LinkedList<String> info = BusinessControllerManager.getBuyerControllerInst().getOrderSummary(currentBuyerID,
+                orderID);
         itemsTotalLabel.setText(info.get(0));
         deliveryFeeLabel.setText(info.get(1));
         totalToPayLabel.setText(info.get(2));
     }
 
-    //The below function will first check if the user really wants to exist the process.
-    //If yes, it will cancel the curent order.
+    // The below function will first check if the user really wants to exist the
+    // process.
+    // If yes, it will cancel the curent order.
     private boolean attemptToExit() {
         // Showing a confirmation message.
         Alert warn = new Alert(AlertType.WARNING);
@@ -188,13 +190,13 @@ public class CheckoutPageController implements Initializable {
 
     @FXML
     void openProfile(ActionEvent event) throws IOException {
-        if(attemptToExit()){
+        if (attemptToExit()) {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(new URL("file:src/main/resources/bytebazaar/viewingprofile.fxml"));
             ViewingProfileController viewingProfileCtrl = new ViewingProfileController();
             viewingProfileCtrl.setData(currentBuyerID);
             loader.setController(viewingProfileCtrl);
-    
+
             Parent root = loader.load();
             Scene scene = new Scene(root);
             Stage stage = new Stage();
