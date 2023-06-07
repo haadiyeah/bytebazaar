@@ -73,6 +73,8 @@ public class Buyer {
         return trackId;
     }
 
+    
+
     public void setDetails() {
         // orderHistory = DBHandler.getInstance().getOrderHistory(getID());
         orders.setOrderList(DBHandler.getInstance().getOrderHistory(getID()));

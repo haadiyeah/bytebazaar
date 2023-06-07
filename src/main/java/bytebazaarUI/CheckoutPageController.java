@@ -95,6 +95,7 @@ public class CheckoutPageController implements Initializable {
             Alert err = new Alert(AlertType.ERROR);
             err.setHeaderText("An error occurred");
             err.showAndWait();
+            return;
         }
 
         

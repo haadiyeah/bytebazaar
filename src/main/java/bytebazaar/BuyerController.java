@@ -29,7 +29,7 @@ public class BuyerController {
     }
 
     public LinkedList<Order> getOrders(int BID) {
-        return buyerLedger.getOrders(BID);
+        return buyerLedger.getBuyerByID(BID).getOrderHistory(); 
     }
 
     // Login request of buyer is forwarded to buyerLedger.
